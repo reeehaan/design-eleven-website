@@ -7,7 +7,7 @@ export type SiteImage = {
 
 export const heroImages = {
   home: {
-    src: "https://images.unsplash.com/photo-1600585154340-be6161a56a0c?auto=format&fit=crop&w=1600&q=80",
+    src: "https://res.cloudinary.com/db0svseve/image/upload/v1778582054/hero-image_v7auf5.jpg",
     alt: "A finished residential home — warm light, clean lines",
     width: 1200,
     height: 1600,
