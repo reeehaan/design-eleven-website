@@ -8,8 +8,10 @@ import { Materials } from "@/components/project-detail/materials";
 import { ProjectTestimonial } from "@/components/project-detail/project-testimonial";
 import { ProjectNav } from "@/components/project-detail/project-nav";
 import { FinalCta } from "@/components/home/final-cta";
+import { JsonLd } from "@/components/seo/json-ld";
 import { getAdjacentProjects, getProjectBySlug, projects } from "@/lib/projects";
 import { siteConfig } from "@/lib/site";
+import { breadcrumbSchema, projectSchema } from "@/lib/structured-data";
 
 export function generateStaticParams() {
   return projects.map((p) => ({ slug: p.slug }));
@@ -52,6 +54,15 @@ export default async function ProjectPage({ params }: Params) {
 
   return (
     <>
+      <JsonLd data={projectSchema(project)} />
+      <JsonLd
+        data={breadcrumbSchema([
+          { name: "Home", url: siteConfig.url },
+          { name: "Projects", url: `${siteConfig.url}/projects` },
+          { name: project.title, url: `${siteConfig.url}/projects/${project.slug}` },
+        ])}
+      />
+
       <ProjectHero project={project} />
       <ProjectBody project={project} />
 
