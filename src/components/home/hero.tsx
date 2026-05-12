@@ -23,15 +23,15 @@ export function Hero() {
               id="hero-heading"
               className="mt-6 font-display text-display-xl text-fg-primary"
             >
-              Architecture &amp; construction,{" "}
-              <span className="italic text-fg-muted">crafted with intent</span>{" "}
+              Construction &amp; design,{" "}
+              <span className="italic text-fg-muted">build with precision</span>{" "}
               in Sri Lanka.
             </h1>
 
             <p className="mt-8 max-w-md text-body-lg text-fg-muted">
-              Owner-led design and construction with a small, skilled crew.
-              Residential builds, commercial projects, and interior finishing —
-              delivered with craft and clear communication.
+              Specialized in building construction, steel fabrication, plumbing,
+              titanium work, consulting, costing, and modern design solutions -
+              delivered with quality workmanship and clear communication
             </p>
 
             <div className="mt-10 flex flex-wrap items-center gap-x-10 gap-y-4">
@@ -62,7 +62,7 @@ export function Hero() {
             </div>
             <p className="mt-4 hidden font-mono text-xs text-fg-muted md:block">
               <span className="text-fg-subtle">FEATURED PROJECT —</span>{" "}
-              Residential build, Colombo · 2024
+              Homestay, Anuradhapura · 2024
             </p>
           </div>
         </div>
