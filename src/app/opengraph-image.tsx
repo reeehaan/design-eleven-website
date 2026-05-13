@@ -5,13 +5,6 @@ export const alt = `${siteConfig.name} — ${siteConfig.tagline}`;
 export const size = { width: 1200, height: 630 };
 export const contentType = "image/png";
 
-const baseText = {
-  fontFamily: "Georgia, serif",
-  fontSize: 80,
-  lineHeight: 1.1,
-  letterSpacing: "-0.02em",
-};
-
 export default async function OpengraphImage() {
   return new ImageResponse(
     (
@@ -30,8 +23,8 @@ export default async function OpengraphImage() {
         <div
           style={{
             fontFamily: "ui-monospace, monospace",
-            fontSize: 20,
-            letterSpacing: "0.12em",
+            fontSize: 22,
+            letterSpacing: "0.15em",
             textTransform: "uppercase",
             color: "#A9ACA4",
             display: "flex",
@@ -40,16 +33,32 @@ export default async function OpengraphImage() {
           {siteConfig.name} · Est. {siteConfig.established}
         </div>
 
-        {/* Headline — three separate lines to avoid mixed text/element children */}
-        <div style={{ display: "flex", flexDirection: "column", gap: 4 }}>
-          <div style={{ ...baseText, color: "#0D1816", display: "flex" }}>
-            Building Sri Lanka&apos;s homes &amp; spaces,
+        {/* Headline — split into separate divs (no mixed text + element children) */}
+        <div style={{ display: "flex", flexDirection: "column", gap: 8 }}>
+          <div
+            style={{
+              fontFamily: "Georgia, serif",
+              fontSize: 88,
+              lineHeight: 1.05,
+              letterSpacing: "-0.02em",
+              color: "#0D1816",
+              display: "flex",
+            }}
+          >
+            Design, build &amp; finish
           </div>
-          <div style={{ ...baseText, color: "#57544B", fontStyle: "italic", display: "flex" }}>
-            one honest project
-          </div>
-          <div style={{ ...baseText, color: "#0D1816", display: "flex" }}>
-            at a time.
+          <div
+            style={{
+              fontFamily: "Georgia, serif",
+              fontSize: 88,
+              lineHeight: 1.05,
+              letterSpacing: "-0.02em",
+              color: "#57544B",
+              fontStyle: "italic",
+              display: "flex",
+            }}
+          >
+            under one roof.
           </div>
         </div>
 
@@ -64,14 +73,24 @@ export default async function OpengraphImage() {
           }}
         >
           <div
-            style={{ fontFamily: "ui-monospace, monospace", fontSize: 20, color: "#57544B", display: "flex" }}
+            style={{
+              fontFamily: "ui-monospace, monospace",
+              fontSize: 22,
+              color: "#57544B",
+              display: "flex",
+            }}
           >
             {siteConfig.url.replace(/^https?:\/\//, "")}
           </div>
           <div
-            style={{ fontFamily: "ui-monospace, monospace", fontSize: 20, color: "#D4710B", display: "flex" }}
+            style={{
+              fontFamily: "ui-monospace, monospace",
+              fontSize: 22,
+              color: "#D4710B",
+              display: "flex",
+            }}
           >
-            Architecture · Construction · Colombo
+            Construction · Design · Sri Lanka
           </div>
         </div>
       </div>
