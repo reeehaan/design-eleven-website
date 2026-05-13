@@ -17,20 +17,22 @@ export type Service = {
   timeline: string;
   startingFrom: string;
   order: number;
+  showOnHome?: boolean;
 };
 
 export const services: Service[] = [
   {
-    slug: "residential-builds",
-    title: "Residential Builds",
-    summary: "New family homes and private residences from foundation to handover.",
+    slug: "building-construction",
+    title: "Building Construction & Repair",
+    summary:
+      "New builds, extensions, and structural repairs — residential and commercial.",
     description: [
-      "Ground-up construction of new homes — from initial site preparation through to final handover. We work with your architect and engineer (or recommend ours) to translate drawings into a finished build.",
-      "Our residential work focuses on single-family homes between 1,500 and 6,000 sqft. We coordinate every trade on site, manage material procurement, and handle compliance with local council requirements.",
+      "Ground-up construction and repair work for homes, commercial properties, and any structure that needs building or restoring. We handle the full scope — foundations, superstructure, finishes, and everything between.",
+      "Repair and renovation work is treated with the same rigour as new builds. We assess the existing structure honestly, scope only what's needed, and carry it out to a standard we'd put our name on.",
     ],
     image: {
       src: "https://images.unsplash.com/photo-1600596542815-ffad4c1539a9?auto=format&fit=crop&w=1200&q=80",
-      alt: "Modern residential exterior with clean architectural lines",
+      alt: "Building construction site with concrete structure",
     },
     included: [
       "Site preparation, excavation, and foundations",
@@ -39,7 +41,7 @@ export const services: Service[] = [
       "Roofing — concrete slab, tiled, or metal sheeting",
       "Plumbing, electrical, and drainage rough-ins",
       "Internal and external finishes",
-      "Joinery — doors, windows, built-ins",
+      "Structural repairs and remediation",
       "Painting, flooring, and fixtures",
       "Council compliance and handover documentation",
     ],
@@ -47,7 +49,7 @@ export const services: Service[] = [
       {
         title: "Site assessment",
         description:
-          "Visit your land, review architectural drawings, identify any site constraints — access, levels, soil, services.",
+          "Visit the site, review drawings if available, assess any existing structure, and identify constraints.",
       },
       {
         title: "Itemised estimate",
@@ -57,119 +59,324 @@ export const services: Service[] = [
       {
         title: "Build",
         description:
-          "Foundation through to handover. Weekly site updates with photos. Single point of contact throughout.",
+          "Work carried out to schedule with weekly updates. Single point of contact throughout.",
       },
       {
-        title: "Handover & defects period",
+        title: "Handover",
         description:
-          "Final walk-through, snagging list, all documents handed over. We address any defects raised in the agreed defects period.",
+          "Final walk-through, snagging list resolved, all documents handed over.",
       },
     ],
-    timeline: "8–14 months",
+    timeline: "Weeks to months",
     startingFrom: "Quote on visit",
     order: 1,
+    showOnHome: true,
   },
   {
-    slug: "commercial-construction",
-    title: "Commercial Construction",
-    summary: "Office buildings, retail spaces, and commercial fit-outs for growing businesses.",
+    slug: "steel-fabrication",
+    title: "Steel Fabrication",
+    summary:
+      "Custom steelwork — gates, grilles, staircases, structural elements, balustrades.",
     description: [
-      "Commercial work for businesses building or upgrading their premises — offices, retail, restaurants, and small-scale commercial structures.",
-      "Commercial projects require tighter scheduling and clearer compliance pathways. We coordinate with your operations to minimise disruption — including night and weekend work where the timing matters.",
+      "In-house steel fabrication for both our own builds and standalone client jobs. From decorative gates and grilles to structural elements like steel staircases, mezzanines, and balustrades.",
+      "We design, fabricate in our workshop, and install on site. Materials are sourced to spec — mild steel, stainless, galvanised — with appropriate finishes for the environment.",
     ],
     image: {
-      src: "https://images.unsplash.com/photo-1486325212027-8081e485255e?auto=format&fit=crop&w=1200&q=80",
-      alt: "Commercial building exterior",
+      src: "https://images.unsplash.com/photo-1504917595217-d4dc5ebe6122?auto=format&fit=crop&w=1200&q=80",
+      alt: "Steel fabrication work — structural and decorative elements",
     },
     included: [
-      "Full ground-up commercial buildings",
-      "Office and retail fit-outs (partition, ceiling, finishes)",
-      "Mechanical, electrical, and plumbing coordination",
-      "HVAC integration with specialist subcontractors",
-      "Compliance with local council and fire requirements",
-      "Phased delivery for occupied premises",
-      "After-hours work for minimal business disruption",
-      "Handover packages including warranties and as-built drawings",
+      "Custom gates and grilles",
+      "Steel staircases — straight, spiral, floating",
+      "Balustrades and handrails",
+      "Structural steel elements (with engineering input)",
+      "Pergolas and outdoor frames",
+      "Mezzanine structures",
+      "Powder coating and galvanised finishes",
+      "Workshop fabrication, on-site install",
     ],
     process: [
       {
-        title: "Brief & scope",
+        title: "Brief & measurement",
         description:
-          "Walk the space with you, understand operational constraints, agree on scope and any phasing.",
+          "Site visit to measure and discuss the design. Sketches confirmed before fabrication.",
       },
       {
-        title: "Estimate & schedule",
+        title: "Fabrication quote",
         description:
-          "Itemised quote with a realistic schedule including any night/weekend windows. Compliance pathway documented.",
+          "Detailed quote covering steel, finishes, fabrication time, and installation.",
       },
       {
-        title: "Build with minimal disruption",
-        description:
-          "Daily site cleanups, secured work zones, communication with your team about each phase.",
+        title: "Workshop build",
+        description: "Built in our workshop with quality checks at each stage.",
       },
       {
-        title: "Handover with documentation",
+        title: "Site install",
         description:
-          "As-built drawings, warranty documentation, compliance certificates — all delivered before final invoice.",
+          "Delivered and installed on site, with finishing touches and adjustments as needed.",
       },
     ],
-    timeline: "3–9 months",
+    timeline: "2–6 weeks",
     startingFrom: "Quote on visit",
     order: 2,
+    showOnHome: true,
   },
   {
-    slug: "interior-finishing",
-    title: "Interior Finishing",
+    slug: "plumbing",
+    title: "Plumbing",
     summary:
-      "Joinery, flooring, ceilings, and finishes — the craft that turns a structure into a home.",
+      "Full plumbing services — installation, renewal, and maintenance for homes and commercial spaces.",
     description: [
-      "Interior finishing work — the layer that turns a structural shell into a finished space. Covers joinery, flooring, ceilings, painting, and built-in furniture.",
-      "We can take on full interior packages or specific scopes — for example, kitchen and wardrobe joinery only, or ceiling and flooring across an existing space. Suited to both new builds and renovations.",
+      "Plumbing services across residential and commercial — from new installations during a build to upgrades, repairs, and complete system renewals in existing properties.",
+      "We handle hot and cold water systems, drainage, sanitary fixtures, and hot-water solutions. Work is coordinated with electrical and structural trades on multi-discipline projects.",
     ],
     image: {
-      src: "https://images.unsplash.com/photo-1618221195710-dd6b41faaea6?auto=format&fit=crop&w=1200&q=80",
-      alt: "Interior detail of warm timber finishes and clean lines",
+      src: "https://images.unsplash.com/photo-1585704032915-c3400ca199e7?auto=format&fit=crop&w=1200&q=80",
+      alt: "Plumbing installation in a modern bathroom",
     },
     included: [
-      "Custom joinery — wardrobes, kitchens, vanities, built-ins",
-      "Hardwood, engineered timber, and tile flooring",
-      "Suspended and decorative ceilings",
-      "Wall finishes — paint, wallpaper, panelling",
-      "Bathroom and kitchen installations",
-      "Lighting and electrical fixture installation",
-      "Trim, skirting, architraves, and detailing",
-      "Final clean and snagging",
+      "Hot and cold water system installation",
+      "Drainage and sewage layout",
+      "Sanitary fixture installation (bathrooms, kitchens, utilities)",
+      "Hot-water solutions — solar, electric, gas",
+      "Pump installation and pressure systems",
+      "Existing system upgrades and replacements",
+      "Leak detection and repairs",
+      "Compliance with relevant codes",
     ],
     process: [
       {
-        title: "Walkthrough & measurement",
+        title: "Inspection & scope",
         description:
-          "On-site assessment of the space, detailed measurements, discussion of finishes and materials.",
+          "Site visit to understand the system requirements or the existing problem.",
+      },
+      {
+        title: "Quote with specifications",
+        description:
+          "Materials specified by brand and grade. Labour itemised. Timeline confirmed.",
+      },
+      {
+        title: "Installation",
+        description:
+          "Coordinated with other trades on site. Pressure-tested before close-up.",
+      },
+      {
+        title: "Final commissioning",
+        description:
+          "Systems tested, fixtures installed, walk-through with the client.",
+      },
+    ],
+    timeline: "Hours to weeks",
+    startingFrom: "Quote on visit",
+    order: 3,
+    showOnHome: true,
+  },
+  {
+    slug: "titanium-work",
+    title: "Titanium Work",
+    summary:
+      "Precision titanium fabrication — cladding, railings, gates, and architectural elements.",
+    description: [
+      "Titanium fabrication for projects that demand durability, corrosion resistance, and a refined finish. Used in coastal environments, high-end residential, and commercial work where steel would corrode or aluminium would look insufficient.",
+      "We cut, form, weld, and finish titanium to specification — from architectural cladding panels and decorative screens to railings, gates, and bespoke structural elements. Work is carried out in our workshop and installed on site.",
+    ],
+    image: {
+      src: "https://images.unsplash.com/photo-1565814329452-e1efa11c5b89?auto=format&fit=crop&w=1200&q=80",
+      alt: "Precision metalwork and titanium architectural elements",
+    },
+    included: [
+      "Architectural cladding and facade panels",
+      "Railings, balustrades, and handrails",
+      "Gates and security screens",
+      "Decorative panels and feature elements",
+      "Custom brackets and structural connectors",
+      "Surface finishing — brushed, polished, anodised",
+      "Workshop fabrication and on-site install",
+      "Coastal and corrosion-resistant specification",
+    ],
+    process: [
+      {
+        title: "Design brief",
+        description:
+          "Discuss the application, environment, and finish requirements. Technical drawings confirmed.",
       },
       {
         title: "Specification & quote",
         description:
-          "Material specifications with samples where helpful. Itemised quote with optional alternatives.",
+          "Grade and finish specified. Fabrication and install quoted with lead time.",
       },
       {
-        title: "Workshop & install",
+        title: "Workshop fabrication",
         description:
-          "Joinery is built in our workshop. On-site work scheduled to minimise dust and disruption.",
+          "Precision cut, formed, and finished in-house with quality inspection before dispatch.",
       },
       {
-        title: "Snagging & handover",
+        title: "Installation",
         description:
-          "Final walk-through with you. Any adjustments completed before sign-off.",
+          "On-site installation with final adjustments and surface protection.",
       },
     ],
-    timeline: "1–4 months",
+    timeline: "2–8 weeks",
     startingFrom: "Quote on visit",
-    order: 3,
+    order: 4,
+    showOnHome: true,
+  },
+  {
+    slug: "consulting",
+    title: "Consulting",
+    summary:
+      "Independent construction advice — project feasibility, scope review, contractor assessment, and dispute support.",
+    description: [
+      "Construction consulting for clients who need an expert view before committing to a build, or who want independent oversight on an existing project. We assess feasibility, review drawings and specifications, evaluate contractor quotes, and advise on risk.",
+      "With a qualified Quantity Surveyor leading every engagement, our advice is grounded in real build cost knowledge — not guesswork. We work for the client, not the contractor.",
+    ],
+    image: {
+      src: "https://images.unsplash.com/photo-1454165804606-c3d57bc86b40?auto=format&fit=crop&w=1200&q=80",
+      alt: "Construction consulting — reviewing plans and specifications",
+    },
+    included: [
+      "Project feasibility assessments",
+      "Drawing and specification review",
+      "Contractor quote evaluation",
+      "Site inspection and progress reports",
+      "Dispute and defect assessment",
+      "Value engineering recommendations",
+      "Procurement advice",
+      "Written reports and formal opinions",
+    ],
+    process: [
+      {
+        title: "Initial brief",
+        description:
+          "Understand the question you need answered — feasibility, dispute, oversight, or procurement.",
+      },
+      {
+        title: "Scope & fee agreement",
+        description:
+          "Agree the scope of the consulting engagement and a fixed or day-rate fee.",
+      },
+      {
+        title: "Assessment",
+        description:
+          "Site visits, document review, and analysis as required by the scope.",
+      },
+      {
+        title: "Deliverable",
+        description:
+          "Written report, opinion, or recommendation delivered in the agreed format.",
+      },
+    ],
+    timeline: "Days to weeks",
+    startingFrom: "Day rate / fixed fee",
+    order: 5,
+  },
+  {
+    slug: "costing",
+    title: "Costing",
+    summary:
+      "Accurate Bills of Quantities and cost estimates prepared by a qualified Quantity Surveyor.",
+    description: [
+      "Quantity surveying and cost planning services — Bills of Quantities, detailed estimates, tender documentation, and cash flow projections. Prepared by a qualified QS with real construction pricing knowledge.",
+      "Accurate costing at the right stage saves money and avoids surprises. We work with architects, developers, and private clients to cost projects before they go to tender, during build, and at final account.",
+    ],
+    image: {
+      src: "https://images.unsplash.com/photo-1611532736597-de2d4265fba3?auto=format&fit=crop&w=1200&q=80",
+      alt: "Quantity surveying and cost planning documents",
+    },
+    included: [
+      "Bills of Quantities (BOQ)",
+      "Preliminary cost estimates and feasibility budgets",
+      "Tender documentation preparation",
+      "Tender evaluation and recommendation",
+      "Cash flow projections",
+      "Variation assessment and pricing",
+      "Final account preparation",
+      "Material take-offs",
+    ],
+    process: [
+      {
+        title: "Document review",
+        description:
+          "Review drawings, specifications, and any existing cost information.",
+      },
+      {
+        title: "Measurement",
+        description:
+          "Detailed measurement and take-off from drawings in accordance with standard methods.",
+      },
+      {
+        title: "Pricing",
+        description:
+          "Current market rates applied. Assumptions documented clearly.",
+      },
+      {
+        title: "Delivery",
+        description:
+          "BOQ or estimate delivered in agreed format. Available to answer queries.",
+      },
+    ],
+    timeline: "3–10 working days",
+    startingFrom: "Fixed fee by scope",
+    order: 6,
+  },
+  {
+    slug: "design",
+    title: "Design",
+    summary:
+      "Architectural and interior design — from concept drawings to construction-ready documentation.",
+    description: [
+      "Design services for residential and commercial projects — concept development, space planning, architectural drawings, and interior specification. We produce designs that are buildable, not just presentable.",
+      "Because our design team works alongside our build team, drawings are detailed and practical. Less rework on site, fewer surprises, and a result that matches the intent.",
+    ],
+    image: {
+      src: "https://images.unsplash.com/photo-1618221195710-dd6b41faaea6?auto=format&fit=crop&w=1200&q=80",
+      alt: "Architectural design drawings and interior concept",
+    },
+    included: [
+      "Concept development and mood boards",
+      "Architectural drawings (plans, sections, elevations)",
+      "Space planning and layouts",
+      "Material and finish specification",
+      "Lighting design",
+      "Interior furniture and soft furnishing curation",
+      "Construction-ready documentation",
+      "Council submission drawings where required",
+    ],
+    process: [
+      {
+        title: "Brief & site visit",
+        description:
+          "Understand the project goals, constraints, and budget. Site measured and photographed.",
+      },
+      {
+        title: "Concept",
+        description:
+          "Initial concept drawings and material direction presented. Two rounds of revisions included.",
+      },
+      {
+        title: "Developed design",
+        description:
+          "Full drawing set produced to construction or council submission standard.",
+      },
+      {
+        title: "Handover",
+        description:
+          "All files delivered in agreed formats, ready for build or submission.",
+      },
+    ],
+    timeline: "2 weeks – 3 months",
+    startingFrom: "Fixed fee by scope",
+    order: 7,
+    showOnHome: true,
   },
 ];
 
 export function getServicesOrdered(): Service[] {
   return [...services].sort((a, b) => a.order - b.order);
+}
+
+export function getHomeServices(): Service[] {
+  return getServicesOrdered().filter((s) => s.showOnHome);
 }
 
 export function getServiceBySlug(slug: string): Service | undefined {
