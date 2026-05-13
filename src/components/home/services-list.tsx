@@ -8,10 +8,10 @@ import { Container } from "@/components/ui/container";
 import { EyebrowLabel } from "@/components/ui/eyebrow-label";
 import { ArrowLink } from "@/components/ui/arrow-link";
 import { Reveal } from "@/components/ui/reveal";
-import { getServicesOrdered, type Service } from "@/lib/services";
+import { getHomeServices, type Service } from "@/lib/services";
 
 export function ServicesList() {
-  const services = getServicesOrdered();
+  const services = getHomeServices();
   const [hovered, setHovered] = useState<Service | null>(null);
 
   return (
@@ -28,15 +28,15 @@ export function ServicesList() {
                 id="services-heading"
                 className="mt-6 font-display text-display-lg text-fg-primary"
               >
-                Three things,{" "}
-                <span className="italic text-fg-muted">done well</span>.
+                Everything you need,{" "}
+                <span className="italic text-fg-muted">under one roof</span>.
               </h2>
             </div>
             <div className="md:col-span-5 md:pb-3 md:pl-8">
               <p className="max-w-md text-body-lg text-fg-muted">
-                We focus on the work we do best, and turn down what we
-                don&apos;t. Every project is owner-led from first visit to
-                handover.
+                From design and costing through to construction, steel
+                fabrication, and plumbing — every service is owner-led from
+                first visit to handover.
               </p>
             </div>
           </div>
