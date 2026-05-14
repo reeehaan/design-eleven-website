@@ -86,6 +86,7 @@ export default function RootLayout({
   return (
     <html
       lang="en"
+      data-scroll-behavior="smooth"
       className={`${fraunces.variable} ${inter.variable} ${jetbrains.variable}`}
     >
       <body className="flex min-h-dvh flex-col">
