@@ -1,4 +1,5 @@
 import { Container } from "@/components/ui/container";
+import { CountUp } from "@/components/ui/count-up";
 import { siteConfig } from "@/lib/site";
 
 type Stat = {
@@ -21,7 +22,10 @@ export function StatsStrip() {
   const stats = getStats();
 
   return (
-    <section aria-label="Company at a glance" className="border-y border-surface-line">
+    <section
+      aria-label="Company at a glance"
+      className="border-y border-surface-line"
+    >
       <Container>
         <ul className="grid grid-cols-1 divide-y divide-surface-line md:grid-cols-3 md:divide-x md:divide-y-0">
           {stats.map((stat, i) => (
@@ -29,12 +33,10 @@ export function StatsStrip() {
               key={stat.label}
               className="flex items-baseline justify-between gap-6 py-8 md:flex-col md:items-start md:justify-start md:gap-4 md:py-12 md:pl-8 md:first:pl-0"
             >
-              <span
-                className="font-display text-5xl text-fg-primary md:text-7xl"
-                aria-hidden="true"
-              >
-                {stat.value}
-              </span>
+              <CountUp
+                value={stat.value}
+                className="font-display text-5xl text-fg-primary md:text-7xl tabular-nums"
+              />
               <span className="label-mono">
                 <span className="sr-only">{stat.value} </span>
                 {stat.label}
