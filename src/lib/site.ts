@@ -11,7 +11,7 @@ export const siteConfig = {
   description:
     "Design Eleven is a Sri Lankan architecture and construction studio specialising in designing, costing, and construction. Owner-led by a qualified Quantity Surveyor, detail-obsessed, and built on craft.",
   services: ["Designing", "Costing", "Constructions"],
-  url: "https://designeleven.lk",
+  url: "https://www.designelevenstudio.com",
   locale: "en-LK",
 
   contact: {
