@@ -2,6 +2,7 @@ import type { Metadata, Viewport } from "next";
 import { Fraunces, Inter, JetBrains_Mono } from "next/font/google";
 import { Navbar } from "@/components/layout/navbar";
 import { Footer } from "@/components/layout/footer";
+import { GridLines } from "@/components/ui/grid-lines";
 import { JsonLd } from "@/components/seo/json-ld";
 import { siteConfig } from "@/lib/site";
 import { localBusinessSchema } from "@/lib/structured-data";
@@ -92,7 +93,10 @@ export default function RootLayout({
       <body className="flex min-h-dvh flex-col">
         <JsonLd data={localBusinessSchema()} />
         <Navbar />
-        <main className="flex-1">{children}</main>
+        <main className="relative z-10 flex-1">
+          <GridLines />
+          {children}
+        </main>
         <Footer />
       </body>
     </html>
