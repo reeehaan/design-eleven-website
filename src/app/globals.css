@@ -3,22 +3,26 @@
 
 /* ─── Design Tokens ──────────────────────────────────────────── */
 @theme {
+  /* Legacy token names, now pointing at Survey values. Components still using
+     `bg-bg-primary` / `text-fg-muted` re-skin without being touched; the names
+     retire as each component is rewritten onto the tokens below. */
+
   /* Background */
-  --color-bg-primary: #F4F2ED;
-  --color-bg-secondary: #EAE6DD;
+  --color-bg-primary: #F0F0EC;
+  --color-bg-secondary: #E4E5E0;
 
   /* Foreground */
-  --color-fg-primary: #0D1816;
-  --color-fg-muted: #57544B;
-  --color-fg-subtle: #A9ACA4;
+  --color-fg-primary: #0E1417;
+  --color-fg-muted: #3A423F;
+  --color-fg-subtle: #656D6A;
 
-  /* Accent */
-  --color-accent: #D4710B;
-  --color-accent-deep: #AD4C16;
+  /* Accent — the text-safe stop, since legacy usage is mostly links and rules */
+  --color-accent: #BF4317;
+  --color-accent-deep: #FF5A1F;
 
   /* Surfaces */
-  --color-surface-dark: #0D1816;
-  --color-surface-line: #D8D2C5;
+  --color-surface-dark: #0E1417;
+  --color-surface-line: #C9CBC4;
 
   /* Section spacing */
   --spacing-section-sm: 4rem;
@@ -30,11 +34,94 @@
   --max-w-prose: 65ch;
 }
 
+/* ─── Survey — Phase 1 design system ─────────────────────────────
+   Additive. New token names, so every legacy `bg-bg-primary` /
+   `text-fg-muted` utility keeps working and no existing page shifts.
+   The legacy block above is deleted once components are migrated.
+   ─────────────────────────────────────────────────────────────── */
+@theme {
+  /* Ground */
+  --color-paper: #F0F0EC;      /* page ground — cool, not cream */
+  --color-paper-sunk: #E4E5E0; /* image wells, inputs, sunk panels */
+
+  /* Text */
+  --color-ink: #0E1417;        /* primary text, deep sections */
+  --color-graphite: #3A423F;   /* secondary text, rules on dark */
+  --color-zinc: #656D6A;       /* captions, metadata — 4.65:1 on paper (AA) */
+
+  /* Structure */
+  --color-concrete: #C9CBC4;   /* dividers, inactive states, 3D material */
+
+  /* Warning only. Orange was pulled out of the UI entirely — it now appears
+     nowhere except form errors and invalid state, where a green would read as
+     success. `marking` is currently unused; kept for the 3D scene's survey
+     paint, which is the one place hi-vis orange still belongs.
+       marking      5.95:1 with ink on top. 2.73:1 on paper — never text there.
+       marking-deep 4.56:1 on paper → error text and invalid borders. */
+  --color-marking: #FF5A1F;
+  --color-marking-deep: #BF4317;
+
+  /* Hover / interactive feedback — oxidised copper. Deliberately NOT the
+     accent: marking now means "live or active" (in-progress work, current
+     step, primary CTA) and verdigris means "you can interact with this".
+     Two meanings, two colours, so neither gets diluted.
+       verdigris       5.10:1 on paper  → hover on light grounds
+       verdigris-light 5.24:1 on ink    → hover on deep sections */
+  --color-verdigris: #4E6B62;
+  --color-verdigris-light: #699084;
+
+  /* Display — Cabinet Grotesk. Negative tracking, tightens as it grows. */
+  --text-d1: clamp(3.25rem, 8vw, 6.5rem);
+  --text-d1--line-height: 0.92;
+  --text-d1--letter-spacing: -0.04em;
+
+  --text-d2: clamp(2.5rem, 5.5vw, 4.25rem);
+  --text-d2--line-height: 0.96;
+  --text-d2--letter-spacing: -0.035em;
+
+  --text-d3: clamp(2rem, 4vw, 3rem);
+  --text-d3--line-height: 1;
+  --text-d3--letter-spacing: -0.03em;
+
+  --text-d4: clamp(1.5rem, 2.5vw, 2rem);
+  --text-d4--line-height: 1.1;
+  --text-d4--letter-spacing: -0.02em;
+
+  /* Body — Switzer. Caps at 68ch via `max-w-measure`. */
+  --text-lead: 1.125rem;
+  --text-lead--line-height: 1.6;
+  --text-lead--letter-spacing: -0.011em;
+
+  --text-copy: 1rem;
+  --text-copy--line-height: 1.65;
+
+  --text-fine: 0.875rem;
+  --text-fine--line-height: 1.55;
+
+  /* Meta — Geist Mono. The title-block voice. Positive tracking, uppercase. */
+  --text-meta: 0.75rem;
+  --text-meta--line-height: 1.4;
+  --text-meta--letter-spacing: 0.04em;
+
+  --text-meta-sm: 0.6875rem;
+  --text-meta-sm--line-height: 1.35;
+  --text-meta-sm--letter-spacing: 0.06em;
+
+  /* Measure — brief caps body copy at ~68 characters */
+  --container-measure: 68ch;
+}
+
+@theme inline {
+  --font-title: var(--font-cabinet), system-ui, sans-serif;
+  --font-body: var(--font-switzer), system-ui, sans-serif;
+  --font-meta: var(--font-geist-mono), ui-monospace, monospace;
+}
+
 /* Fonts reference CSS variables set by next/font at runtime */
 @theme inline {
-  --font-display: var(--font-fraunces), Georgia, serif;
-  --font-sans: var(--font-inter), system-ui, sans-serif;
-  --font-mono: var(--font-jetbrains), ui-monospace, monospace;
+  --font-display: var(--font-cabinet), system-ui, sans-serif;
+  --font-sans: var(--font-switzer), system-ui, sans-serif;
+  --font-mono: var(--font-geist-mono), ui-monospace, monospace;
 }
 
 /* ─── Base ───────────────────────────────────────────────────── */
@@ -44,23 +131,33 @@
   }
 
   html {
-    scroll-behavior: smooth;
+    /* No native smooth scroll — Lenis owns scrolling and the two fight.
+       Reduced-motion users get the browser's instant default, which is right. */
+    scroll-behavior: auto;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
     text-rendering: optimizeLegibility;
   }
 
   body {
-    background-color: var(--color-bg-primary);
-    color: var(--color-fg-primary);
-    font-family: var(--font-sans);
+    background-color: var(--color-paper);
+    color: var(--color-ink);
+    font-family: var(--font-body);
     line-height: 1.65;
-    font-feature-settings: "ss01", "cv11";
   }
 
+  /* Verdigris at 5.10:1 on paper, comfortably past the 3:1 WCAG 1.4.11 asks of
+     a focus indicator. Never transitioned — a focus ring that fades in is an
+     accessibility failure for anyone tabbing quickly. */
   :focus-visible {
-    outline: 2px solid var(--color-accent);
+    outline: 2px solid var(--color-verdigris);
     outline-offset: 2px;
+  }
+
+  /* On deep sections the ring lightens so it stays visible against ink. */
+  .bg-ink :focus-visible,
+  [data-on-dark] :focus-visible {
+    outline-color: var(--color-verdigris-light);
   }
 
   ::selection {
@@ -76,6 +173,17 @@
     font-family: var(--font-sans);
     font-weight: 500;
   }
+}
+
+/* ─── Motion ─────────────────────────────────────────────────── */
+
+/* SplitText's line mask is `overflow: clip` sized to the line box. Our display
+   steps run line-height 0.92–1.0, so ascenders and descenders sit outside that
+   box and get sheared off mid-reveal. Padding pushes the clip edge out; the
+   matching negative margin keeps layout identical. */
+.reveal-line-mask {
+  padding-block: 0.16em;
+  margin-block: -0.16em;
 }
 
 /* ─── Utilities ──────────────────────────────────────────────── */
