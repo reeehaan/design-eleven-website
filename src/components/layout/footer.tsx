@@ -1,77 +1,78 @@
 import Link from "next/link";
 import { siteConfig } from "@/lib/site";
 
+/**
+ * The footer is the site's full title block, not a link farm — one CTA line,
+ * a single row of drawing-sheet fields, and a thin legal bar.
+ */
 export function Footer() {
   const year = new Date().getFullYear();
+  const { contact } = siteConfig;
 
   return (
-    <footer className="bg-surface-dark text-bg-primary">
-      <div className="container-x py-section-sm md:py-section">
-        <div className="grid gap-12 border-b border-white/10 pb-12 md:grid-cols-12">
-          <div className="md:col-span-7">
-            <span className="label-mono text-bg-primary/60">Let&rsquo;s build</span>
-            <h2 className="mt-4 font-display text-display-md leading-none text-bg-primary">
-              Have a project in&nbsp;mind?
-            </h2>
-            <Link
-              href="/contact"
-              className="mt-8 inline-flex items-center gap-3 text-lg text-verdigris-light transition-colors hover:text-bg-primary"
+    <footer className="bg-ink text-paper">
+      <div className="mx-auto w-full max-w-360 px-6 md:px-10 lg:px-16">
+        {/* CTA line */}
+        <div className="flex flex-col gap-6 py-12 md:flex-row md:items-center md:justify-between md:py-14">
+          <h2 className="max-w-[18ch] font-title text-d3 font-medium text-paper">
+            Have a project in mind?
+          </h2>
+          <Link
+            href="/contact"
+            className="group inline-flex shrink-0 items-center gap-3 border-b border-graphite pb-2 font-meta text-meta uppercase text-paper transition-colors hover:border-verdigris-light hover:text-verdigris-light"
+          >
+            Start the conversation
+            <span
+              aria-hidden="true"
+              className="transition-transform duration-300 ease-out group-hover:translate-x-1"
             >
-              Start the conversation
-              <span aria-hidden="true">→</span>
-            </Link>
-          </div>
-
-          <div className="md:col-span-5 md:pl-8">
-            <div className="flex flex-col gap-6">
-              <div>
-                <span className="label-mono text-bg-primary/60">Direct</span>
-                <a
-                  href={`tel:${siteConfig.contact.phone.replace(/\s/g, "")}`}
-                  className="mt-2 block font-display text-2xl text-bg-primary"
-                >
-                  {siteConfig.contact.phoneDisplay}
-                </a>
-                <a
-                  href={`mailto:${siteConfig.contact.email}`}
-                  className="mt-1 block text-bg-primary/80 transition-colors hover:text-verdigris-light"
-                >
-                  {siteConfig.contact.email}
-                </a>
-              </div>
-              <div>
-                <span className="label-mono text-bg-primary/60">Studio</span>
-                <p className="mt-2 text-bg-primary/80">
-                  {siteConfig.contact.address.city},{" "}
-                  {siteConfig.contact.address.country}
-                </p>
-                <p className="text-bg-primary/60">{siteConfig.contact.hours}</p>
-              </div>
-            </div>
-          </div>
+              →
+            </span>
+          </Link>
         </div>
 
-        <div className="grid gap-10 pt-12 md:grid-cols-12">
-          <div className="md:col-span-5">
-            <span className="font-display text-2xl text-bg-primary">
-              {siteConfig.name}
-            </span>
-            <p className="mt-3 max-w-xs text-sm text-bg-primary/60">
-              {siteConfig.description}
+        {/* Title block — four fields, one row */}
+        <div className="grid grid-cols-2 border-t border-graphite md:grid-cols-4">
+          <div className="border-b border-graphite py-6 pr-5 md:border-b-0">
+            <p className="font-meta text-meta-sm uppercase text-zinc">Direct</p>
+            <a
+              href={`tel:${contact.phone.replace(/\s/g, "")}`}
+              className="mt-3 block font-meta text-meta uppercase text-paper transition-colors hover:text-verdigris-light"
+            >
+              {contact.phoneDisplay}
+            </a>
+            {/* <wbr> after the @ so a narrow column breaks the address at its
+                natural seam rather than mid-word. */}
+            <a
+              href={`mailto:${contact.email}`}
+              className="mt-1 block font-meta text-meta-sm text-concrete transition-colors hover:text-verdigris-light"
+            >
+              {contact.email.split("@")[0]}@<wbr />
+              {contact.email.split("@")[1]}
+            </a>
+          </div>
+
+          <div className="border-b border-l border-graphite py-6 pl-5 pr-5 md:border-b-0">
+            <p className="font-meta text-meta-sm uppercase text-zinc">Studio</p>
+            <p className="mt-3 font-meta text-meta uppercase text-paper">
+              {contact.address.city}
+            </p>
+            <p className="mt-1 font-meta text-meta-sm uppercase text-concrete">
+              {contact.hours}
             </p>
           </div>
 
           <nav
-            aria-label="Footer navigation"
-            className="md:col-span-4 md:col-start-7"
+            aria-label="Footer"
+            className="border-graphite py-6 pr-5 md:border-l md:pl-5"
           >
-            <span className="label-mono text-bg-primary/60">Sitemap</span>
-            <ul className="mt-4 grid grid-cols-2 gap-x-6 gap-y-3">
+            <p className="font-meta text-meta-sm uppercase text-zinc">Sitemap</p>
+            <ul className="mt-3 flex flex-col gap-1">
               {siteConfig.nav.map((item) => (
                 <li key={item.href}>
                   <Link
                     href={item.href}
-                    className="text-bg-primary/80 transition-colors hover:text-verdigris-light"
+                    className="font-meta text-meta uppercase text-concrete transition-colors hover:text-verdigris-light"
                   >
                     {item.label}
                   </Link>
@@ -80,19 +81,28 @@ export function Footer() {
             </ul>
           </nav>
 
-          <div className="md:col-span-3">
-            <span className="label-mono text-bg-primary/60">Established</span>
-            <p className="mt-4 font-mono text-bg-primary/80">
-              {siteConfig.established}
+          <div className="border-l border-graphite py-6 pl-5">
+            <p className="font-meta text-meta-sm uppercase text-zinc">
+              Drawn by
+            </p>
+            <p className="mt-3 font-meta text-meta uppercase text-paper">
+              {siteConfig.owner}
+            </p>
+            <p className="mt-1 font-meta text-meta-sm uppercase text-concrete">
+              Est. {siteConfig.established}
+            </p>
+            <p className="mt-1 font-meta text-meta-sm uppercase text-concrete">
+              {siteConfig.businessRegNo}
             </p>
           </div>
         </div>
 
-        <div className="mt-16 flex flex-col items-start justify-between gap-3 border-t border-white/10 pt-6 text-xs text-bg-primary/50 sm:flex-row sm:items-center">
-          <p className="font-mono">
-            © {year} {siteConfig.name}. All rights reserved.
+        {/* Legal bar */}
+        <div className="flex flex-col gap-2 border-t border-graphite py-5 font-meta text-meta-sm uppercase text-zinc sm:flex-row sm:items-center sm:justify-between">
+          <p>
+            © {year} {siteConfig.name}
           </p>
-          <p className="font-mono">Licensed &amp; insured · Sri Lanka</p>
+          <p>{siteConfig.ownerCredentials}</p>
         </div>
       </div>
     </footer>
