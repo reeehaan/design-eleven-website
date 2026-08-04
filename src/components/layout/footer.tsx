@@ -12,24 +12,9 @@ export function Footer() {
   return (
     <footer className="bg-ink text-paper">
       <div className="mx-auto w-full max-w-360 px-6 md:px-10 lg:px-16">
-        {/* CTA line */}
-        <div className="flex flex-col gap-6 py-12 md:flex-row md:items-center md:justify-between md:py-14">
-          <h2 className="max-w-[18ch] font-title text-d3 font-medium text-paper">
-            Have a project in mind?
-          </h2>
-          <Link
-            href="/contact"
-            className="group inline-flex shrink-0 items-center gap-3 border-b border-graphite pb-2 font-meta text-meta uppercase text-paper transition-colors hover:border-verdigris-light hover:text-verdigris-light"
-          >
-            Start the conversation
-            <span
-              aria-hidden="true"
-              className="transition-transform duration-300 ease-out group-hover:translate-x-1"
-            >
-              →
-            </span>
-          </Link>
-        </div>
+        {/* No CTA here. Every page that reaches this footer has already made
+            the ask directly above it, and two conversion blocks stacked read
+            as one long dark slab rather than as urgency. */}
 
         {/* Title block — four fields, one row */}
         <div className="grid grid-cols-2 border-t border-graphite md:grid-cols-4">

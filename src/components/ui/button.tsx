@@ -17,6 +17,7 @@ export function Button({
   children,
   href,
   variant = "primary",
+  arrow = false,
   magnetic = false,
   onDark = false,
   type = "button",
@@ -27,6 +28,8 @@ export function Button({
   children: string;
   href?: string;
   variant?: Variant;
+  /** Trailing arrow. Sits inside both label copies so it travels with them. */
+  arrow?: boolean;
   /** Primary CTA only, and never more than one per viewport. */
   magnetic?: boolean;
   onDark?: boolean;
@@ -216,15 +219,20 @@ export function Button({
           moment it animates `transform`, leaving the label outside the clip
           window and the button apparently empty on hover. */}
       <span className="relative block overflow-hidden">
-        <span data-label-top className={`block transition-colors ${hoverText}`}>
+        <span
+          data-label-top
+          className={`flex items-center gap-3 whitespace-nowrap transition-colors ${hoverText}`}
+        >
           {children}
+          {arrow && <span aria-hidden="true">&rarr;</span>}
         </span>
         <span
           data-label-bottom
           aria-hidden="true"
-          className={`absolute left-0 top-full block transition-colors ${hoverText}`}
+          className={`absolute left-0 top-full flex items-center gap-3 whitespace-nowrap transition-colors ${hoverText}`}
         >
           {children}
+          {arrow && <span>&rarr;</span>}
         </span>
       </span>
 

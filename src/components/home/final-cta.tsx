@@ -1,88 +1,52 @@
-import Link from "next/link";
-import { Container } from "@/components/ui/container";
-import { Reveal } from "@/components/ui/reveal";
-import { siteConfig } from "@/lib/site";
+import { RevealLines } from "@/components/motion/reveal-lines";
+import { Eyebrow } from "@/components/motion/eyebrow";
+import { Button } from "@/components/ui/button";
 
+/**
+ * The single ask, repeated at the end of each content page.
+ *
+ * Deliberately thin: phone, email, hours and the sitemap all live in the
+ * footer immediately below, so repeating them here put the same details on
+ * screen twice in a row. This block does one thing — make the ask — and
+ * hands off everything else.
+ */
 export function FinalCta() {
-  const phoneTel = siteConfig.contact.phone.replace(/\s/g, "");
-  const whatsappUrl = `https://wa.me/${siteConfig.contact.whatsapp.replace(/[^0-9]/g, "")}`;
-
   return (
     <section
       aria-labelledby="final-cta-heading"
-      className="bg-surface-dark text-bg-primary"
+      className="border-t border-graphite bg-ink text-paper"
     >
-      <Container>
-        <div className="grid gap-12 py-section md:grid-cols-12 md:gap-x-10 md:py-section-lg">
-          {/* Statement */}
-          <Reveal className="md:col-span-7">
-            <span className="font-mono text-xs uppercase tracking-[0.08em] text-bg-primary/60">
-              Ready when you are
-            </span>
-            <h2
+      <div className="mx-auto w-full max-w-360 px-6 py-14 md:px-10 md:py-16 lg:px-16">
+        <div className="grid gap-8 lg:grid-cols-12 lg:items-end lg:gap-x-12">
+          <div className="lg:col-span-7">
+            <Eyebrow onDark>A-500 · Ready when you are</Eyebrow>
+
+            {/* d3, not the hero's step — a closing line should not compete
+                with the opening one. */}
+            <RevealLines
+              as="h2"
               id="final-cta-heading"
-              className="mt-6 font-display text-display-xl leading-[0.9] text-bg-primary"
+              className="mt-7 font-title text-d3 font-medium text-paper"
             >
-              Let&rsquo;s{" "}
-              <span className="text-verdigris-light">build</span>.
-            </h2>
-            <p className="mt-8 max-w-md text-body-lg text-bg-primary/70">
+              Let&rsquo;s build.
+            </RevealLines>
+
+            <p className="mt-5 max-w-measure text-copy text-concrete">
               A site visit and an estimate cost nothing. Tell us what
               you&rsquo;re thinking — we&rsquo;ll give you a straight answer
               and an honest number.
             </p>
-            <Link
-              href="/contact"
-              className="mt-10 inline-flex items-center gap-3 rounded-full bg-verdigris px-8 py-4 text-base font-medium text-bg-primary transition-colors hover:bg-bg-primary hover:text-surface-dark"
-            >
+          </div>
+
+          {/* The ask sits on the statement's baseline rather than under it,
+              so the band stays one line of thought. */}
+          <div className="lg:col-span-5 lg:flex lg:justify-end lg:pb-1">
+            <Button href="/contact" variant="primary" onDark arrow magnetic>
               Request a quote
-              <span aria-hidden="true">→</span>
-            </Link>
-          </Reveal>
-
-          {/* Direct contact */}
-          <Reveal className="md:col-span-4 md:col-start-9 md:pt-4" delay={0.1}>
-            <div className="flex flex-col gap-8 border-t border-white/10 pt-8 md:border-t-0 md:pt-0">
-              <div>
-                <span className="font-mono text-xs uppercase tracking-[0.08em] text-bg-primary/50">
-                  Call directly
-                </span>
-                <a
-                  href={`tel:${phoneTel}`}
-                  className="mt-3 block font-display text-3xl text-bg-primary transition-colors hover:text-verdigris-light md:text-4xl"
-                >
-                  {siteConfig.contact.phoneDisplay}
-                </a>
-                <span className="mt-1 block text-sm text-bg-primary/50">
-                  {siteConfig.contact.hours}
-                </span>
-              </div>
-
-              <div>
-                <span className="font-mono text-xs uppercase tracking-[0.08em] text-bg-primary/50">
-                  Or message on
-                </span>
-                <div className="mt-3 flex flex-wrap gap-x-6 gap-y-2">
-                  <a
-                    href={whatsappUrl}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="text-bg-primary transition-colors hover:text-verdigris-light"
-                  >
-                    WhatsApp →
-                  </a>
-                  <a
-                    href={`mailto:${siteConfig.contact.email}`}
-                    className="text-bg-primary transition-colors hover:text-verdigris-light"
-                  >
-                    Email →
-                  </a>
-                </div>
-              </div>
-            </div>
-          </Reveal>
+            </Button>
+          </div>
         </div>
-      </Container>
+      </div>
     </section>
   );
 }

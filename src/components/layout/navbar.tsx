@@ -1,4 +1,5 @@
 import Link from "next/link";
+import { Button } from "@/components/ui/button";
 import { siteConfig } from "@/lib/site";
 import { MobileMenu } from "./mobile-menu";
 
@@ -34,13 +35,17 @@ export function Navbar() {
               />
             </Link>
           ))}
-          <Link
+          {/* Same hover mechanism as the hero CTA, but not magnetic — the
+              rule is one magnetic element per viewport, and the hero already
+              claims it on the page where both are visible. */}
+          <Button
             href="/contact"
-            className="ml-1 inline-flex items-center gap-2 bg-ink px-5 py-2.5 font-meta text-meta uppercase text-paper transition-[background-color,color] duration-150 hover:bg-verdigris hover:text-paper"
+            variant="primary"
+            arrow
+            className="ml-1 !px-5 !py-2.5"
           >
             Start a project
-            <span aria-hidden="true">→</span>
-          </Link>
+          </Button>
         </nav>
 
         <MobileMenu />
