@@ -7,6 +7,7 @@ import { gsap, useGSAP } from "@/lib/motion/gsap";
 import { dur, ease, MQ } from "@/lib/motion/tokens";
 import { RevealLines } from "@/components/motion/reveal-lines";
 import { Eyebrow } from "@/components/motion/eyebrow";
+import { RevealItems } from "@/components/motion/reveal-items";
 import { Button } from "@/components/ui/button";
 import { getHomeServices } from "@/lib/services";
 
@@ -70,7 +71,7 @@ export function ServicesList() {
 
         <div ref={root} className="mt-14 lg:grid lg:grid-cols-12 lg:gap-x-12">
           {/* List */}
-          <ul className="lg:col-span-7">
+          <RevealItems as="ul" className="lg:col-span-7" selector=":scope > li">
             {services.map((service, i) => {
               const isActive = i === active;
               return (
@@ -84,16 +85,16 @@ export function ServicesList() {
                     {/* Marks the row the preview is currently showing */}
                     <span
                       aria-hidden="true"
-                      className={`absolute left-0 top-0 h-full w-px bg-verdigris transition-transform duration-500 ease-out ${
-                        isActive ? "scale-y-100" : "scale-y-0"
+                      className={`absolute left-0 top-0 hidden h-full w-px bg-verdigris transition-transform duration-500 ease-out lg:block ${
+                        isActive ? "lg:scale-y-100" : "lg:scale-y-0"
                       }`}
                       style={{ transformOrigin: "top" }}
                     />
 
                     <span
                       aria-hidden="true"
-                      className={`font-meta text-meta-sm uppercase transition-colors duration-300 md:w-10 md:shrink-0 ${
-                        isActive ? "text-verdigris" : "text-zinc"
+                      className={`font-meta text-meta-sm uppercase text-zinc transition-colors duration-300 md:w-10 md:shrink-0 ${
+                        isActive ? "lg:text-verdigris" : ""
                       }`}
                     >
                       {(i + 1).toString().padStart(2, "0")}
@@ -101,8 +102,8 @@ export function ServicesList() {
 
                     <div className="flex-1">
                       <h3
-                        className={`font-title text-d4 font-medium transition-colors duration-300 ${
-                          isActive ? "text-verdigris" : "text-ink"
+                        className={`font-title text-d4 font-medium text-ink transition-colors duration-300 ${
+                          isActive ? "lg:text-verdigris" : ""
                         }`}
                       >
                         {service.title}
@@ -146,10 +147,8 @@ export function ServicesList() {
 
                     <span
                       aria-hidden="true"
-                      className={`font-meta text-meta-sm transition-all duration-300 md:shrink-0 ${
-                        isActive
-                          ? "translate-x-1 text-verdigris"
-                          : "text-zinc"
+                      className={`font-meta text-meta-sm text-zinc transition-all duration-300 md:shrink-0 ${
+                        isActive ? "lg:translate-x-1 lg:text-verdigris" : ""
                       }`}
                     >
                       →
@@ -158,7 +157,7 @@ export function ServicesList() {
                 </li>
               );
             })}
-          </ul>
+          </RevealItems>
 
           {/* Preview — always populated, never a reserved blank */}
           <div className="hidden lg:col-span-5 lg:block">

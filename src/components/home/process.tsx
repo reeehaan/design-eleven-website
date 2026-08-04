@@ -2,6 +2,8 @@
 
 import { useEffect, useRef, useState } from "react";
 import { ScrollTrigger, reduced } from "@/lib/motion/gsap";
+import { RevealLines } from "@/components/motion/reveal-lines";
+import { RevealItems } from "@/components/motion/reveal-items";
 
 type Step = {
   ref: string;
@@ -48,7 +50,7 @@ const steps: Step[] = [
 ];
 
 export function Process() {
-  const root = useRef<HTMLOListElement>(null);
+  const root = useRef<HTMLDivElement>(null);
   const [activeIdx, setActiveIdx] = useState(0);
 
   useEffect(() => {
@@ -81,19 +83,20 @@ export function Process() {
       className="border-t border-graphite bg-ink text-paper"
     >
       <div className="mx-auto w-full max-w-360 px-6 py-20 md:px-10 md:py-28 lg:px-16">
-        <div className="md:grid md:grid-cols-12 md:gap-x-12">
+        <div ref={root} className="md:grid md:grid-cols-12 md:gap-x-12">
           {/* Sticky column — holds the heading and a live step counter */}
           <div className="md:col-span-5">
             <div className="md:sticky md:top-28">
               <p className="font-meta text-meta uppercase text-zinc">
                 A-200 · How a job runs
               </p>
-              <h2
+              <RevealLines
+                as="h2"
                 id="process-heading"
                 className="mt-8 font-title text-d2 font-medium text-paper"
               >
                 Four steps, and you know the price before the second one ends.
-              </h2>
+              </RevealLines>
               <p className="mt-8 max-w-measure text-lead text-concrete">
                 Most of what goes wrong on a build goes wrong because nobody
                 agreed what was included. This is how we avoid that.
@@ -124,7 +127,11 @@ export function Process() {
           </div>
 
           {/* Steps */}
-          <ol ref={root} className="mt-16 md:col-span-7 md:mt-0">
+          <RevealItems
+            as="ol"
+            className="mt-16 md:col-span-7 md:mt-0"
+            selector=":scope > li"
+          >
             {steps.map((step, i) => (
               <li
                 key={step.ref}
@@ -155,7 +162,7 @@ export function Process() {
                 </p>
               </li>
             ))}
-          </ol>
+          </RevealItems>
         </div>
       </div>
     </section>

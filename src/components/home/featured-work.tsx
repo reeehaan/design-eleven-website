@@ -5,6 +5,8 @@ import Link from "next/link";
 import { useEffect, useRef, useState } from "react";
 import { gsap, reduced } from "@/lib/motion/gsap";
 import { ease } from "@/lib/motion/tokens";
+import { RevealLines } from "@/components/motion/reveal-lines";
+import { RevealItems } from "@/components/motion/reveal-items";
 import { getFeaturedProjects, type Project } from "@/lib/projects";
 
 function metaStrip(p: Project): string {
@@ -37,14 +39,41 @@ export function FeaturedWork() {
     const xTo = gsap.quickTo(el, "x", { duration: 0.55, ease: ease.out });
     const yTo = gsap.quickTo(el, "y", { duration: 0.55, ease: ease.out });
 
+    // Kept inside the list, so the preview can never ride up under the
+    // sticky header or hang off the bottom of the section.
+    const clampY = (y: number) => {
+      const half = el.offsetHeight / 2;
+      return Math.max(half, Math.min(container.offsetHeight - half, y));
+    };
+
+    // Until the pointer has been located once, x/y are 0 and the preview
+    // would ease in from the container's top-left corner.
+    let located = false;
+
     const onMove = (e: PointerEvent) => {
       const r = container.getBoundingClientRect();
-      xTo(e.clientX - r.left);
-      yTo(e.clientY - r.top);
+      const x = e.clientX - r.left;
+      const y = clampY(e.clientY - r.top);
+      if (located) {
+        xTo(x);
+        yTo(y);
+      } else {
+        gsap.set(el, { x, y });
+        located = true;
+      }
+    };
+
+    const onLeave = () => {
+      // Re-snap on the next entry rather than travelling across the section.
+      located = false;
     };
 
     container.addEventListener("pointermove", onMove);
-    return () => container.removeEventListener("pointermove", onMove);
+    container.addEventListener("pointerleave", onLeave);
+    return () => {
+      container.removeEventListener("pointermove", onMove);
+      container.removeEventListener("pointerleave", onLeave);
+    };
   }, []);
 
   // Show and hide the preview as rows gain and lose hover.
@@ -74,12 +103,13 @@ export function FeaturedWork() {
     >
       <div className="mx-auto w-full max-w-360 px-6 py-20 md:px-10 md:py-28 lg:px-16">
         <div className="flex flex-wrap items-end justify-between gap-6">
-          <h2
+          <RevealLines
+            as="h2"
             id="work-heading"
             className="font-title text-d2 font-medium text-ink"
           >
             Selected work
-          </h2>
+          </RevealLines>
           <Link
             href="/projects"
             className="font-meta text-meta uppercase text-verdigris underline-offset-4 hover:underline"
@@ -93,7 +123,7 @@ export function FeaturedWork() {
           <div
             ref={preview}
             aria-hidden="true"
-            className="pointer-events-none absolute left-0 top-0 z-20 hidden aspect-4/5 w-64 -translate-x-1/2 -translate-y-1/2 overflow-hidden bg-paper-sunk opacity-0 lg:block"
+            className="pointer-events-none absolute left-0 top-0 z-30 hidden aspect-4/5 w-64 -translate-x-1/2 -translate-y-1/2 overflow-hidden bg-paper-sunk opacity-0 lg:block"
           >
             {projects.map((p, i) => (
               <Image
@@ -109,7 +139,7 @@ export function FeaturedWork() {
             ))}
           </div>
 
-          <ul className="border-t border-concrete">
+          <RevealItems as="ul" className="border-t border-concrete" selector=":scope > li">
             {projects.map((p, i) => (
               <li key={p.slug}>
                 <Link
@@ -146,7 +176,7 @@ export function FeaturedWork() {
                 </Link>
               </li>
             ))}
-          </ul>
+          </RevealItems>
         </div>
       </div>
     </section>
