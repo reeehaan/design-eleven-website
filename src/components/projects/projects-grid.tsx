@@ -69,7 +69,7 @@ function EmptyState() {
       <p className="mt-4 font-display text-2xl text-fg-primary md:text-3xl">
         Try a different filter combination,
         <br className="hidden sm:inline" />
-        <span className="italic text-fg-muted"> or clear them all.</span>
+        <span className="text-fg-muted"> or clear them all.</span>
       </p>
     </motion.div>
   );

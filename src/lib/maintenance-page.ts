@@ -24,13 +24,13 @@ export function maintenancePage(): string {
 <link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500&family=Inter:wght@400;500&family=JetBrains+Mono:wght@500&display=swap" rel="stylesheet" />
 <style>
   :root {
-    --bg: #F4F2ED;
-    --bg-2: #EAE6DD;
-    --fg: #0D1816;
-    --muted: #57544B;
-    --subtle: #A9ACA4;
-    --accent: #D4710B;
-    --line: #D8D2C5;
+    --bg: #F0F0EC;
+    --bg-2: #E4E5E0;
+    --fg: #0E1417;
+    --muted: #3A423F;
+    --subtle: #656D6A;
+    --accent: #BF4317;
+    --line: #C9CBC4;
   }
   * { box-sizing: border-box; margin: 0; padding: 0; }
   html { -webkit-font-smoothing: antialiased; -moz-osx-font-smoothing: grayscale; }

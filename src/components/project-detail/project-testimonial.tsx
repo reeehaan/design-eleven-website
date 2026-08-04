@@ -22,11 +22,11 @@ export function ProjectTestimonial({ testimonialId }: { testimonialId: string })
           <blockquote className="mt-8 max-w-4xl">
             <span
               aria-hidden="true"
-              className="block font-display text-7xl leading-none text-accent md:text-8xl"
+              className="block font-display text-7xl leading-none text-verdigris md:text-8xl"
             >
               &ldquo;
             </span>
-            <p className="mt-2 font-display text-3xl italic leading-snug text-fg-primary md:text-5xl md:leading-tight">
+            <p className="mt-2 font-display text-3xl leading-snug text-fg-primary md:text-5xl md:leading-tight">
               {testimonial.quote}
             </p>
             <footer className="mt-10 flex flex-col gap-1 border-t border-surface-line pt-5 font-mono text-xs uppercase tracking-[0.08em] md:flex-row md:items-center md:gap-6">

@@ -12,7 +12,7 @@ export default async function OpengraphImage() {
         style={{
           width: "100%",
           height: "100%",
-          background: "#F4F2ED",
+          background: "#F0F0EC",
           padding: "80px",
           display: "flex",
           flexDirection: "column",
@@ -26,7 +26,7 @@ export default async function OpengraphImage() {
             fontSize: 22,
             letterSpacing: "0.15em",
             textTransform: "uppercase",
-            color: "#A9ACA4",
+            color: "#656D6A",
             display: "flex",
           }}
         >
@@ -37,11 +37,11 @@ export default async function OpengraphImage() {
         <div style={{ display: "flex", flexDirection: "column", gap: 8 }}>
           <div
             style={{
-              fontFamily: "Georgia, serif",
+              fontFamily: "Helvetica, Arial, sans-serif",
               fontSize: 88,
               lineHeight: 1.05,
               letterSpacing: "-0.02em",
-              color: "#0D1816",
+              color: "#0E1417",
               display: "flex",
             }}
           >
@@ -49,12 +49,11 @@ export default async function OpengraphImage() {
           </div>
           <div
             style={{
-              fontFamily: "Georgia, serif",
+              fontFamily: "Helvetica, Arial, sans-serif",
               fontSize: 88,
               lineHeight: 1.05,
               letterSpacing: "-0.02em",
-              color: "#57544B",
-              fontStyle: "italic",
+              color: "#3A423F",
               display: "flex",
             }}
           >
@@ -68,7 +67,7 @@ export default async function OpengraphImage() {
             display: "flex",
             alignItems: "center",
             justifyContent: "space-between",
-            borderTop: "1px solid #D8D2C5",
+            borderTop: "1px solid #C9CBC4",
             paddingTop: 24,
           }}
         >
@@ -76,7 +75,7 @@ export default async function OpengraphImage() {
             style={{
               fontFamily: "ui-monospace, monospace",
               fontSize: 22,
-              color: "#57544B",
+              color: "#3A423F",
               display: "flex",
             }}
           >
@@ -86,7 +85,7 @@ export default async function OpengraphImage() {
             style={{
               fontFamily: "ui-monospace, monospace",
               fontSize: 22,
-              color: "#D4710B",
+              color: "#BF4317",
               display: "flex",
             }}
           >

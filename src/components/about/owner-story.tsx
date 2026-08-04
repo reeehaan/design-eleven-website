@@ -37,7 +37,7 @@ export function OwnerStory() {
               className="mt-6 font-display text-display-md text-fg-primary"
             >
               A small crew,{" "}
-              <span className="italic text-fg-muted">careful work</span>.
+              <span className="text-fg-muted">careful work</span>.
             </h2>
 
             <div className="mt-8 flex flex-col gap-5 text-body-lg text-fg-muted">

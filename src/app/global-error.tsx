@@ -12,8 +12,8 @@ export default function GlobalError({
         style={{
           margin: 0,
           padding: "48px 24px",
-          background: "#F4F2ED",
-          color: "#0D1816",
+          background: "#F0F0EC",
+          color: "#0E1417",
           fontFamily: "-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif",
           minHeight: "100vh",
           display: "flex",
@@ -28,7 +28,7 @@ export default function GlobalError({
               fontSize: 11,
               letterSpacing: "0.08em",
               textTransform: "uppercase",
-              color: "#A9ACA4",
+              color: "#656D6A",
               margin: 0,
             }}
           >
@@ -45,15 +45,15 @@ export default function GlobalError({
           >
             Something broke badly.
           </h1>
-          <p style={{ margin: "16px 0 32px 0", color: "#57544B", fontSize: 17 }}>
+          <p style={{ margin: "16px 0 32px 0", color: "#3A423F", fontSize: 17 }}>
             Refresh the page to try again. If this keeps happening, please call
             us — we&rsquo;d still love to hear from you.
           </p>
           <button
             onClick={reset}
             style={{
-              background: "#0D1816",
-              color: "#F4F2ED",
+              background: "#0E1417",
+              color: "#F0F0EC",
               border: "none",
               padding: "12px 24px",
               borderRadius: 999,

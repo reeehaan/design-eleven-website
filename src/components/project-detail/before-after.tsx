@@ -53,9 +53,9 @@ export function BeforeAfter({ pair }: { pair: BeforeAfterType }) {
               handle={
                 <div
                   aria-hidden="true"
-                  className="flex h-full w-1 items-center justify-center bg-accent"
+                  className="flex h-full w-1 items-center justify-center bg-verdigris"
                 >
-                  <div className="flex h-12 w-12 items-center justify-center rounded-full bg-accent text-bg-primary shadow-lg">
+                  <div className="flex h-12 w-12 items-center justify-center rounded-full bg-verdigris text-bg-primary shadow-lg">
                     <span className="font-mono text-sm">⇄</span>
                   </div>
                 </div>

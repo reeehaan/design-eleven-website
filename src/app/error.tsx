@@ -23,7 +23,7 @@ export default function Error({
         <EyebrowLabel>Something went wrong</EyebrowLabel>
         <h1 className="mt-6 font-display text-display-lg text-fg-primary">
           That didn&rsquo;t{" "}
-          <span className="italic text-fg-muted">load right</span>.
+          <span className="text-fg-muted">load right</span>.
         </h1>
         <p className="mt-6 text-body-lg text-fg-muted">
           We hit an unexpected error. Try refreshing, or reach out directly
@@ -34,7 +34,7 @@ export default function Error({
           <button
             type="button"
             onClick={reset}
-            className="inline-flex items-center gap-3 rounded-full bg-fg-primary px-6 py-3 text-sm font-medium text-bg-primary transition-colors hover:bg-accent"
+            className="inline-flex items-center gap-3 rounded-full bg-fg-primary px-6 py-3 text-sm font-medium text-bg-primary transition-colors hover:bg-verdigris"
           >
             Try again <span aria-hidden="true">→</span>
           </button>
@@ -47,7 +47,7 @@ export default function Error({
           Or call us directly:{" "}
           <a
             href={`tel:${siteConfig.contact.phone.replace(/\s/g, "")}`}
-            className="text-fg-primary hover:text-accent"
+            className="text-fg-primary hover:text-verdigris"
           >
             {siteConfig.contact.phoneDisplay}
           </a>

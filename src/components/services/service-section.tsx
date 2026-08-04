@@ -52,7 +52,7 @@ export function ServiceSection({ service, index }: ServiceSectionProps) {
 
             <Link
               href={`/contact?service=${service.slug}`}
-              className="mt-6 inline-flex items-center gap-3 text-base font-medium text-accent transition-colors hover:text-accent-deep"
+              className="mt-6 inline-flex items-center gap-3 text-base font-medium text-verdigris transition-colors hover:text-verdigris"
             >
               <span className="border-b border-current pb-1">Request a quote</span>
               <span aria-hidden="true">→</span>

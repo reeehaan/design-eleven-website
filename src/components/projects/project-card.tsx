@@ -56,7 +56,7 @@ export function ProjectCard({ project, index }: ProjectCardProps) {
           <span className="font-mono text-xs text-fg-muted">{project.year}</span>
         </div>
 
-        <h3 className="mt-2 font-display text-2xl text-fg-primary transition-colors group-hover:text-accent md:text-3xl">
+        <h3 className="mt-2 font-display text-2xl text-fg-primary transition-colors group-hover:text-verdigris md:text-3xl">
           {project.title}
         </h3>
         <p className="mt-1 text-sm text-fg-muted">{project.location}</p>

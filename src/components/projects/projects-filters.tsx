@@ -57,7 +57,7 @@ export function ProjectsFilters({
           <button
             type="button"
             onClick={clearAll}
-            className="font-mono text-xs uppercase tracking-[0.08em] text-fg-muted transition-colors hover:text-accent"
+            className="font-mono text-xs uppercase tracking-[0.08em] text-fg-muted transition-colors hover:text-verdigris"
           >
             Clear filters ×
           </button>
@@ -110,7 +110,7 @@ function FilterGroup({ label, options, activeValue, onSelect }: FilterGroupProps
                 className={cn(
                   "whitespace-nowrap border-b py-1 text-sm transition-colors",
                   isActive
-                    ? "border-accent text-accent"
+                    ? "border-verdigris text-verdigris"
                     : "border-transparent text-fg-muted hover:border-fg-muted hover:text-fg-primary",
                 )}
               >

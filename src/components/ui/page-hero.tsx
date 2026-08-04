@@ -37,7 +37,7 @@ export function PageHero({
                 {titleAccent && (
                   <>
                     {" "}
-                    <span className="italic text-fg-muted">{titleAccent}</span>
+                    <span className="text-fg-muted">{titleAccent}</span>
                   </>
                 )}
               </h1>

@@ -58,7 +58,7 @@ export function ServicesFaq() {
                   className="mt-6 font-display text-display-lg text-fg-primary"
                 >
                   Before you{" "}
-                  <span className="italic text-fg-muted">ask</span>.
+                  <span className="text-fg-muted">ask</span>.
                 </h2>
               </>
             }
@@ -75,8 +75,8 @@ export function ServicesFaq() {
             {faqs.map((faq) => (
               <li key={faq.question} className="border-b border-surface-line">
                 <details className="group">
-                  <summary className="flex cursor-pointer list-none items-center justify-between gap-6 py-6 transition-colors hover:text-accent md:py-8 [&::-webkit-details-marker]:hidden">
-                    <h3 className="font-display text-xl text-fg-primary group-hover:text-accent md:text-2xl">
+                  <summary className="flex cursor-pointer list-none items-center justify-between gap-6 py-6 transition-colors hover:text-verdigris md:py-8 [&::-webkit-details-marker]:hidden">
+                    <h3 className="font-display text-xl text-fg-primary group-hover:text-verdigris md:text-2xl">
                       {faq.question}
                     </h3>
                     <span

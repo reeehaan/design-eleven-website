@@ -34,15 +34,15 @@ export function StepIndicator({ current, onJumpTo }: StepIndicatorProps) {
                 aria-current={isCurrent ? "step" : undefined}
                 className={cn(
                   "flex w-full flex-col items-start gap-2 border-t-2 py-4 text-left transition-colors",
-                  isCurrent && "border-accent text-fg-primary",
-                  isPast && "cursor-pointer border-fg-primary text-fg-primary hover:text-accent",
+                  isCurrent && "border-verdigris text-fg-primary",
+                  isPast && "cursor-pointer border-fg-primary text-fg-primary hover:text-verdigris",
                   isFuture && "cursor-not-allowed border-transparent text-fg-subtle",
                 )}
               >
                 <span
                   className={cn(
                     "font-mono text-xs uppercase tracking-[0.08em]",
-                    isCurrent && "text-accent",
+                    isCurrent && "text-verdigris",
                     isPast && "text-fg-muted",
                     isFuture && "text-fg-subtle",
                   )}

@@ -26,8 +26,6 @@ type StepProps = {
   onComplete: (patch: Partial<ContactFormData>) => void;
 };
 
-/* ── Step 1 — Project Type ──────────────────────────────────── */
-
 export function Step1ProjectType({ data, onComplete }: StepProps) {
   const {
     handleSubmit,
@@ -73,8 +71,6 @@ export function Step1ProjectType({ data, onComplete }: StepProps) {
     </form>
   );
 }
-
-/* ── Step 2 — Project Details ───────────────────────────────── */
 
 export function Step2Details({ data, onComplete }: StepProps) {
   const {
@@ -136,8 +132,6 @@ export function Step2Details({ data, onComplete }: StepProps) {
     </form>
   );
 }
-
-/* ── Step 3 — Budget & Timeline ─────────────────────────────── */
 
 export function Step3BudgetTimeline({ data, onComplete }: StepProps) {
   const {
@@ -205,8 +199,6 @@ export function Step3BudgetTimeline({ data, onComplete }: StepProps) {
     </form>
   );
 }
-
-/* ── Step 4 — Contact Info ──────────────────────────────────── */
 
 export function Step4Contact({ data, onComplete }: StepProps) {
   const {

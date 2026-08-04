@@ -17,7 +17,7 @@ export function BehindScenes() {
             id="bts-heading"
             className="mt-6 font-display text-display-md text-fg-primary"
           >
-            Work in <span className="italic text-fg-muted">progress</span>.
+            Work in <span className="text-fg-muted">progress</span>.
           </h2>
         </Reveal>
 

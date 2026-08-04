@@ -19,7 +19,7 @@ export function Materials({ items }: { items: string[] }) {
                 className="mt-6 font-display text-display-md text-fg-primary"
               >
                 What it&apos;s{" "}
-                <span className="italic text-fg-muted">made of</span>.
+                <span className="text-fg-muted">made of</span>.
               </h2>
               <p className="mt-5 max-w-xs text-fg-muted">
                 Material selections that determined the build&apos;s character

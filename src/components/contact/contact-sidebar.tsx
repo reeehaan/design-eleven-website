@@ -19,7 +19,7 @@ export function ContactSidebar() {
         </span>
         <a
           href={`tel:${phoneTel}`}
-          className="mt-2 block font-display text-3xl text-fg-primary transition-colors hover:text-accent md:text-4xl"
+          className="mt-2 block font-display text-3xl text-fg-primary transition-colors hover:text-verdigris md:text-4xl"
         >
           {siteConfig.contact.phoneDisplay}
         </a>
@@ -36,7 +36,7 @@ export function ContactSidebar() {
           href={whatsappUrl}
           target="_blank"
           rel="noopener noreferrer"
-          className="mt-2 inline-flex items-center gap-2 font-display text-2xl text-fg-primary transition-colors hover:text-accent md:text-3xl"
+          className="mt-2 inline-flex items-center gap-2 font-display text-2xl text-fg-primary transition-colors hover:text-verdigris md:text-3xl"
         >
           Message us <span aria-hidden="true">→</span>
         </a>
@@ -48,7 +48,7 @@ export function ContactSidebar() {
         </span>
         <a
           href={`mailto:${siteConfig.contact.email}`}
-          className="mt-2 block break-words text-fg-primary transition-colors hover:text-accent"
+          className="mt-2 block break-words text-fg-primary transition-colors hover:text-verdigris"
         >
           {siteConfig.contact.email}
         </a>

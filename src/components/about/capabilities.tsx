@@ -34,7 +34,7 @@ export function Capabilities() {
                   className="mt-6 font-display text-display-lg text-fg-primary"
                 >
                   What we can{" "}
-                  <span className="italic text-fg-muted">deliver</span>.
+                  <span className="text-fg-muted">deliver</span>.
                 </h2>
               </>
             }

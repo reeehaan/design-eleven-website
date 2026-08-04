@@ -42,7 +42,7 @@ export function Credentials() {
             className="mt-6 font-display text-display-lg text-bg-primary"
           >
             Licensed,{" "}
-            <span className="italic text-accent">insured</span>, on file.
+            <span className="text-verdigris">insured</span>, on file.
           </h2>
 
           <p className="mt-6 max-w-md text-body-lg text-bg-primary/70">

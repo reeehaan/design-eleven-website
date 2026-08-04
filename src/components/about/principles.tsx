@@ -44,7 +44,7 @@ export function Principles() {
                   className="mt-6 font-display text-display-lg text-fg-primary"
                 >
                   How we{" "}
-                  <span className="italic text-fg-muted">actually</span> work.
+                  <span className="text-fg-muted">actually</span> work.
                 </h2>
               </>
             }

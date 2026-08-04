@@ -15,7 +15,7 @@ export function Footer() {
             </h2>
             <Link
               href="/contact"
-              className="mt-8 inline-flex items-center gap-3 text-lg text-accent transition-colors hover:text-bg-primary"
+              className="mt-8 inline-flex items-center gap-3 text-lg text-verdigris-light transition-colors hover:text-bg-primary"
             >
               Start the conversation
               <span aria-hidden="true">→</span>
@@ -34,7 +34,7 @@ export function Footer() {
                 </a>
                 <a
                   href={`mailto:${siteConfig.contact.email}`}
-                  className="mt-1 block text-bg-primary/80 transition-colors hover:text-accent"
+                  className="mt-1 block text-bg-primary/80 transition-colors hover:text-verdigris-light"
                 >
                   {siteConfig.contact.email}
                 </a>
@@ -71,7 +71,7 @@ export function Footer() {
                 <li key={item.href}>
                   <Link
                     href={item.href}
-                    className="text-bg-primary/80 transition-colors hover:text-accent"
+                    className="text-bg-primary/80 transition-colors hover:text-verdigris-light"
                   >
                     {item.label}
                   </Link>

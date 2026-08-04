@@ -16,8 +16,8 @@ export function ArrowLink({
 }: ArrowLinkProps) {
   const colorStyle =
     variant === "default"
-      ? "text-accent hover:text-accent-deep"
-      : "text-fg-primary hover:text-accent";
+      ? "text-verdigris hover:text-verdigris"
+      : "text-fg-primary hover:text-verdigris";
 
   return (
     <Link

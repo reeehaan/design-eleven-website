@@ -102,7 +102,7 @@ export function ProjectGallery({ images }: { images: ProjectImage[] }) {
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
             transition={{ duration: 0.25 }}
-            className="fixed inset-0 z-50 flex items-center justify-center bg-surface-dark/95"
+            className="fixed inset-0 z-50 flex items-center justify-center bg-ink/97"
             role="dialog"
             aria-modal="true"
             aria-label="Image viewer"
@@ -112,7 +112,7 @@ export function ProjectGallery({ images }: { images: ProjectImage[] }) {
               type="button"
               onClick={closeLightbox}
               aria-label="Close image viewer"
-              className="absolute right-4 top-4 z-10 inline-flex h-12 w-12 items-center justify-center rounded-full border border-white/20 text-bg-primary transition-colors hover:border-accent hover:text-accent md:right-8 md:top-8"
+              className="absolute right-4 top-4 z-10 inline-flex h-12 w-12 items-center justify-center border border-graphite text-paper transition-colors hover:border-verdigris-light hover:text-verdigris-light md:right-8 md:top-8"
             >
               <X size={20} />
             </button>
@@ -121,7 +121,7 @@ export function ProjectGallery({ images }: { images: ProjectImage[] }) {
               type="button"
               onClick={(e) => { e.stopPropagation(); goPrev(); }}
               aria-label="Previous image"
-              className="absolute left-4 z-10 inline-flex h-12 w-12 items-center justify-center rounded-full border border-white/20 text-bg-primary transition-colors hover:border-accent hover:text-accent md:left-8"
+              className="absolute left-4 z-10 inline-flex h-12 w-12 items-center justify-center border border-graphite text-paper transition-colors hover:border-verdigris-light hover:text-verdigris-light md:left-8"
             >
               <ChevronLeft size={20} />
             </button>
@@ -130,7 +130,7 @@ export function ProjectGallery({ images }: { images: ProjectImage[] }) {
               type="button"
               onClick={(e) => { e.stopPropagation(); goNext(); }}
               aria-label="Next image"
-              className="absolute right-4 z-10 inline-flex h-12 w-12 items-center justify-center rounded-full border border-white/20 text-bg-primary transition-colors hover:border-accent hover:text-accent md:right-20"
+              className="absolute right-4 z-10 inline-flex h-12 w-12 items-center justify-center border border-graphite text-paper transition-colors hover:border-verdigris-light hover:text-verdigris-light md:right-20"
             >
               <ChevronRight size={20} />
             </button>
@@ -159,9 +159,9 @@ export function ProjectGallery({ images }: { images: ProjectImage[] }) {
               </AnimatePresence>
             </div>
 
-            <span className="absolute bottom-6 left-1/2 -translate-x-1/2 font-mono text-xs uppercase tracking-[0.08em] text-bg-primary/60">
+            <span className="absolute bottom-6 left-1/2 -translate-x-1/2 font-meta text-meta uppercase text-concrete">
               {(lightboxIndex + 1).toString().padStart(2, "0")}{" "}
-              <span className="text-bg-primary/30">
+              <span className="text-zinc">
                 / {images.length.toString().padStart(2, "0")}
               </span>
             </span>

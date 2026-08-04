@@ -42,7 +42,7 @@ function NavCard({
       <div
         className={`flex items-baseline justify-between gap-4 ${direction === "next" ? "flex-row-reverse" : ""}`}
       >
-        <span className="font-mono text-xs uppercase tracking-[0.08em] text-fg-muted transition-colors group-hover:text-accent">
+        <span className="font-mono text-xs uppercase tracking-[0.08em] text-fg-muted transition-colors group-hover:text-verdigris">
           {direction === "prev" ? "← Previous project" : "Next project →"}
         </span>
         <span className="font-mono text-xs text-fg-subtle">{project.year}</span>
@@ -58,7 +58,7 @@ function NavCard({
         />
       </div>
 
-      <h3 className="font-display text-3xl text-fg-primary transition-colors group-hover:text-accent md:text-4xl">
+      <h3 className="font-display text-3xl text-fg-primary transition-colors group-hover:text-verdigris md:text-4xl">
         {project.title}
       </h3>
       <span className="font-mono text-xs uppercase tracking-[0.08em] text-fg-subtle">

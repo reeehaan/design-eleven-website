@@ -21,7 +21,7 @@ export function Label({ htmlFor, children, required, className }: LabelProps) {
     >
       {children}
       {required && (
-        <span aria-hidden="true" className="ml-1 text-accent">
+        <span aria-hidden="true" className="ml-1 text-verdigris">
           *
         </span>
       )}
@@ -32,7 +32,7 @@ export function Label({ htmlFor, children, required, className }: LabelProps) {
 export function FieldError({ message }: { message?: string }) {
   if (!message) return null;
   return (
-    <p role="alert" className="mt-2 font-mono text-xs uppercase tracking-[0.08em] text-accent">
+    <p role="alert" className="mt-2 font-mono text-xs uppercase tracking-[0.08em] text-marking-deep">
       {message}
     </p>
   );
@@ -52,8 +52,8 @@ export const TextField = forwardRef<HTMLInputElement, TextFieldProps>(
         className={cn(
           "w-full border-b border-surface-line bg-transparent py-3 text-body text-fg-primary",
           "placeholder:text-fg-subtle",
-          "focus:border-accent focus:outline-none",
-          error && "border-accent",
+          "focus:border-verdigris focus:outline-none",
+          error && "border-marking-deep",
           className,
         )}
       />
@@ -75,8 +75,8 @@ export const TextArea = forwardRef<HTMLTextAreaElement, TextAreaProps>(
         className={cn(
           "w-full resize-y border-b border-surface-line bg-transparent py-3 text-body text-fg-primary",
           "placeholder:text-fg-subtle",
-          "focus:border-accent focus:outline-none",
-          error && "border-accent",
+          "focus:border-verdigris focus:outline-none",
+          error && "border-marking-deep",
           className,
         )}
       />
@@ -101,7 +101,7 @@ export function ChoiceCard({ selected, onSelect, label, index, description }: Ch
       className={cn(
         "group flex w-full flex-col items-start gap-2 border p-5 text-left transition-colors md:p-6",
         selected
-          ? "border-accent bg-accent/5"
+          ? "border-verdigris bg-verdigris/5"
           : "border-surface-line hover:border-fg-primary",
       )}
     >
@@ -113,7 +113,7 @@ export function ChoiceCard({ selected, onSelect, label, index, description }: Ch
       <span
         className={cn(
           "font-display text-xl transition-colors md:text-2xl",
-          selected ? "text-accent" : "text-fg-primary group-hover:text-accent",
+          selected ? "text-verdigris" : "text-fg-primary group-hover:text-verdigris",
         )}
       >
         {label}
