@@ -10,12 +10,30 @@ export type BeforeAfter = {
   after: ProjectImage;
 };
 
+/** Filterable by scope, which is a different axis from `category`. */
+export type ProjectScopeType = "New build" | "Renovation" | "Interior fit-out";
+
+/** Drives the accent "in progress" flag — the only live state on a card. */
+export type ProjectStatus = "complete" | "in-progress";
+
+/** One dated step of the case-study timeline. */
+export type ProjectPhase = {
+  date: string; // "2024-03" — rendered as MAR 2024 in the title-block voice
+  title: string;
+  note: string;
+  image?: ProjectImage;
+};
+
 export type Project = {
   slug: string;
+  /** Title-block project number, e.g. "PRJ-001". Unique, never reused. */
+  projectNo: string;
   title: string;
   summary: string;
   description: string[];
   category: ProjectCategory;
+  scopeType: ProjectScopeType;
+  status: ProjectStatus;
   location: string;
   year: number;
   durationMonths: number;
@@ -31,121 +49,35 @@ export type Project = {
   materials?: string[];
   scope?: string[];
   testimonialId?: string;
+
+  /** The client's actual problem, in two sentences. */
+  brief?: string;
+  /** What made the job hard, and how it was solved — the conversion section. */
+  constraint?: { problem: string; solution: string };
+  /** Stated range, e.g. "LKR 4–6M". Carries more trust than another photo. */
+  budgetRange?: string;
+  teamSize?: number;
+  /** Pinned horizontal timeline. 4–6 entries. */
+  phases?: ProjectPhase[];
+
+  /**
+   * Layout placeholder, not real work. Draft projects render in development so
+   * the grid, filters and case-study template can be designed against a full
+   * set, but they are excluded from the public index, sitemap and structured
+   * data. Nothing marked `draft` may ever be presented as the studio's work.
+   */
+  draft?: boolean;
 };
 
-export const projects: Project[] = [
-  // {
-  //   slug: "modern-residence-rajagiriya",
-  //   title: "Modern Residence",
-  //   summary:
-  //     "A four-bedroom family home with open-plan living and a courtyard garden.",
-  //   description: [
-  //     "Designed around a central courtyard, this 4-bedroom residence balances private family spaces with generous communal living areas. The brief called for a calm, light-filled home that worked with Sri Lanka's tropical climate.",
-  //     "We delivered the build over 14 months — from groundwork through to finishing — coordinating directly with the architect and the client throughout. Materials were selected for durability in monsoon conditions: concrete superstructure, teak joinery, polished cement floors.",
-  //     "The project taught us a lot about working with deep-set sites: drainage, ventilation, and how to bring daylight into central rooms without compromising privacy. The result is a home that feels quiet, ordered, and very much rooted in its place.",
-  //   ],
-  //   category: "Residential",
-  //   location: "Rajagiriya",
-  //   year: 2024,
-  //   durationMonths: 14,
-  //   area: 4200,
-  //   areaUnit: "sqft",
-  //   cover: {
-  //     src: "https://images.unsplash.com/photo-1564013799919-ab600027ffc6?auto=format&fit=crop&w=2000&q=80",
-  //     alt: "A modern residential home with clean lines and warm timber accents",
-  //   },
-  //   featured: true,
-  //   featuredOrder: 1,
-  //   gridSpan: 2,
-  //   aspect: "standard",
-  //   gallery: [
-  //     {
-  //       src: "https://images.unsplash.com/photo-1600585154340-be6161a56a0c?auto=format&fit=crop&w=1600&q=80",
-  //       alt: "Front elevation of the residence",
-  //     },
-  //     {
-  //       src: "https://images.unsplash.com/photo-1600596542815-ffad4c1539a9?auto=format&fit=crop&w=1600&q=80",
-  //       alt: "Interior living room with timber accents",
-  //     },
-  //     {
-  //       src: "https://images.unsplash.com/photo-1600607687939-ce8a6c25118c?auto=format&fit=crop&w=1600&q=80",
-  //       alt: "Kitchen and dining area",
-  //     },
-  //     {
-  //       src: "https://images.unsplash.com/photo-1600566753190-17f0baa2a6c3?auto=format&fit=crop&w=1600&q=80",
-  //       alt: "Master bedroom with garden view",
-  //     },
-  //   ],
-  //   scope: [
-  //     "Full ground-up build, foundation to handover",
-  //     "Architectural coordination with consultant",
-  //     "Council compliance and approvals",
-  //     "Joinery, finishes, and landscaping",
-  //   ],
-  //   materials: [
-  //     "Reinforced concrete superstructure",
-  //     "Locally-sourced teak joinery",
-  //     "Polished cement floors throughout",
-  //     "Clay-tile pitched roof over reinforced slab",
-  //     "Lime-wash external finishes",
-  //     "Solid teak doors with brass hardware",
-  //   ],
-  //   testimonialId: "t1",
-  // },
-  // {
-  //   slug: "office-fitout-colombo-03",
-  //   title: "Office Fit-out",
-  //   summary:
-  //     "Full interior fit-out of a 6,000 sqft office floor for a financial services firm.",
-  //   description: [
-  //     "Complete interior fit-out for a financial services firm relocating into a new commercial floor. Scope included partitioning, ceiling works, electrical, HVAC integration, joinery, and finishes across an open workspace, six private offices, two meeting rooms, and a client-facing reception.",
-  //     "Delivered in 4 months around the client's operational schedule, with weekend and night work coordinated to minimise disruption.",
-  //   ],
-  //   category: "Commercial",
-  //   location: "Colombo 03",
-  //   year: 2024,
-  //   durationMonths: 4,
-  //   area: 6000,
-  //   areaUnit: "sqft",
-  //   cover: {
-  //     src: "https://images.unsplash.com/photo-1497366216548-37526070297c?auto=format&fit=crop&w=2000&q=80",
-  //     alt: "A modern office interior with warm lighting and clean lines",
-  //   },
-  //   featured: true,
-  //   featuredOrder: 2,
-  //   gridSpan: 1,
-  //   aspect: "tall",
-  //   gallery: [
-  //     {
-  //       src: "https://images.unsplash.com/photo-1497366754035-f200968a6e72?auto=format&fit=crop&w=1600&q=80",
-  //       alt: "Open workspace with natural light",
-  //     },
-  //     {
-  //       src: "https://images.unsplash.com/photo-1604328698692-f76ea9498e76?auto=format&fit=crop&w=1600&q=80",
-  //       alt: "Private office with bespoke joinery",
-  //     },
-  //     {
-  //       src: "https://images.unsplash.com/photo-1497215842964-222b430dc094?auto=format&fit=crop&w=1600&q=80",
-  //       alt: "Client-facing reception area",
-  //     },
-  //   ],
-  //   scope: [
-  //     "Full interior fit-out, shell to finish",
-  //     "Partitioning, ceilings, electrical, HVAC",
-  //     "Bespoke joinery and reception build",
-  //     "Phased delivery around live operations",
-  //   ],
-  //   materials: [
-  //     "Acoustic suspended ceiling system",
-  //     "Veneer-clad partition walls",
-  //     "Engineered timber flooring",
-  //     "Custom millwork reception desk",
-  //     "Linear LED lighting throughout",
-  //   ],
-  //   testimonialId: "t2",
-  // },
+/**
+ * Deliberately not exported. Every consumer goes through the query helpers
+ * below so the draft filter cannot be bypassed — that bypass already shipped
+ * draft projects into one production build.
+ */
+const projects: Project[] = [
   {
     slug: "living-room-refresh-anuradhapura",
+    projectNo: "PRJ-001",
     title: "Living Room Refresh",
     summary:
       "A warm interior refresh blending dusty blue tones, custom wood detailing, and modern track lighting — without changing the original layout.",
@@ -155,6 +87,8 @@ export const projects: Project[] = [
       "Modern black track lighting replaced the existing fixtures to highlight key features and give the room a contemporary edge. New skirting and floor finishes complete the refresh.",
     ],
     category: "Interior",
+    scopeType: "Interior fit-out",
+    status: "complete",
     location: "Anuradhapura",
     year: 2024,
     durationMonths: 1,
@@ -221,139 +155,155 @@ export const projects: Project[] = [
     ],
     testimonialId: "t3",
   },
-  // {
-  //   slug: "courtyard-villa-battaramulla",
-  //   title: "Courtyard Villa",
-  //   summary:
-  //     "A three-bedroom courtyard villa with cross-ventilated living and a verandah-led plan.",
-  //   description: [
-  //     "A 3-bedroom villa organised around a planted central courtyard, with verandahs running the perimeter for cross-ventilation and indoor-outdoor living. Built to maximise natural light without compromising privacy from the street.",
-  //     "Construction took 11 months. The client briefed a low-maintenance, climate-responsive home — we delivered with deep eaves, polished concrete floors, and locally-sourced timber detailing throughout.",
-  //   ],
-  //   category: "Residential",
-  //   location: "Battaramulla",
-  //   year: 2023,
-  //   durationMonths: 11,
-  //   area: 3100,
-  //   areaUnit: "sqft",
-  //   cover: {
-  //     src: "https://images.unsplash.com/photo-1600585154526-990dced4db0d?auto=format&fit=crop&w=2000&q=80",
-  //     alt: "Modern villa with verandahs and natural materials",
-  //   },
-  //   featured: false,
-  //   gridSpan: 1,
-  //   aspect: "standard",
-  //   scope: [
-  //     "Ground-up villa build",
-  //     "Climate-responsive design coordination",
-  //     "Verandah and landscaping integration",
-  //   ],
-  //   materials: [
-  //     "Polished concrete floors",
-  //     "Local timber rafters and detailing",
-  //     "Cement-rendered walls",
-  //     "Clay tile roof",
-  //   ],
-  // },
-  // {
-  //   slug: "boutique-cafe-colombo-07",
-  //   title: "Boutique Café Build-out",
-  //   summary:
-  //     "Shell-and-core to operational café in 10 weeks — bar, kitchen, and dining fitout.",
-  //   description: [
-  //     "A shell-and-core unit converted into a fully operational boutique café in 10 weeks. Scope included bar build, commercial kitchen rough-in, dining area finishes, exterior signage support, and full MEP coordination with the operator's specialists.",
-  //     "Tight timeline driven by lease commencement — delivered on schedule, on budget, with zero rework.",
-  //   ],
-  //   category: "Commercial",
-  //   location: "Colombo 07",
-  //   year: 2022,
-  //   durationMonths: 2,
-  //   area: 1800,
-  //   areaUnit: "sqft",
-  //   cover: {
-  //     src: "https://images.unsplash.com/photo-1554118811-1e0d58224f24?auto=format&fit=crop&w=2000&q=80",
-  //     alt: "A modern boutique café interior with warm wood and clean detailing",
-  //   },
-  //   featured: false,
-  //   gridSpan: 2,
-  //   aspect: "standard",
-  //   scope: [
-  //     "Shell-and-core conversion",
-  //     "Bar, kitchen, dining fit-out",
-  //     "MEP coordination with specialists",
-  //     "Delivered on a 10-week timeline",
-  //   ],
-  //   materials: [
-  //     "Solid timber bar counter",
-  //     "Industrial pendant lighting",
-  //     "Terrazzo flooring",
-  //     "Reclaimed brick feature wall",
-  //   ],
-  // },
-  // {
-  //   slug: "wardrobe-joinery-malabe",
-  //   title: "Bespoke Wardrobe Joinery",
-  //   summary:
-  //     "Custom built-in wardrobes and dresser units across three bedrooms in a private residence.",
-  //   description: [
-  //     "Bespoke joinery package for a private residence — built-in wardrobes and dresser units across three bedrooms, plus a built-in bookcase in the study.",
-  //     "All joinery built in our workshop and installed on site over a 5-week period. Materials: solid teak frames with veneered panels, soft-close hardware throughout, integrated LED lighting.",
-  //   ],
-  //   category: "Interior",
-  //   location: "Malabe",
-  //   year: 2022,
-  //   durationMonths: 1,
-  //   area: null,
-  //   areaUnit: "sqft",
-  //   cover: {
-  //     src: "https://images.unsplash.com/photo-1567016526105-22da7c13161a?auto=format&fit=crop&w=2000&q=80",
-  //     alt: "Custom built-in wardrobe in warm timber",
-  //   },
-  //   featured: false,
-  //   gridSpan: 1,
-  //   aspect: "tall",
-  //   scope: [
-  //     "Bespoke joinery design and build",
-  //     "Workshop fabrication",
-  //     "On-site installation across 3 rooms",
-  //   ],
-  //   materials: [
-  //     "Solid teak frame construction",
-  //     "Premium veneer panels",
-  //     "Soft-close German hardware",
-  //     "Integrated LED strip lighting",
-  //   ],
-  // },
+
+  // Everything below is placeholder scaffolding with stock imagery. Do not
+  // clear `draft` until the entry describes real work with real photographs.
+  {
+    slug: "draft-courtyard-house",
+    projectNo: "PRJ-002",
+    title: "Courtyard House",
+    summary:
+      "A three-bedroom home planned around a central courtyard for cross-ventilation and daylight.",
+    description: [
+      "[DRAFT] Placeholder record used to design the projects index and case-study template. Replace wholesale with a real project.",
+    ],
+    category: "Residential",
+    scopeType: "New build",
+    status: "complete",
+    location: "Anuradhapura",
+    year: 2025,
+    durationMonths: 11,
+    area: 3100,
+    areaUnit: "sqft",
+    cover: {
+      src: "https://images.unsplash.com/photo-1600585154340-be6161a56a0c?auto=format&fit=crop&w=1600&q=80",
+      alt: "[DRAFT] Placeholder — courtyard house exterior",
+    },
+    featured: true,
+    featuredOrder: 1,
+    gridSpan: 2,
+    aspect: "standard",
+    budgetRange: "LKR 28–34M",
+    teamSize: 9,
+    draft: true,
+  },
+  {
+    slug: "draft-office-fitout",
+    projectNo: "PRJ-003",
+    title: "Office Fit-out",
+    summary:
+      "A 6,000 sq ft commercial floor fitted out around the client's working hours.",
+    description: [
+      "[DRAFT] Placeholder record used to design the projects index and case-study template. Replace wholesale with a real project.",
+    ],
+    category: "Commercial",
+    scopeType: "Interior fit-out",
+    status: "in-progress",
+    location: "Kandy",
+    year: 2025,
+    durationMonths: 4,
+    area: 6000,
+    areaUnit: "sqft",
+    cover: {
+      src: "https://images.unsplash.com/photo-1497366216548-37526070297c?auto=format&fit=crop&w=1600&q=80",
+      alt: "[DRAFT] Placeholder — open-plan office interior",
+    },
+    featured: true,
+    featuredOrder: 2,
+    gridSpan: 1,
+    aspect: "tall",
+    budgetRange: "LKR 12–15M",
+    teamSize: 6,
+    draft: true,
+  },
+  {
+    slug: "draft-kitchen-renovation",
+    projectNo: "PRJ-004",
+    title: "Kitchen & Living Renovation",
+    summary:
+      "Structural opening-up of a closed ground floor, plus a full kitchen rebuild.",
+    description: [
+      "[DRAFT] Placeholder record used to design the projects index and case-study template. Replace wholesale with a real project.",
+    ],
+    category: "Residential",
+    scopeType: "Renovation",
+    status: "complete",
+    location: "Kurunegala",
+    year: 2024,
+    durationMonths: 3,
+    area: 900,
+    areaUnit: "sqft",
+    cover: {
+      src: "https://images.unsplash.com/photo-1600566753086-00f18fb6b3ea?auto=format&fit=crop&w=1600&q=80",
+      alt: "[DRAFT] Placeholder — renovated kitchen interior",
+    },
+    featured: true,
+    featuredOrder: 4,
+    gridSpan: 1,
+    aspect: "standard",
+    budgetRange: "LKR 5–7M",
+    teamSize: 4,
+    draft: true,
+  },
 ];
+
+/**
+ * Draft projects exist so the index, filters and case-study template can be
+ * designed against a realistic set before the client's real work arrives.
+ * They are visible in development only — never in a production build, and
+ * never in the sitemap or structured data.
+ */
+const SHOW_DRAFTS = process.env.NODE_ENV === "development";
+
+function visible(p: Project): boolean {
+  return SHOW_DRAFTS || !p.draft;
+}
+
+/** Every project including drafts. Use only for dev tooling, never for output. */
+export function getAllProjectsIncludingDrafts(): Project[] {
+  return [...projects].sort((a, b) => b.year - a.year);
+}
 
 export function getFeaturedProjects(): Project[] {
   return projects
-    .filter((p) => p.featured)
+    .filter((p) => p.featured && visible(p))
     .sort(
       (a, b) => (a.featuredOrder ?? Infinity) - (b.featuredOrder ?? Infinity),
     );
 }
 
 export function getAllProjects(): Project[] {
-  return [...projects].sort((a, b) => b.year - a.year);
+  return projects.filter(visible).sort((a, b) => b.year - a.year);
 }
 
 export function getProjectBySlug(slug: string): Project | undefined {
-  return projects.find((p) => p.slug === slug);
+  return projects.find((p) => p.slug === slug && visible(p));
 }
 
 export function getCategories(): ProjectCategory[] {
   const order: ProjectCategory[] = ["Residential", "Commercial", "Interior"];
-  const present = new Set(projects.map((p) => p.category));
+  const present = new Set(getAllProjects().map((p) => p.category));
   return order.filter((c) => present.has(c));
 }
 
+export function getScopeTypes(): ProjectScopeType[] {
+  const order: ProjectScopeType[] = [
+    "New build",
+    "Renovation",
+    "Interior fit-out",
+  ];
+  const present = new Set(getAllProjects().map((p) => p.scopeType));
+  return order.filter((s) => present.has(s));
+}
+
 export function getYears(): number[] {
-  return Array.from(new Set(projects.map((p) => p.year))).sort((a, b) => b - a);
+  return Array.from(new Set(getAllProjects().map((p) => p.year))).sort(
+    (a, b) => b - a,
+  );
 }
 
 export function getLocations(): string[] {
-  return Array.from(new Set(projects.map((p) => p.location))).sort();
+  return Array.from(new Set(getAllProjects().map((p) => p.location))).sort();
 }
 
 export function getAdjacentProjects(slug: string): {

@@ -9,12 +9,17 @@ import { ProjectTestimonial } from "@/components/project-detail/project-testimon
 import { ProjectNav } from "@/components/project-detail/project-nav";
 import { FinalCta } from "@/components/home/final-cta";
 import { JsonLd } from "@/components/seo/json-ld";
-import { getAdjacentProjects, getProjectBySlug, projects } from "@/lib/projects";
+import {
+  getAdjacentProjects,
+  getAllProjects,
+  getProjectBySlug,
+} from "@/lib/projects";
 import { siteConfig } from "@/lib/site";
 import { breadcrumbSchema, projectSchema } from "@/lib/structured-data";
 
 export function generateStaticParams() {
-  return projects.map((p) => ({ slug: p.slug }));
+  // getAllProjects(), not the raw array — drafts must never be prerendered.
+  return getAllProjects().map((p) => ({ slug: p.slug }));
 }
 
 type Params = { params: Promise<{ slug: string }> };
