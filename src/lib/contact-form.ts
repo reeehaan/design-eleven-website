@@ -5,6 +5,7 @@ export const PROJECT_TYPES = [
   { value: "commercial-construction", label: "Commercial construction" },
   { value: "interior-finishing", label: "Interior finishing" },
   { value: "renovation", label: "Renovation / remodel" },
+  { value: "costing", label: "Costing / QS only" },
   { value: "other", label: "Something else" },
 ] as const;
 

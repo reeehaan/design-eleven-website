@@ -17,6 +17,7 @@ import {
   initialFormState,
   type ContactFormData,
   type FormStep,
+  PROJECT_TYPES,
 } from "@/lib/contact-form";
 import { submitContactForm } from "@/app/contact/actions";
 
@@ -29,8 +30,13 @@ export function ContactForm() {
   const siteKey = process.env.NEXT_PUBLIC_TURNSTILE_SITE_KEY;
 
   useEffect(() => {
+    // Validate against the enum — an unrecognised ?service= would otherwise
+    // seed an invalid projectType that only fails at submit.
     const service = searchParams.get("service");
-    if (service) dispatch({ type: "update", patch: { projectType: service } });
+    const known = PROJECT_TYPES.some((t) => t.value === service);
+    if (service && known) {
+      dispatch({ type: "update", patch: { projectType: service } });
+    }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
@@ -123,7 +129,7 @@ export function ContactForm() {
             )}
 
             {isFinalStep && !siteKey && (
-              <p className="mt-10 font-mono text-xs uppercase tracking-[0.08em] text-accent">
+              <p className="mt-10 font-mono text-xs uppercase tracking-[0.08em] text-verdigris">
                 Verification not configured — set NEXT_PUBLIC_TURNSTILE_SITE_KEY in .env.local.
               </p>
             )}
@@ -136,7 +142,7 @@ export function ContactForm() {
           type="button"
           onClick={() => dispatch({ type: "back" })}
           disabled={state.step === 1 || state.submission.status === "submitting"}
-          className="font-mono text-xs uppercase tracking-[0.08em] text-fg-muted transition-colors hover:text-accent disabled:cursor-not-allowed disabled:opacity-30 disabled:hover:text-fg-muted"
+          className="font-mono text-xs uppercase tracking-[0.08em] text-fg-muted transition-colors hover:text-verdigris disabled:cursor-not-allowed disabled:opacity-30 disabled:hover:text-fg-muted"
         >
           ← Back
         </button>
@@ -148,7 +154,7 @@ export function ContactForm() {
             state.submission.status === "submitting" ||
             (isFinalStep && !turnstileToken)
           }
-          className="inline-flex items-center gap-3 rounded-full bg-fg-primary px-6 py-3 text-sm font-medium text-bg-primary transition-colors hover:bg-accent disabled:opacity-60"
+          className="inline-flex items-center gap-3 rounded-full bg-fg-primary px-6 py-3 text-sm font-medium text-bg-primary transition-colors hover:bg-verdigris disabled:opacity-60"
         >
           {state.submission.status === "submitting" ? (
             "Sending…"
@@ -161,7 +167,7 @@ export function ContactForm() {
       </div>
 
       {state.submission.status === "error" && (
-        <p role="alert" className="mt-6 font-mono text-xs uppercase tracking-[0.08em] text-accent">
+        <p role="alert" className="mt-6 font-mono text-xs uppercase tracking-[0.08em] text-marking-deep">
           {state.submission.message}
         </p>
       )}
@@ -194,12 +200,12 @@ function SuccessView({ onReset }: { onReset: () => void }) {
       transition={{ duration: 0.5, ease: [0.22, 1, 0.36, 1] }}
       className="border-t border-surface-line py-section text-center md:py-section-lg"
     >
-      <span className="font-mono text-xs uppercase tracking-[0.08em] text-accent">
+      <span className="font-mono text-xs uppercase tracking-[0.08em] text-verdigris">
         Request received
       </span>
       <h2 className="mt-6 font-display text-display-lg text-fg-primary">
         Thanks &mdash;{" "}
-        <span className="italic text-fg-muted">we&rsquo;ll be in touch.</span>
+        <span className="text-fg-muted">we&rsquo;ll be in touch.</span>
       </h2>
       <p className="mx-auto mt-6 max-w-md text-body-lg text-fg-muted">
         We&rsquo;ll personally review your request and respond within 1 business day.
@@ -211,7 +217,7 @@ function SuccessView({ onReset }: { onReset: () => void }) {
       <button
         type="button"
         onClick={onReset}
-        className="mt-8 font-mono text-xs uppercase tracking-[0.08em] text-fg-subtle transition-colors hover:text-accent"
+        className="mt-8 font-mono text-xs uppercase tracking-[0.08em] text-fg-subtle transition-colors hover:text-verdigris"
       >
         Submit another request
       </button>
