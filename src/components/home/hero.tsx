@@ -1,106 +1,164 @@
 "use client";
 
 import Image from "next/image";
-import Link from "next/link";
-import { useEffect, useRef } from "react";
-import { gsap, reduced } from "@/lib/motion/gsap";
-import { ease } from "@/lib/motion/tokens";
+import { useRef } from "react";
+// Importing from this module is what registers ScrollTrigger and
+// ScrambleText, both of which this timeline uses via config rather than by
+// name.
+import { gsap, useGSAP } from "@/lib/motion/gsap";
+import { dur, ease, stagger } from "@/lib/motion/tokens";
+import { Button } from "@/components/ui/button";
 import { heroImages } from "@/lib/images";
 import { siteConfig } from "@/lib/site";
+import { getFeaturedProjects } from "@/lib/projects";
 
-/**
- * [DRAFT COPY] — a site engineer's sentence, not a slogan. Each line is masked
- * and revealed separately, so the markup is split by line on purpose.
- */
+// A site engineer's sentence, not a slogan. Split by line on purpose.
 const HEADLINE = ["We measure it,", "we price it,", "then we build it."];
 
 const META = [
-  { k: "EST.", v: String(siteConfig.established) },
-  { k: "BASE", v: "ANURADHAPURA" },
-  { k: "REG. NO.", v: siteConfig.businessRegNo },
-  { k: "LED BY", v: "QUANTITY SURVEYOR" },
-];
+  { k: "EST.", v: String(siteConfig.established), kind: "num" },
+  { k: "BASE", v: "ANURADHAPURA", kind: "word" },
+  { k: "REG. NO.", v: siteConfig.businessRegNo, kind: "num" },
+  { k: "LED BY", v: "QUANTITY SURVEYOR", kind: "word" },
+] as const;
 
 export function Hero() {
   const root = useRef<HTMLElement>(null);
 
-  useEffect(() => {
-    const el = root.current;
-    if (!el) return;
+  // Surfaces whatever is genuinely on site right now. Renders nothing when
+  // there is no live job, which is the honest state most of the time.
+  const onSite = getFeaturedProjects().find((p) => p.status === "in-progress");
 
-    const lines = el.querySelectorAll<HTMLElement>("[data-line]");
-    const fades = el.querySelectorAll<HTMLElement>("[data-fade]");
-    const frame = el.querySelector<HTMLElement>("[data-frame]");
-    const rules = el.querySelectorAll<HTMLElement>("[data-rule]");
+  useGSAP(
+    () => {
+      const mm = gsap.matchMedia();
 
-    if (reduced()) {
-      gsap.set([...lines, ...fades], { yPercent: 0, opacity: 1 });
-      if (frame) gsap.set(frame, { clipPath: "inset(0% 0% 0% 0%)" });
-      gsap.set(rules, { scaleX: 1 });
-      return;
-    }
+      mm.add("(prefers-reduced-motion: no-preference)", () => {
+        // One orchestrated load sequence, under 1.2s. Rules draw, type masks
+        // up by line, supporting copy and the image resolve last.
+        const tl = gsap.timeline({ defaults: { ease: ease.out } });
 
-    // One orchestrated load sequence, under 1.2s: rules draw, type masks up
-    // by line, image last. Runs once on mount, not on every route change.
-    const tl = gsap.timeline({ defaults: { ease: ease.out } });
+        tl.from("[data-rule]", {
+          scaleX: 0,
+          transformOrigin: "left center",
+          duration: dur.base,
+          stagger: stagger.tight,
+        })
+          .from(
+            "[data-line]",
+            {
+              yPercent: 110,
+              duration: dur.slow,
+              ease: ease.expo,
+              stagger: stagger.line,
+            },
+            0.1,
+          )
+          .from(
+            "[data-fade]",
+            {
+              opacity: 0,
+              y: 16,
+              duration: dur.base,
+              stagger: stagger.card,
+            },
+            0.45,
+          )
+          .from(
+            "[data-frame]",
+            { clipPath: "inset(0% 0% 100% 0%)", duration: dur.scene },
+            0.3,
+          );
 
-    tl.fromTo(rules, { scaleX: 0 }, { scaleX: 1, duration: 0.7, stagger: 0.05 })
-      .fromTo(
-        lines,
-        { yPercent: 110 },
-        { yPercent: 0, duration: 0.9, stagger: 0.08 },
-        0.15,
-      )
-      .fromTo(
-        fades,
-        { opacity: 0, y: 12 },
-        { opacity: 1, y: 0, duration: 0.6, stagger: 0.06 },
-        0.5,
-      );
+        // Title-block metadata decodes like an instrument settling on a
+        // reading — the one playful move, and it fires once.
+        const cells = gsap.utils.toArray<HTMLElement>("[data-meta]");
+        cells.forEach((cell, i) => {
+          tl.to(
+            cell,
+            {
+              duration: 0.8,
+              scrambleText: {
+                text: cell.dataset.value ?? "",
+                chars: cell.dataset.kind === "num" ? "0123456789" : "upperCase",
+                revealDelay: 0.25,
+                speed: 0.5,
+              },
+            },
+            0.7 + i * 0.08,
+          );
+        });
 
-    if (frame) {
-      tl.fromTo(
-        frame,
-        { clipPath: "inset(0% 0% 100% 0%)" },
-        { clipPath: "inset(0% 0% 0% 0%)", duration: 1 },
-        0.35,
-      );
-    }
+        return () => tl.kill();
+      });
 
-    return () => {
-      tl.kill();
-    };
-  }, []);
+      // Scroll recede: the scene gives way as the content below takes over.
+      // Two elements only, which keeps it inside the parallax budget.
+      mm.add("(min-width: 768px) and (prefers-reduced-motion: no-preference)", () => {
+        const st = gsap.timeline({
+          scrollTrigger: {
+            trigger: root.current,
+            start: "top top",
+            end: "bottom top",
+            scrub: 0.6,
+          },
+        });
+
+        st.to("[data-recede]", { opacity: 0.15, y: -40, ease: "none" }, 0).to(
+          "[data-frame]",
+          { scale: 1.08, ease: "none" },
+          0,
+        );
+
+        return () => {
+          st.scrollTrigger?.kill();
+          st.kill();
+        };
+      });
+
+      return () => mm.revert();
+    },
+    { scope: root },
+  );
 
   return (
     <section
       ref={root}
       aria-labelledby="hero-heading"
-      className="relative bg-ink text-paper"
+      className="relative overflow-hidden bg-ink text-paper"
     >
-      <div className="mx-auto w-full max-w-360 px-6 py-20 md:px-10 md:py-28 lg:px-16">
-        <div className="grid gap-14 lg:grid-cols-12 lg:gap-x-12">
-          {/* Copy column */}
-          <div className="lg:col-span-7">
-            <div
-              data-rule
-              className="h-px w-full origin-left bg-graphite"
-              aria-hidden="true"
-            />
-            <p
-              data-fade
-              className="mt-5 font-meta text-meta uppercase text-concrete"
-            >
-              {siteConfig.services.join(" · ")}
-            </p>
+      {/* Full sheet height, so the title block lands on the bottom edge the
+          way it does on a real drawing. */}
+      <div className="mx-auto flex min-h-[calc(100dvh-4rem)] w-full max-w-360 flex-col px-6 md:min-h-[calc(100dvh-5rem)] md:px-10 lg:px-16">
+        <div className="grid flex-1 items-center gap-12 py-10 lg:grid-cols-12 lg:items-stretch lg:gap-x-16 lg:py-12">
+          <div
+            data-recede
+            className="flex flex-col justify-center lg:col-span-7"
+          >
+            <div className="flex items-center gap-4">
+              <span className="shrink-0 whitespace-nowrap font-meta text-meta uppercase text-zinc">
+                A-100
+              </span>
+              {/* Decorative, and the first thing to go when space is tight */}
+              <span
+                data-rule
+                aria-hidden="true"
+                className="hidden h-px w-16 shrink-0 bg-graphite sm:block"
+              />
+              <span
+                data-fade
+                className="font-meta text-meta uppercase text-concrete"
+              >
+                {siteConfig.services.join(" · ")}
+              </span>
+            </div>
 
             <h1
               id="hero-heading"
               className="mt-10 font-title text-d1 font-medium text-paper"
             >
               {HEADLINE.map((line) => (
-                // Each line clips its own overflow so the mask reads cleanly.
-                <span key={line} className="block overflow-hidden pb-[0.08em]">
+                <span key={line} className="block overflow-hidden pb-[0.1em]">
                   <span data-line className="block">
                     {line}
                   </span>
@@ -108,24 +166,18 @@ export function Hero() {
               ))}
             </h1>
 
-            <p
-              data-fade
-              className="mt-10 max-w-measure text-lead text-concrete"
-            >
+            <p data-fade className="mt-10 max-w-measure text-lead text-concrete">
               Design Eleven is run by a qualified quantity surveyor. The
               estimate you sign is itemised line by line — so you can see what
               every rupee buys before anyone breaks ground.
             </p>
 
-            <div data-fade className="mt-12 flex flex-wrap items-center gap-5">
-              <Link
-                href="/projects"
-                className="inline-flex items-center justify-center bg-verdigris px-7 py-4 font-meta text-meta uppercase text-paper transition-[background-color,color] duration-150 hover:bg-paper hover:text-ink"
-              >
+            <div data-fade className="mt-12 flex flex-wrap items-center gap-6">
+              <Button href="/projects" variant="primary" onDark magnetic>
                 See the work
-              </Link>
+              </Button>
               <a
-                href={`tel:${siteConfig.contact.phone}`}
+                href={`tel:${siteConfig.contact.phone.replace(/\s/g, "")}`}
                 className="font-meta text-meta uppercase text-concrete underline-offset-4 transition-colors hover:text-verdigris-light hover:underline"
               >
                 or call {siteConfig.contact.phoneDisplay}
@@ -133,46 +185,92 @@ export function Hero() {
             </div>
           </div>
 
-          {/* Image column */}
-          <div className="lg:col-span-5">
+          {/* Bleeds off the right edge and fills the sheet height at lg, so
+              the two columns read as one composition rather than two boxes. */}
+          <div className="relative lg:col-span-5 lg:-mr-10 lg:w-[calc(100%+2.5rem)] xl:-mr-16 xl:w-[calc(100%+4rem)]">
             <div
               data-frame
-              className="relative aspect-4/5 w-full overflow-hidden bg-graphite"
+              className="relative aspect-4/5 w-full overflow-hidden bg-graphite lg:absolute lg:inset-0 lg:aspect-auto lg:h-full"
             >
               <Image
                 src={heroImages.home.src}
                 alt={heroImages.home.alt}
                 fill
                 priority
-                sizes="(min-width: 1024px) 40vw, 100vw"
+                sizes="(min-width: 1024px) 42vw, 100vw"
                 className="object-cover"
               />
+
+              {/* Caption sits on the image at lg, where there is no room
+                  beneath it. Scrim keeps the mono legible over any crop. */}
+              <div className="absolute inset-x-0 bottom-0 hidden bg-linear-to-t from-ink/80 to-transparent p-5 lg:block">
+                <div
+                  data-fade
+                  className="flex items-baseline justify-between gap-4"
+                >
+                  <p className="font-meta text-meta-sm uppercase text-concrete">
+                    PRJ-001 · Living room refresh
+                  </p>
+                  <p className="font-meta text-meta-sm uppercase text-concrete">
+                    Anuradhapura
+                  </p>
+                </div>
+              </div>
             </div>
+
             <p
               data-fade
-              className="mt-4 font-meta text-meta-sm uppercase text-zinc"
+              className="mt-4 font-meta text-meta-sm uppercase text-zinc lg:hidden"
             >
-              PRJ-001 · LIVING ROOM REFRESH · ANURADHAPURA
+              PRJ-001 · Living room refresh · Anuradhapura
             </p>
           </div>
         </div>
 
-        {/* Title block — real information, not decoration */}
-        <dl
-          data-fade
-          className="mt-20 grid grid-cols-2 border-l border-t border-graphite md:grid-cols-4"
-        >
-          {META.map((m) => (
-            <div key={m.k} className="border-b border-r border-graphite p-5">
+        {/* Title block, anchored to the bottom of the sheet */}
+        <dl className="grid grid-cols-2 border-t border-graphite md:grid-cols-4">
+          {META.map((m, i) => (
+            <div
+              key={m.k}
+              data-fade
+              className={`border-graphite py-5 md:py-6 ${
+                i > 0 ? "md:border-l md:pl-6" : ""
+              } ${i % 2 === 1 ? "border-l pl-5 md:pl-6" : ""} ${
+                i < 2 ? "border-b md:border-b-0" : ""
+              }`}
+            >
               <dt className="font-meta text-meta-sm uppercase text-zinc">
                 {m.k}
               </dt>
-              <dd className="mt-2 font-meta text-meta uppercase text-paper">
+              <dd
+                data-meta
+                data-value={m.v}
+                data-kind={m.kind}
+                className="mt-2 font-meta text-meta uppercase text-paper"
+              >
                 {m.v}
               </dd>
             </div>
           ))}
         </dl>
+
+        {onSite && (
+          <div
+            data-fade
+            className="flex items-center gap-3 border-t border-graphite py-4"
+          >
+            <span
+              aria-hidden="true"
+              className="h-1.5 w-1.5 shrink-0 rounded-full bg-verdigris-light"
+            />
+            <p className="font-meta text-meta-sm uppercase text-zinc">
+              On site now —{" "}
+              <span className="text-concrete">
+                {onSite.projectNo} · {onSite.title} · {onSite.location}
+              </span>
+            </p>
+          </div>
+        )}
       </div>
     </section>
   );
