@@ -3,7 +3,7 @@
 import Link from "next/link";
 import { useRef, type ReactNode } from "react";
 import { gsap, useGSAP } from "@/lib/motion/gsap";
-import { dur, ease, MQ } from "@/lib/motion/tokens";
+import { dur, ease, magnet, MQ } from "@/lib/motion/tokens";
 
 type Variant = "primary" | "ghost" | "inline";
 
@@ -36,11 +36,15 @@ export function Button({
   onClick?: () => void;
 }) {
   const ref = useRef<HTMLElement>(null);
+  const field = useRef<HTMLSpanElement>(null);
 
   useGSAP(
     () => {
       const el = ref.current;
-      if (!el) return;
+      // Pointer events land on the field, which never moves. Only `el`
+      // translates, so the hit area cannot escape the cursor.
+      const zone = field.current ?? el;
+      if (!el || !zone) return;
 
       const mm = gsap.matchMedia();
 
@@ -53,26 +57,35 @@ export function Button({
           const fill = el.querySelector<HTMLElement>("[data-fill]");
 
           // quickTo so rapid mouse movement replaces rather than queues tweens.
+          // inOut, not a decelerating curve: the swap should read as a
+          // mechanism travelling, which means it eases in as well as out.
           const topY = top
-            ? gsap.quickTo(top, "yPercent", { duration: dur.quick, ease: ease.expo })
+            ? gsap.quickTo(top, "yPercent", { duration: dur.hover, ease: ease.inOut })
             : null;
           const botY = bottom
-            ? gsap.quickTo(bottom, "yPercent", { duration: dur.quick, ease: ease.expo })
+            ? gsap.quickTo(bottom, "yPercent", { duration: dur.hover, ease: ease.inOut })
             : null;
 
           const magX = magnetic
-            ? gsap.quickTo(el, "x", { duration: dur.micro, ease: ease.out })
+            ? gsap.quickTo(el, "x", { duration: dur.quick, ease: ease.out })
             : null;
           const magY = magnetic
-            ? gsap.quickTo(el, "y", { duration: dur.micro, ease: ease.out })
+            ? gsap.quickTo(el, "y", { duration: dur.quick, ease: ease.out })
             : null;
-          const labelX = magnetic && top?.parentElement
-            ? gsap.quickTo(top.parentElement, "x", { duration: dur.micro, ease: ease.out })
+          const labelWrap = top?.parentElement;
+          const labelX = magnetic && labelWrap
+            ? gsap.quickTo(labelWrap, "x", { duration: dur.quick, ease: ease.out })
             : null;
+          const labelY = magnetic && labelWrap
+            ? gsap.quickTo(labelWrap, "y", { duration: dur.quick, ease: ease.out })
+            : null;
+
+          const clamp = (v: number) =>
+            Math.max(-magnet.max, Math.min(magnet.max, v));
 
           const onEnter = (e: PointerEvent) => {
             topY?.(-100);
-            botY?.(0);
+            botY?.(-100);
 
             // Fill wipes from the exact point the pointer crossed the edge.
             if (fill) {
@@ -82,15 +95,15 @@ export function Button({
               gsap.set(fill, { clipPath: `circle(0% at ${x}% ${y}%)` });
               gsap.to(fill, {
                 clipPath: `circle(150% at ${x}% ${y}%)`,
-                duration: dur.quick,
-                ease: ease.expo,
+                duration: dur.hover,
+                ease: ease.out,
               });
             }
           };
 
           const onLeave = (e: PointerEvent) => {
             topY?.(0);
-            botY?.(100);
+            botY?.(0);
 
             if (fill) {
               const r = el.getBoundingClientRect();
@@ -98,21 +111,21 @@ export function Button({
               const y = ((e.clientY - r.top) / r.height) * 100;
               gsap.to(fill, {
                 clipPath: `circle(0% at ${x}% ${y}%)`,
-                duration: dur.quick,
-                ease: ease.expo,
+                duration: dur.hover,
+                ease: ease.out,
               });
             }
 
             if (magnetic) {
               // Slight overshoot on release so it reads as elastic, not sticky.
-              gsap.to(el, {
-                x: 0,
-                y: 0,
-                duration: dur.quick,
-                ease: "back.out(2)",
-              });
-              if (top?.parentElement) {
-                gsap.to(top.parentElement, { x: 0, duration: dur.quick, ease: "back.out(2)" });
+              gsap.to(el, { x: 0, y: 0, duration: dur.hover, ease: "back.out(1.7)" });
+              if (labelWrap) {
+                gsap.to(labelWrap, {
+                  x: 0,
+                  y: 0,
+                  duration: dur.hover,
+                  ease: "back.out(1.7)",
+                });
               }
             }
           };
@@ -120,20 +133,14 @@ export function Button({
           const onMove = (e: PointerEvent) => {
             if (!magnetic) return;
             const r = el.getBoundingClientRect();
-            const cx = r.left + r.width / 2;
-            const cy = r.top + r.height / 2;
-            const dx = e.clientX - cx;
-            const dy = e.clientY - cy;
-            const dist = Math.hypot(dx, dy);
-            const RADIUS = 90;
-            if (dist > RADIUS) return;
-
-            const pull = 1 - dist / RADIUS;
-            magX?.(dx * 0.35 * pull);
-            magY?.(dy * 0.35 * pull);
-            // Label moves less than the button — that offset is what sells it.
-            labelX?.(dx * 0.18 * pull);
+            const dx = e.clientX - (r.left + r.width / 2);
+            const dy = e.clientY - (r.top + r.height / 2);
+            magX?.(clamp(dx * magnet.pull));
+            magY?.(clamp(dy * magnet.pull));
+            labelX?.(clamp(dx * magnet.labelPull));
+            labelY?.(clamp(dy * magnet.labelPull));
           };
+
 
           const onDown = () => gsap.to(el, { scale: 0.98, duration: dur.micro });
           const onUp = () => gsap.to(el, { scale: 1, duration: dur.micro });
@@ -141,18 +148,18 @@ export function Button({
             if (e.key === " " || e.key === "Enter") onDown();
           };
 
-          el.addEventListener("pointerenter", onEnter);
-          el.addEventListener("pointerleave", onLeave);
-          el.addEventListener("pointermove", onMove);
+          zone.addEventListener("pointerenter", onEnter);
+          zone.addEventListener("pointerleave", onLeave);
+          zone.addEventListener("pointermove", onMove);
           el.addEventListener("pointerdown", onDown);
           el.addEventListener("pointerup", onUp);
           el.addEventListener("keydown", onKey);
           el.addEventListener("keyup", onUp);
 
           return () => {
-            el.removeEventListener("pointerenter", onEnter);
-            el.removeEventListener("pointerleave", onLeave);
-            el.removeEventListener("pointermove", onMove);
+            zone.removeEventListener("pointerenter", onEnter);
+            zone.removeEventListener("pointerleave", onLeave);
+            zone.removeEventListener("pointermove", onMove);
             el.removeEventListener("pointerdown", onDown);
             el.removeEventListener("pointerup", onUp);
             el.removeEventListener("keydown", onKey);
@@ -163,7 +170,7 @@ export function Button({
 
       return () => mm.revert();
     },
-    { scope: ref, dependencies: [magnetic] },
+    { scope: field, dependencies: [magnetic] },
   );
 
   const base =
@@ -203,7 +210,11 @@ export function Button({
         />
       )}
 
-      {/* Two stacked labels; the top slides out as the bottom arrives. */}
+      {/* Two stacked labels; the top slides out as the bottom arrives.
+          The resting offset is `top-full`, not a translate utility: Tailwind
+          writes those to the `translate` property, which GSAP clears the
+          moment it animates `transform`, leaving the label outside the clip
+          window and the button apparently empty on hover. */}
       <span className="relative block overflow-hidden">
         <span data-label-top className={`block transition-colors ${hoverText}`}>
           {children}
@@ -211,7 +222,7 @@ export function Button({
         <span
           data-label-bottom
           aria-hidden="true"
-          className={`absolute left-0 top-0 block translate-y-full ${hoverText}`}
+          className={`absolute left-0 top-full block transition-colors ${hoverText}`}
         >
           {children}
         </span>
@@ -228,20 +239,16 @@ export function Button({
     </>
   );
 
-  if (href) {
-    return (
-      <Link
-        // @ts-expect-error — shared ref across button/anchor renders
-        ref={ref}
-        href={href}
-        className={`${base} ${variants[variant]} ${className ?? ""}`}
-      >
-        {content}
-      </Link>
-    );
-  }
-
-  return (
+  const inner = href ? (
+    <Link
+      // @ts-expect-error — shared ref across button/anchor renders
+      ref={ref}
+      href={href}
+      className={`${base} ${variants[variant]} ${className ?? ""}`}
+    >
+      {content}
+    </Link>
+  ) : (
     <button
       // @ts-expect-error — shared ref across button/anchor renders
       ref={ref}
@@ -254,5 +261,22 @@ export function Button({
     >
       {content}
     </button>
+  );
+
+  // The magnetic field. Padding extends the pointer target past the button
+  // and the matching negative margin keeps layout identical, so the field
+  // stays still while the button moves inside it.
+  return (
+    <span
+      ref={field}
+      className="relative inline-flex"
+      style={
+        magnetic
+          ? { padding: magnet.field, margin: -magnet.field }
+          : undefined
+      }
+    >
+      {inner}
+    </span>
   );
 }

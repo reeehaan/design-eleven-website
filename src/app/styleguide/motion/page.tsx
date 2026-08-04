@@ -213,8 +213,7 @@ export default function MotionStyleguide() {
           </div>
           <ul className="mt-8 max-w-measure space-y-2 text-copy text-graphite">
             <li>· Hover: label swaps upward, fill wipes from the pointer.</li>
-            <li>· Primary is magnetic within 90px; the label lags the button.</li>
-            <li>· Press scales to 0.98 on pointer AND on Space/Enter.</li>
+                        <li>· Press scales to 0.98 on pointer AND on Space/Enter.</li>
             <li>· Focus ring is instant — never animated.</li>
           </ul>
         </Bay>

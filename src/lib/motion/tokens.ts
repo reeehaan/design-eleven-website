@@ -4,11 +4,24 @@
  */
 
 export const dur = {
-  micro: 0.18, // press, toggle, hover-in
-  quick: 0.4, // label swaps, underlines
+  micro: 0.18, // press, toggle
+  quick: 0.4, // underlines, small state changes
+  hover: 0.65, // label swaps and fill wipes — deliberately unhurried
   base: 0.7, // element reveals
   slow: 1.0, // hero lines, section headers
   scene: 1.4, // orchestrated load sequence
+} as const;
+
+/**
+ * Magnetic pull. The field is larger than the button and never moves, so the
+ * button cannot translate out from under the pointer — doing that fires
+ * pointerleave, springs it back, and oscillates.
+ */
+export const magnet = {
+  field: 28, // px the field extends past the button on every side
+  pull: 0.28, // fraction of pointer offset the button travels
+  labelPull: 0.14, // label lags the button; that offset is what sells it
+  max: 10, // px cap, so it stays a nudge
 } as const;
 
 export const ease = {
