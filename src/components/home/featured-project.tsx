@@ -61,7 +61,7 @@ export function FeaturedProject({
 
                 <h3
                   id={`project-${project.slug}-title`}
-                  className="mt-5 font-display text-display-md text-fg-primary transition-colors group-hover:text-accent"
+                  className="mt-5 font-display text-display-md text-fg-primary transition-colors group-hover:text-verdigris"
                 >
                   {project.title}
                 </h3>
@@ -98,7 +98,7 @@ export function FeaturedProject({
                 )}
               </dl>
 
-              <span className="mt-8 inline-flex items-baseline gap-3 text-sm font-medium text-accent">
+              <span className="mt-8 inline-flex items-baseline gap-3 text-sm font-medium text-verdigris">
                 <span className="border-b border-current pb-1">View project</span>
                 <span
                   aria-hidden="true"

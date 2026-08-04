@@ -1,88 +1,163 @@
-import { Container } from "@/components/ui/container";
-import { EyebrowLabel } from "@/components/ui/eyebrow-label";
-import { Reveal } from "@/components/ui/reveal";
+"use client";
+
+import { useEffect, useRef, useState } from "react";
+import { ScrollTrigger, reduced } from "@/lib/motion/gsap";
 
 type Step = {
+  ref: string;
   title: string;
   description: string;
+  decision: string;
   duration: string;
 };
 
+/** Genuinely sequential, so the drawing-reference numbering is earned. */
 const steps: Step[] = [
   {
-    title: "Site Visit",
+    ref: "A-201",
+    title: "Site visit",
     description:
-      "We come to your property, listen to what you want, and look at what's possible. No commitment.",
-    duration: "Day 1",
+      "We come to the property, listen to what you want, and look at what the site will actually allow. Access, ground conditions, services, boundaries.",
+    decision: "You decide: whether the scope we describe is the job you want.",
+    duration: "DAY 1",
   },
   {
-    title: "Estimate",
+    ref: "A-202",
+    title: "Itemised estimate",
     description:
-      "Itemised written quote. Materials, labour, timeline, payment milestones — all in writing before we start.",
-    duration: "Within 1 week",
+      "A written quote broken down line by line — materials, labour, timeline, payment milestones. Priced by a quantity surveyor, not guessed at.",
+    decision: "You decide: what stays in, what comes out, what gets deferred.",
+    duration: "WITHIN 1 WEEK",
   },
   {
+    ref: "A-203",
     title: "Build",
     description:
-      "We start on the agreed date. Weekly site updates, photos, and a single point of contact throughout.",
-    duration: "Per project",
+      "We start on the agreed date. Weekly photos and a written update, one point of contact, and any variation priced in writing before it happens.",
+    decision: "You decide: finishes and fittings, at the points we flag.",
+    duration: "PER PROJECT",
   },
   {
+    ref: "A-204",
     title: "Handover",
     description:
-      "Walk-through, defect check, all documents handed over. We stand behind our work after handover too.",
-    duration: "Final week",
+      "Walk-through, defect list, and every document handed over — approvals, warranties, as-built notes. We come back to close out defects.",
+    decision: "You decide: sign-off, once the defect list is clear.",
+    duration: "FINAL WEEK",
   },
 ];
 
 export function Process() {
+  const root = useRef<HTMLOListElement>(null);
+  const [activeIdx, setActiveIdx] = useState(0);
+
+  useEffect(() => {
+    const el = root.current;
+    if (!el) return;
+
+    // Below md the sticky column is killed and every step reads as plain
+    // stacked content — the copy is complete without the interaction.
+    const mm = window.matchMedia("(min-width: 768px)");
+    if (!mm.matches || reduced()) return;
+
+    const items = el.querySelectorAll<HTMLElement>("[data-step]");
+    const triggers = Array.from(items).map((item, i) =>
+      ScrollTrigger.create({
+        trigger: item,
+        start: "top 60%",
+        end: "bottom 60%",
+        onToggle: (self) => {
+          if (self.isActive) setActiveIdx(i);
+        },
+      }),
+    );
+
+    return () => triggers.forEach((t) => t.kill());
+  }, []);
+
   return (
     <section
       aria-labelledby="process-heading"
-      className="border-t border-surface-line bg-bg-secondary py-section md:py-section-lg"
+      className="border-t border-graphite bg-ink text-paper"
     >
-      <Container>
-        <Reveal>
-          <div className="grid gap-8 md:grid-cols-12 md:items-end">
-            <div className="md:col-span-7">
-              <EyebrowLabel number="03">How we work</EyebrowLabel>
+      <div className="mx-auto w-full max-w-360 px-6 py-20 md:px-10 md:py-28 lg:px-16">
+        <div className="md:grid md:grid-cols-12 md:gap-x-12">
+          {/* Sticky column — holds the heading and a live step counter */}
+          <div className="md:col-span-5">
+            <div className="md:sticky md:top-28">
+              <p className="font-meta text-meta uppercase text-zinc">
+                A-200 · How a job runs
+              </p>
               <h2
                 id="process-heading"
-                className="mt-6 font-display text-display-lg text-fg-primary"
+                className="mt-8 font-title text-d2 font-medium text-paper"
               >
-                A simple,{" "}
-                <span className="italic text-fg-muted">honest</span> process.
+                Four steps, and you know the price before the second one ends.
               </h2>
-            </div>
-            <div className="md:col-span-5 md:pb-3 md:pl-8">
-              <p className="max-w-md text-body-lg text-fg-muted">
-                Four steps from your first call to handover. No surprises, no
-                vague timelines, no hidden costs.
+              <p className="mt-8 max-w-measure text-lead text-concrete">
+                Most of what goes wrong on a build goes wrong because nobody
+                agreed what was included. This is how we avoid that.
               </p>
+
+              {/* Progress — the only accent in this section */}
+              <div
+                className="mt-12 hidden md:block"
+                aria-hidden="true"
+              >
+                <div className="flex items-center gap-3">
+                  {steps.map((s, i) => (
+                    <span
+                      key={s.ref}
+                      className={`h-px flex-1 transition-colors duration-500 ${
+                        i <= activeIdx ? "bg-verdigris-light" : "bg-graphite"
+                      }`}
+                    />
+                  ))}
+                </div>
+                <p className="mt-4 font-meta text-meta-sm uppercase text-zinc">
+                  Step {String(activeIdx + 1).padStart(2, "0")} of{" "}
+                  {String(steps.length).padStart(2, "0")} ·{" "}
+                  {steps[activeIdx].duration}
+                </p>
+              </div>
             </div>
           </div>
-        </Reveal>
 
-        <ol className="mt-16 grid gap-12 md:mt-24 md:grid-cols-4 md:gap-x-6">
-          {steps.map((step, i) => (
-            <Reveal key={step.title} as="li" delay={i * 0.08}>
-              <div className="flex items-center gap-4">
-                <span className="font-mono text-xs text-fg-muted">
-                  {(i + 1).toString().padStart(2, "0")}
-                </span>
-                <span aria-hidden="true" className="h-px flex-1 bg-surface-line" />
-              </div>
-              <h3 className="mt-6 font-display text-3xl text-fg-primary">
-                {step.title}
-              </h3>
-              <p className="mt-3 text-body text-fg-muted">{step.description}</p>
-              <span className="mt-5 inline-block font-mono text-xs uppercase tracking-[0.08em] text-fg-subtle">
-                {step.duration}
-              </span>
-            </Reveal>
-          ))}
-        </ol>
-      </Container>
+          {/* Steps */}
+          <ol ref={root} className="mt-16 md:col-span-7 md:mt-0">
+            {steps.map((step, i) => (
+              <li
+                key={step.ref}
+                data-step
+                className="border-t border-graphite py-10 first:border-t-0 first:pt-0 md:py-16"
+              >
+                <div className="flex items-baseline gap-5">
+                  <span
+                    className={`font-meta text-meta uppercase transition-colors duration-500 ${
+                      i === activeIdx ? "text-verdigris-light" : "text-zinc"
+                    }`}
+                  >
+                    {step.ref}
+                  </span>
+                  <span className="font-meta text-meta-sm uppercase text-zinc">
+                    {step.duration}
+                  </span>
+                </div>
+
+                <h3 className="mt-6 font-title text-d3 font-medium text-paper">
+                  {step.title}
+                </h3>
+                <p className="mt-5 max-w-measure text-copy text-concrete">
+                  {step.description}
+                </p>
+                <p className="mt-5 max-w-measure border-l border-graphite pl-5 font-meta text-meta-sm uppercase text-zinc">
+                  {step.decision}
+                </p>
+              </li>
+            ))}
+          </ol>
+        </div>
+      </div>
     </section>
   );
 }

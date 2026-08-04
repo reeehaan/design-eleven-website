@@ -24,7 +24,7 @@ export function FinalCta() {
               className="mt-6 font-display text-display-xl leading-[0.9] text-bg-primary"
             >
               Let&rsquo;s{" "}
-              <span className="italic text-accent">build</span>.
+              <span className="text-verdigris-light">build</span>.
             </h2>
             <p className="mt-8 max-w-md text-body-lg text-bg-primary/70">
               A site visit and an estimate cost nothing. Tell us what
@@ -33,7 +33,7 @@ export function FinalCta() {
             </p>
             <Link
               href="/contact"
-              className="mt-10 inline-flex items-center gap-3 rounded-full bg-accent px-8 py-4 text-base font-medium text-bg-primary transition-colors hover:bg-bg-primary hover:text-surface-dark"
+              className="mt-10 inline-flex items-center gap-3 rounded-full bg-verdigris px-8 py-4 text-base font-medium text-bg-primary transition-colors hover:bg-bg-primary hover:text-surface-dark"
             >
               Request a quote
               <span aria-hidden="true">→</span>
@@ -49,7 +49,7 @@ export function FinalCta() {
                 </span>
                 <a
                   href={`tel:${phoneTel}`}
-                  className="mt-3 block font-display text-3xl text-bg-primary transition-colors hover:text-accent md:text-4xl"
+                  className="mt-3 block font-display text-3xl text-bg-primary transition-colors hover:text-verdigris-light md:text-4xl"
                 >
                   {siteConfig.contact.phoneDisplay}
                 </a>
@@ -67,13 +67,13 @@ export function FinalCta() {
                     href={whatsappUrl}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="text-bg-primary transition-colors hover:text-accent"
+                    className="text-bg-primary transition-colors hover:text-verdigris-light"
                   >
                     WhatsApp →
                   </a>
                   <a
                     href={`mailto:${siteConfig.contact.email}`}
-                    className="text-bg-primary transition-colors hover:text-accent"
+                    className="text-bg-primary transition-colors hover:text-verdigris-light"
                   >
                     Email →
                   </a>

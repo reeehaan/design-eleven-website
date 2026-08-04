@@ -29,7 +29,7 @@ export function ServicesList() {
                 className="mt-6 font-display text-display-lg text-fg-primary"
               >
                 Everything you need,{" "}
-                <span className="italic text-fg-muted">under one roof</span>.
+                <span className="text-fg-muted">under one roof</span>.
               </h2>
             </div>
             <div className="md:col-span-5 md:pb-3 md:pl-8">
@@ -93,7 +93,7 @@ export function ServicesList() {
                   </span>
 
                   <div className="flex-1">
-                    <h3 className="font-display text-4xl text-fg-primary transition-colors group-hover:text-accent md:text-5xl">
+                    <h3 className="font-display text-4xl text-fg-primary transition-colors group-hover:text-verdigris md:text-5xl">
                       {service.title}
                     </h3>
                     <p className="mt-3 max-w-md text-body text-fg-muted md:mt-4">
@@ -114,7 +114,7 @@ export function ServicesList() {
 
                   <span
                     aria-hidden="true"
-                    className="font-mono text-xs text-fg-subtle transition-transform duration-300 group-hover:translate-x-1 group-hover:text-accent md:shrink-0"
+                    className="font-mono text-xs text-fg-subtle transition-transform duration-300 group-hover:translate-x-1 group-hover:text-verdigris md:shrink-0"
                   >
                     →
                   </span>
