@@ -1,7 +1,6 @@
 import type { Metadata } from "next";
 import { Suspense } from "react";
-import { PageHero } from "@/components/ui/page-hero";
-import { Container } from "@/components/ui/container";
+import { WorkHeader } from "@/components/projects/work-header";
 import { ProjectsGrid } from "@/components/projects/projects-grid";
 import { FinalCta } from "@/components/home/final-cta";
 import { siteConfig } from "@/lib/site";
@@ -20,30 +19,26 @@ export const metadata: Metadata = {
 export default function ProjectsPage() {
   return (
     <>
-      <PageHero
-        eyebrow="Projects"
-        title="Selected work,"
-        titleAccent="across Sri Lanka."
-        intro="Filter by category or year. Click any project to see the full story — process, materials, and the finished result."
-      />
+      <WorkHeader />
 
-      <Container as="section" className="py-section-sm md:py-section">
-        <Suspense fallback={<GridFallback />}>
-          <ProjectsGrid />
-        </Suspense>
-      </Container>
+      <Suspense fallback={<GridFallback />}>
+        <ProjectsGrid />
+      </Suspense>
 
       <FinalCta />
     </>
   );
 }
 
+/** Matches the filter bar's height, so the header doesn't jump when it lands. */
 function GridFallback() {
   return (
-    <div className="border-y border-surface-line py-6 md:py-8">
-      <span className="font-mono text-xs uppercase tracking-[0.08em] text-fg-muted">
-        Loading projects…
-      </span>
+    <div className="border-b border-concrete">
+      <div className="mx-auto w-full max-w-360 px-6 py-4 md:px-10 lg:px-16">
+        <span className="flex min-h-11 items-center font-meta text-meta-sm uppercase text-zinc md:min-h-10">
+          Loading projects…
+        </span>
+      </div>
     </div>
   );
 }

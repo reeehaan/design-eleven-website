@@ -25,15 +25,17 @@ export function ProjectsGrid() {
   }, [allProjects, categoryFilter, yearFilter]);
 
   return (
-    <div>
+    <>
+      {/* Outside the container: the bar is sticky and spans the full width, so
+          it can't sit inside the grid's padded wrapper. */}
       <ProjectsFilters
+        projects={allProjects}
         categories={categories}
         years={years}
         resultCount={filtered.length}
-        totalCount={allProjects.length}
       />
 
-      <div className="mt-12 md:mt-16">
+      <div className="mx-auto w-full max-w-360 px-6 py-12 md:px-10 md:py-16 lg:px-16">
         <AnimatePresence mode="popLayout">
           {filtered.length === 0 ? (
             <EmptyState key="empty" />
@@ -50,7 +52,7 @@ export function ProjectsGrid() {
           )}
         </AnimatePresence>
       </div>
-    </div>
+    </>
   );
 }
 
@@ -61,15 +63,15 @@ function EmptyState() {
       animate={{ opacity: 1, y: 0 }}
       exit={{ opacity: 0 }}
       transition={{ duration: 0.4 }}
-      className="border-y border-surface-line py-section text-center"
+      className="border-y border-concrete py-20 text-center md:py-28"
     >
-      <span className="font-mono text-xs uppercase tracking-[0.08em] text-fg-subtle">
+      <span className="font-meta text-meta-sm uppercase text-zinc">
         No projects match
       </span>
-      <p className="mt-4 font-display text-2xl text-fg-primary md:text-3xl">
+      <p className="mt-4 font-title text-d3 font-medium text-ink">
         Try a different filter combination,
         <br className="hidden sm:inline" />
-        <span className="text-fg-muted"> or clear them all.</span>
+        <span className="text-zinc"> or reset them all.</span>
       </p>
     </motion.div>
   );
