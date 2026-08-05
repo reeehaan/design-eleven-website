@@ -1,6 +1,6 @@
 import Image from "next/image";
-import { Container } from "@/components/ui/container";
-import { EyebrowLabel } from "@/components/ui/eyebrow-label";
+import { Eyebrow } from "@/components/motion/eyebrow";
+import { RevealLines } from "@/components/motion/reveal-lines";
 import { Reveal } from "@/components/ui/reveal";
 import { aboutImages } from "@/lib/images";
 import { siteConfig } from "@/lib/site";
@@ -9,62 +9,80 @@ export function OwnerStory() {
   return (
     <section
       aria-labelledby="owner-story-heading"
-      className="py-section md:py-section-lg"
+      className="border-t border-concrete bg-paper"
     >
-      <Container>
-        <div className="grid gap-12 md:grid-cols-12 md:gap-x-10">
-          <Reveal className="md:col-span-5">
-            <div className="relative aspect-[4/5] w-full overflow-hidden bg-bg-secondary">
+      <div className="mx-auto w-full max-w-360 px-6 py-20 md:px-10 md:py-24 lg:px-16">
+        <div className="grid gap-x-12 gap-y-10 lg:grid-cols-12">
+          <Reveal className="lg:col-span-5">
+            <div className="relative aspect-4/5 w-full overflow-hidden bg-paper-sunk">
               <Image
                 src={aboutImages.owner.src}
                 alt={aboutImages.owner.alt}
                 fill
                 priority
-                sizes="(min-width: 768px) 42vw, 100vw"
+                sizes="(min-width: 1024px) 40vw, 100vw"
                 className="object-cover"
               />
             </div>
-            <p className="mt-4 font-mono text-xs uppercase tracking-[0.08em] text-fg-muted">
-              <span className="text-fg-subtle">PORTRAIT —</span>{" "}
-              {siteConfig.owner}, founder
+
+            {/* Photo caption in the title-block voice, same as a drawing sheet */}
+            <p className="mt-4 font-meta text-meta-sm uppercase text-zinc">
+              Portrait — {siteConfig.owner}, founder
             </p>
           </Reveal>
 
-          <Reveal className="md:col-span-6 md:col-start-7 md:py-8" delay={0.1}>
-            <EyebrowLabel number="01">The story</EyebrowLabel>
-            <h2
+          <div className="lg:col-span-6 lg:col-start-7">
+            <Eyebrow>B-01 &middot; The story</Eyebrow>
+            <RevealLines
+              as="h2"
               id="owner-story-heading"
-              className="mt-6 font-display text-display-md text-fg-primary"
+              className="mt-8 max-w-[18ch] font-title text-d2 font-medium text-ink"
             >
-              A small crew,{" "}
-              <span className="text-fg-muted">careful work</span>.
-            </h2>
+              A small crew, <span className="text-zinc">careful work.</span>
+            </RevealLines>
 
-            <div className="mt-8 flex flex-col gap-5 text-body-lg text-fg-muted">
-              <p>
-                {siteConfig.name} was founded in {siteConfig.established} by{" "}
-                {siteConfig.owner} after years working on residential and
-                commercial sites across Sri Lanka. The decision to start
-                independently came from a simple frustration: too many projects
-                were being managed by people who weren&apos;t actually on site.
-              </p>
-              <p>
-                Today, we&apos;re a small, owner-led crew. Our principal is at
-                every site visit, every key decision, every handover. We
-                don&apos;t take on more projects than we can supervise
-                properly &mdash; that&apos;s the trade-off, and it&apos;s one
-                we&apos;re happy to make.
-              </p>
-              <p>
-                Our work spans residential builds, commercial construction,
-                and interior finishing &mdash; but the throughline is the
-                same: clear communication, honest pricing, and craftsmanship
-                we&apos;d be proud to put our name on.
-              </p>
-            </div>
-          </Reveal>
+            <Reveal className="mt-8">
+              <div className="flex max-w-measure flex-col gap-5 text-copy text-graphite">
+                <p>
+                  {siteConfig.name} was founded in {siteConfig.established} by{" "}
+                  {siteConfig.owner}
+                  {/* Explicit: the transform strips the space between an
+                      expression and the text that follows it on a wrapped
+                      line, which rendered "Thilakarathneafter". */}{" "}
+                  after years working on residential and commercial sites
+                  across Sri Lanka. The decision to start
+                  independently came from a simple frustration: too many
+                  projects were being managed by people who weren&apos;t
+                  actually on site.
+                </p>
+                <p>
+                  Today we are a small, owner-led crew. Our principal is at
+                  every site visit, every key decision, every handover. We do
+                  not take on more projects than we can supervise properly —
+                  that is the trade-off, and it is one we are happy to make.
+                </p>
+                <p>
+                  The work spans residential builds, commercial construction and
+                  interior finishing, but the throughline is the same: clear
+                  communication, honest pricing, and craftsmanship we would put
+                  our name on.
+                </p>
+              </div>
+
+              {/* The qualification is the load-bearing fact in this section —
+                  a QS pricing the job is what the rest of the site claims. */}
+              <dl className="mt-8 border-t border-concrete pt-5">
+                <dt className="font-meta text-meta-sm uppercase text-zinc">
+                  {siteConfig.ownerTitle}
+                </dt>
+                <dd className="mt-2 font-meta text-meta uppercase text-ink">
+                  {siteConfig.ownerCredentials}
+                </dd>
+              </dl>
+            </Reveal>
+          </div>
         </div>
-      </Container>
+      </div>
     </section>
   );
 }

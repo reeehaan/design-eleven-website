@@ -1,10 +1,13 @@
-import { Container } from "@/components/ui/container";
-import { EyebrowLabel } from "@/components/ui/eyebrow-label";
-import { Reveal } from "@/components/ui/reveal";
-import { TwoColumn } from "@/components/ui/two-column";
-import { NumberedList, type NumberedItem } from "@/components/ui/numbered-list";
+import { Eyebrow } from "@/components/motion/eyebrow";
+import { RevealLines } from "@/components/motion/reveal-lines";
+import { RevealItems } from "@/components/motion/reveal-items";
 
-const principles: NumberedItem[] = [
+type Principle = {
+  title: string;
+  description: string;
+};
+
+const principles: Principle[] = [
   {
     title: "We finish what we start.",
     description:
@@ -31,34 +34,56 @@ export function Principles() {
   return (
     <section
       aria-labelledby="principles-heading"
-      className="border-t border-surface-line bg-bg-secondary py-section md:py-section-lg"
+      className="border-t border-concrete bg-paper-sunk"
     >
-      <Container>
-        <Reveal>
-          <TwoColumn
-            primary={
-              <>
-                <EyebrowLabel number="02">Principles</EyebrowLabel>
-                <h2
-                  id="principles-heading"
-                  className="mt-6 font-display text-display-lg text-fg-primary"
-                >
-                  How we{" "}
-                  <span className="text-fg-muted">actually</span> work.
-                </h2>
-              </>
-            }
-            secondary={
-              <p className="max-w-md text-body-lg text-fg-muted md:pb-3">
-                Four things we hold ourselves to, on every project, regardless
-                of size.
-              </p>
-            }
-          />
-        </Reveal>
+      <div className="mx-auto w-full max-w-360 px-6 py-20 md:px-10 md:py-24 lg:px-16">
+        <div className="grid gap-8 lg:grid-cols-12 lg:items-end">
+          <div className="lg:col-span-7">
+            <Eyebrow>B-02 &middot; Principles</Eyebrow>
+            <RevealLines
+              as="h2"
+              id="principles-heading"
+              className="mt-8 max-w-[16ch] font-title text-d2 font-medium text-ink"
+            >
+              How we <span className="text-zinc">actually work.</span>
+            </RevealLines>
+          </div>
+          <div className="lg:col-span-5 lg:pb-2">
+            <p className="max-w-measure text-lead text-graphite">
+              Four things we hold ourselves to, on every project, regardless of
+              size.
+            </p>
+          </div>
+        </div>
 
-        <NumberedList items={principles} columns={2} className="mt-16 md:mt-24" />
-      </Container>
+        {/* Numbered on a rule, the way a spec clause is — these are
+            commitments, not features, and the numbering says so. */}
+        <RevealItems
+          as="ol"
+          className="mt-14 grid gap-x-12 gap-y-12 md:mt-16 md:grid-cols-2"
+          selector=":scope > li"
+        >
+          {principles.map((p, i) => (
+            <li key={p.title}>
+              <div className="flex items-baseline gap-5">
+                <span
+                  aria-hidden="true"
+                  className="font-meta text-meta-sm uppercase text-zinc"
+                >
+                  {String(i + 1).padStart(2, "0")}
+                </span>
+                <span aria-hidden="true" className="h-px flex-1 bg-concrete" />
+              </div>
+              <h3 className="mt-5 max-w-[18ch] font-title text-d4 font-medium text-ink">
+                {p.title}
+              </h3>
+              <p className="mt-3 max-w-measure text-copy text-graphite">
+                {p.description}
+              </p>
+            </li>
+          ))}
+        </RevealItems>
+      </div>
     </section>
   );
 }

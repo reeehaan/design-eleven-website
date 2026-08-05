@@ -1,70 +1,68 @@
-import { Container } from "@/components/ui/container";
-import { EyebrowLabel } from "@/components/ui/eyebrow-label";
+import { Eyebrow } from "@/components/motion/eyebrow";
+import { RevealLines } from "@/components/motion/reveal-lines";
 import { Reveal } from "@/components/ui/reveal";
-import { TwoColumn } from "@/components/ui/two-column";
 
 type Capability = {
   label: string;
   value: string;
 };
 
+/**
+ * Crew size and concurrent projects used to head this list. They are now the
+ * second and third cells of the page masthead, so repeating them here put the
+ * same two numbers on screen twice before the reader had scrolled once.
+ */
 const capabilities: Capability[] = [
-  { label: "Crew size", value: "8–12 skilled workers" },
-  { label: "Concurrent projects", value: "2–3 maximum" },
   { label: "Project sizes", value: "500 sqft – 10,000+ sqft" },
-  { label: "Service area", value: "Western Province · island-wide on request" },
   { label: "Build types", value: "Residential · commercial · interior" },
-  { label: "Project lead time", value: "2–6 weeks from estimate to start" },
+  { label: "Service area", value: "Western Province · island-wide on request" },
+  { label: "Lead time", value: "2–6 weeks from estimate to start" },
 ];
 
 export function Capabilities() {
   return (
     <section
       aria-labelledby="capabilities-heading"
-      className="py-section md:py-section-lg"
+      className="border-t border-concrete bg-paper"
     >
-      <Container>
-        <Reveal>
-          <TwoColumn
-            primary={
-              <>
-                <EyebrowLabel number="03">Capabilities</EyebrowLabel>
-                <h2
-                  id="capabilities-heading"
-                  className="mt-6 font-display text-display-lg text-fg-primary"
-                >
-                  What we can{" "}
-                  <span className="text-fg-muted">deliver</span>.
-                </h2>
-              </>
-            }
-            secondary={
-              <p className="max-w-md text-body-lg text-fg-muted md:pb-3">
-                Honest about what we&apos;re built for. If a project is outside
-                our scope, we&apos;ll tell you — and recommend someone who fits.
-              </p>
-            }
-          />
-        </Reveal>
+      <div className="mx-auto w-full max-w-360 px-6 py-20 md:px-10 md:py-24 lg:px-16">
+        <div className="grid gap-8 lg:grid-cols-12 lg:items-end">
+          <div className="lg:col-span-7">
+            <Eyebrow>B-03 &middot; Capabilities</Eyebrow>
+            <RevealLines
+              as="h2"
+              id="capabilities-heading"
+              className="mt-8 max-w-[16ch] font-title text-d2 font-medium text-ink"
+            >
+              What we can <span className="text-zinc">deliver.</span>
+            </RevealLines>
+          </div>
+          <div className="lg:col-span-5 lg:pb-2">
+            <p className="max-w-measure text-lead text-graphite">
+              Honest about what we are built for. If a project is outside our
+              scope we will say so, and recommend someone who fits.
+            </p>
+          </div>
+        </div>
 
-        <Reveal className="mt-16 md:mt-24">
-          <dl className="grid grid-cols-1 divide-y divide-surface-line border-y border-surface-line md:grid-cols-2">
+        <Reveal className="mt-14 md:mt-16">
+          <dl className="border-t border-concrete">
             {capabilities.map((cap) => (
               <div
                 key={cap.label}
-                className="flex flex-col gap-1 py-6 md:flex-row md:items-baseline md:gap-8 md:px-6 odd:md:pl-0 even:md:border-l even:md:border-surface-line"
+                className="grid gap-x-8 gap-y-1 border-b border-concrete py-6 md:grid-cols-12 md:items-baseline"
               >
-                <dt className="font-mono text-xs uppercase tracking-[0.08em] text-fg-subtle md:w-40 md:shrink-0">
+                <dt className="font-meta text-meta-sm uppercase text-zinc md:col-span-3">
                   {cap.label}
                 </dt>
-                <dd className="font-display text-xl text-fg-primary md:text-2xl">
+                <dd className="font-title text-d4 font-medium text-ink md:col-span-9">
                   {cap.value}
                 </dd>
               </div>
             ))}
           </dl>
         </Reveal>
-      </Container>
+      </div>
     </section>
   );
 }
