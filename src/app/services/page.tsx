@@ -1,49 +1,46 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import { RevealLines } from "@/components/motion/reveal-lines";
-import { RevealLead } from "@/components/motion/reveal-lead";
 import { Eyebrow } from "@/components/motion/eyebrow";
 import { Button } from "@/components/ui/button";
-import { ProcessStages } from "@/components/services/process-stages";
-import { InclusionsTable } from "@/components/services/inclusions-table";
+import { PageMasthead } from "@/components/ui/page-masthead";
 import { ServicesFaq } from "@/components/services/services-faq";
+import { ServicesRegister } from "@/components/services/services-register";
 import { engagements } from "@/lib/process";
 import { getServicesOrdered } from "@/lib/services";
 import { siteConfig } from "@/lib/site";
 
+function pad(n: number): string {
+  return String(n).padStart(2, "0");
+}
+
 export const metadata: Metadata = {
-  title: "Services & Process",
-  description: `How a build actually runs with ${siteConfig.name} — six stages, what you decide at each, and what it costs to change your mind. Itemised estimates priced by a quantity surveyor.`,
+  title: "Services",
+  description: `What you can hire ${siteConfig.name} for — four engagements with typical ranges and durations, and the seven trades we carry in-house. Itemised estimates priced by a quantity surveyor.`,
   alternates: { canonical: "/services" },
   openGraph: {
-    title: `Services & Process · ${siteConfig.name}`,
+    title: `Services · ${siteConfig.name}`,
     description:
-      "Four ways to work with us, and the six stages of a build — including what changing your mind costs at each one.",
+      "Four ways to work with us, and the seven trades we carry in-house rather than sublet.",
     url: `${siteConfig.url}/services`,
   },
 };
 
 export default function ServicesPage() {
-  const trades = getServicesOrdered();
-
   return (
     <>
-      <section className="bg-paper">
-        <div className="mx-auto w-full max-w-360 px-6 py-20 md:px-10 md:py-28 lg:px-16">
-          <Eyebrow>S-00 · Services &amp; process</Eyebrow>
-          <RevealLines
-            as="h1"
-            className="mt-8 max-w-[16ch] font-title text-d1 font-medium text-ink"
-          >
-            What we do, and exactly how it runs.
-          </RevealLines>
-          <RevealLead className="mt-10 max-w-measure text-lead text-graphite">
-            Four ways to work with us, and the six stages every job passes
-            through. We publish the timings and the cost of changing your mind,
-            because those are the two things that actually go wrong.
-          </RevealLead>
-        </div>
-      </section>
+      <PageMasthead
+        eyebrow="S-00 · Services"
+        title="What we do,"
+        titleAccent="and what it costs."
+        intro="Four ways to work with us, and the seven trades we keep in-house rather than sublet. Every range here is typical, not a quote — the real number comes from a site visit."
+        cells={[
+          { label: "Engagements", value: pad(engagements.length) },
+          { label: "Trades in-house", value: pad(getServicesOrdered().length) },
+          { label: "Lead time", value: "2–6", unit: "weeks" },
+          { label: "Site visit", value: "Free" },
+        ]}
+      />
 
       <section
         aria-labelledby="engagements-heading"
@@ -115,43 +112,18 @@ export default function ServicesPage() {
             ))}
           </ul>
 
-          <p className="mt-8 max-w-measure text-fine text-zinc">
-            Ranges are typical, not quotes. Every job is measured and priced
-            individually — that is the whole point of having a quantity
-            surveyor run it. <span className="uppercase">[Draft copy]</span>
-          </p>
-        </div>
-      </section>
-
-      <section
-        aria-labelledby="process-heading"
-        className="border-t border-graphite bg-ink text-paper"
-      >
-        <div className="mx-auto w-full max-w-360 px-6 py-20 md:px-10 md:py-28 lg:px-16">
-          <ProcessStages />
-        </div>
-      </section>
-
-      <section
-        aria-labelledby="inclusions-heading"
-        className="border-t border-concrete bg-paper"
-      >
-        <div className="mx-auto w-full max-w-360 px-6 py-20 md:px-10 md:py-24 lg:px-16">
-          <Eyebrow>S-02 · What a contract covers</Eyebrow>
-          <RevealLines
-            as="h2"
-            id="inclusions-heading"
-            className="mt-8 max-w-[22ch] font-title text-d2 font-medium text-ink"
-          >
-            Included, and just as importantly, not included.
-          </RevealLines>
-          <p className="mt-8 max-w-measure text-lead text-graphite">
-            The right-hand column is the one worth reading. Exclusions are where
-            budgets break, so we publish ours rather than mention them on site.
-          </p>
-
-          <div className="mt-14">
-            <InclusionsTable />
+          <div className="mt-10 flex flex-col gap-6 border-t border-concrete pt-8 md:flex-row md:items-baseline md:justify-between">
+            <p className="max-w-measure text-fine text-zinc">
+              Ranges are typical, not quotes. Every job is measured and priced
+              individually — that is the whole point of having a quantity
+              surveyor run it. <span className="uppercase">[Draft copy]</span>
+            </p>
+            {/* The six stages and the contract terms used to sit below this
+                point. They are a different question, so they are a different
+                page — this is the hand-off. */}
+            <Button href="/process" variant="inline">
+              How a build runs, stage by stage
+            </Button>
           </div>
         </div>
       </section>
@@ -161,7 +133,7 @@ export default function ServicesPage() {
         className="border-t border-concrete bg-paper-sunk"
       >
         <div className="mx-auto w-full max-w-360 px-6 py-20 md:px-10 md:py-24 lg:px-16">
-          <Eyebrow>S-03 · Trades we carry in-house</Eyebrow>
+          <Eyebrow>S-02 · Trades we carry in-house</Eyebrow>
           <RevealLines
             as="h2"
             id="trades-heading"
@@ -171,23 +143,11 @@ export default function ServicesPage() {
           </RevealLines>
           <p className="mt-8 max-w-measure text-lead text-graphite">
             Work we do ourselves rather than sublet. It is why programmes hold:
-            there is no third party to wait on, and no one to blame.
+            there is no third party to wait on, and no one to blame. Open any
+            row for the scope, the sequence, and what it starts at.
           </p>
 
-          {/* Per-cell borders, not gap-px over a fill: an incomplete final row
-              would otherwise leave a block of raw background showing. */}
-          <ul className="mt-12 grid border-l border-t border-concrete sm:grid-cols-2 lg:grid-cols-3">
-            {trades.map((t) => (
-              <li key={t.slug} className="border-b border-r border-concrete p-6">
-                <h3 className="font-meta text-meta uppercase text-ink">
-                  {t.title}
-                </h3>
-                <p className="mt-3 max-w-measure text-fine text-graphite">
-                  {t.summary}
-                </p>
-              </li>
-            ))}
-          </ul>
+          <ServicesRegister />
         </div>
       </section>
 

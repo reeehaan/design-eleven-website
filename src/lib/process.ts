@@ -14,6 +14,13 @@
 
 export type Engagement = {
   slug: string;
+  /**
+   * E-series, not S-. The services page numbers its own sections S-00 to
+   * S-03, so engagement cards labelled S-01 to S-04 sat inside a section
+   * called S-01 and directly above a different section called S-02. In a
+   * system that leans this hard on drawing references, that collision reads
+   * as a mistake.
+   */
   ref: string;
   title: string;
   whatItIs: string;
@@ -27,7 +34,7 @@ export type Engagement = {
 export const engagements: Engagement[] = [
   {
     slug: "new-build",
-    ref: "S-01",
+    ref: "E-01",
     title: "New build",
     whatItIs:
       "Ground-up construction from foundations to handover — we price it, programme it, and run the site ourselves.",
@@ -39,7 +46,7 @@ export const engagements: Engagement[] = [
   },
   {
     slug: "renovation",
-    ref: "S-02",
+    ref: "E-02",
     title: "Renovation & extension",
     whatItIs:
       "Structural alteration to a building already standing — opening up, extending, re-roofing, or repairing what has failed.",
@@ -51,7 +58,7 @@ export const engagements: Engagement[] = [
   },
   {
     slug: "interior-fit-out",
-    ref: "S-03",
+    ref: "E-03",
     title: "Interior fit-out",
     whatItIs:
       "Everything inside the shell — partitions, ceilings, joinery, electrical, lighting and finishes, coordinated as one package.",
@@ -63,7 +70,7 @@ export const engagements: Engagement[] = [
   },
   {
     slug: "costing-only",
-    ref: "S-04",
+    ref: "E-04",
     title: "Costing & QS only",
     whatItIs:
       "Measurement, bills of quantities and an independent price check on someone else's estimate. No construction attached.",

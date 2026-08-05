@@ -18,11 +18,24 @@ export type Service = {
   startingFrom: string;
   order: number;
   showOnHome?: boolean;
+
+  /**
+   * Pre-fills the contact form via ?service=, exactly as Engagement.ref does.
+   * Must be a PROJECT_TYPES value from `contact-form.ts` — the form validates
+   * against that enum and silently ignores anything else, so passing the slug
+   * here looked like it worked and prefilled nothing.
+   *
+   * Most trades have no matching project type because they are capabilities,
+   * not the thing a client hires the studio for. "other" is the honest answer
+   * there rather than a forced fit.
+   */
+  contactParam: string;
 };
 
 export const services: Service[] = [
   {
     slug: "building-construction",
+    contactParam: "residential-builds",
     title: "Building Construction & Repair",
     summary:
       "New builds, extensions, and structural repairs — residential and commercial.",
@@ -74,6 +87,7 @@ export const services: Service[] = [
   },
   {
     slug: "steel-fabrication",
+    contactParam: "other",
     title: "Steel Fabrication",
     summary:
       "Custom steelwork — gates, grilles, staircases, structural elements, balustrades.",
@@ -123,6 +137,7 @@ export const services: Service[] = [
   },
   {
     slug: "plumbing",
+    contactParam: "other",
     title: "Plumbing",
     summary:
       "Full plumbing services — installation, renewal, and maintenance for homes and commercial spaces.",
@@ -173,6 +188,7 @@ export const services: Service[] = [
   },
   {
     slug: "titanium-work",
+    contactParam: "other",
     title: "Titanium Work",
     summary:
       "Precision titanium fabrication — cladding, railings, gates, and architectural elements.",
@@ -223,6 +239,7 @@ export const services: Service[] = [
   },
   {
     slug: "consulting",
+    contactParam: "other",
     title: "Consulting",
     summary:
       "Independent construction advice — project feasibility, scope review, contractor assessment, and dispute support.",
@@ -272,6 +289,7 @@ export const services: Service[] = [
   },
   {
     slug: "costing",
+    contactParam: "costing",
     title: "Costing",
     summary:
       "Accurate Bills of Quantities and cost estimates prepared by a qualified Quantity Surveyor.",
@@ -321,6 +339,7 @@ export const services: Service[] = [
   },
   {
     slug: "design",
+    contactParam: "other",
     title: "Design",
     summary:
       "Architectural and interior design — from concept drawings to construction-ready documentation.",

@@ -1,7 +1,6 @@
-import { Container } from "@/components/ui/container";
-import { EyebrowLabel } from "@/components/ui/eyebrow-label";
+import { Eyebrow } from "@/components/motion/eyebrow";
+import { RevealLines } from "@/components/motion/reveal-lines";
 import { Reveal } from "@/components/ui/reveal";
-import { TwoColumn } from "@/components/ui/two-column";
 
 type FaqItem = {
   question: string;
@@ -45,48 +44,47 @@ export function ServicesFaq() {
   return (
     <section
       aria-labelledby="services-faq-heading"
-      className="border-t border-surface-line bg-bg-secondary py-section md:py-section-lg"
+      className="border-t border-concrete bg-paper"
     >
-      <Container>
-        <Reveal>
-          <TwoColumn
-            primary={
-              <>
-                <EyebrowLabel>Common questions</EyebrowLabel>
-                <h2
-                  id="services-faq-heading"
-                  className="mt-6 font-display text-display-lg text-fg-primary"
-                >
-                  Before you{" "}
-                  <span className="text-fg-muted">ask</span>.
-                </h2>
-              </>
-            }
-            secondary={
-              <p className="max-w-md text-body-lg text-fg-muted md:pb-3">
-                The questions clients ask most often. Anything not covered here, just call.
-              </p>
-            }
-          />
-        </Reveal>
+      <div className="mx-auto w-full max-w-360 px-6 py-20 md:px-10 md:py-24 lg:px-16">
+        <div className="grid gap-8 lg:grid-cols-12 lg:items-end">
+          <div className="lg:col-span-7">
+            <Eyebrow>S-03 &middot; Common questions</Eyebrow>
+            <RevealLines
+              as="h2"
+              id="services-faq-heading"
+              className="mt-8 max-w-[16ch] font-title text-d2 font-medium text-ink"
+            >
+              Before you ask.
+            </RevealLines>
+          </div>
+          <div className="lg:col-span-5 lg:pb-2">
+            <p className="max-w-measure text-lead text-graphite">
+              The questions clients ask most often. Anything not covered here,
+              just call.
+            </p>
+          </div>
+        </div>
 
-        <Reveal className="mt-16 md:mt-20">
-          <ul className="border-t border-surface-line">
+        {/* Same open/close mechanism as the services register, so the two
+            accordions on this page behave identically. */}
+        <Reveal className="mt-14">
+          <ul className="border-t border-concrete">
             {faqs.map((faq) => (
-              <li key={faq.question} className="border-b border-surface-line">
+              <li key={faq.question} className="border-b border-concrete">
                 <details className="group">
-                  <summary className="flex cursor-pointer list-none items-center justify-between gap-6 py-6 transition-colors hover:text-verdigris md:py-8 [&::-webkit-details-marker]:hidden">
-                    <h3 className="font-display text-xl text-fg-primary group-hover:text-verdigris md:text-2xl">
+                  <summary className="flex cursor-pointer list-none items-center justify-between gap-6 py-6 md:py-7 [&::-webkit-details-marker]:hidden">
+                    <h3 className="font-title text-d4 font-medium text-ink transition-colors duration-300 group-hover:text-verdigris group-open:text-verdigris">
                       {faq.question}
                     </h3>
                     <span
                       aria-hidden="true"
-                      className="flex h-8 w-8 shrink-0 items-center justify-center font-mono text-fg-muted transition-transform duration-300 group-open:rotate-45"
+                      className="flex h-8 w-8 shrink-0 items-center justify-center font-meta text-meta text-zinc transition-transform duration-300 group-open:rotate-45"
                     >
                       +
                     </span>
                   </summary>
-                  <div className="pb-6 pr-12 text-body-lg text-fg-muted md:pb-8">
+                  <div className="max-w-measure pb-7 text-copy text-graphite md:pb-8">
                     {faq.answer}
                   </div>
                 </details>
@@ -94,7 +92,7 @@ export function ServicesFaq() {
             ))}
           </ul>
         </Reveal>
-      </Container>
+      </div>
     </section>
   );
 }
