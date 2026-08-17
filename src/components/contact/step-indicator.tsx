@@ -16,9 +16,21 @@ type StepIndicatorProps = {
 };
 
 export function StepIndicator({ current, onJumpTo }: StepIndicatorProps) {
+  const total = STEP_LABELS.length;
+
   return (
-    <nav aria-label="Form progress" className="border-y border-surface-line">
-      <ol className="grid grid-cols-4">
+    <nav aria-label="Form progress">
+      {/* "Step 01 of 04" carries the whole message on a phone, where the
+          per-step labels are too narrow to read. */}
+      <p className="mb-3 flex items-baseline justify-between font-meta text-meta-sm uppercase">
+        <span className="text-ink">
+          Step {String(current).padStart(2, "0")} of{" "}
+          {String(total).padStart(2, "0")}
+        </span>
+        <span className="text-zinc">{STEP_LABELS[current - 1]}</span>
+      </p>
+
+      <ol className="grid grid-cols-4 gap-2">
         {STEP_LABELS.map((label, i) => {
           const step = (i + 1) as FormStep;
           const isCurrent = step === current;
@@ -32,24 +44,34 @@ export function StepIndicator({ current, onJumpTo }: StepIndicatorProps) {
                 onClick={() => !isFuture && onJumpTo(step)}
                 disabled={isFuture}
                 aria-current={isCurrent ? "step" : undefined}
+                aria-label={`Step ${step}: ${label}${isFuture ? " (not yet available)" : ""}`}
                 className={cn(
-                  "flex w-full flex-col items-start gap-2 border-t-2 py-4 text-left transition-colors",
-                  isCurrent && "border-verdigris text-fg-primary",
-                  isPast && "cursor-pointer border-fg-primary text-fg-primary hover:text-verdigris",
-                  isFuture && "cursor-not-allowed border-transparent text-fg-subtle",
+                  "flex w-full flex-col items-start gap-2 pt-3 text-left",
+                  isFuture ? "cursor-not-allowed" : "cursor-pointer",
                 )}
               >
+                {/* The bar is the progress indicator; the label below is
+                    supporting detail, hidden when there is no room for it. */}
                 <span
+                  aria-hidden="true"
                   className={cn(
-                    "font-mono text-xs uppercase tracking-[0.08em]",
-                    isCurrent && "text-verdigris",
-                    isPast && "text-fg-muted",
-                    isFuture && "text-fg-subtle",
+                    "h-0.5 w-full transition-colors duration-300",
+                    isCurrent && "bg-verdigris",
+                    isPast && "bg-ink",
+                    isFuture && "bg-concrete",
+                  )}
+                />
+                <span
+                  aria-hidden="true"
+                  className={cn(
+                    "hidden font-meta text-meta-sm uppercase transition-colors md:inline",
+                    isCurrent && "text-ink",
+                    isPast && "text-zinc group-hover:text-verdigris",
+                    isFuture && "text-concrete",
                   )}
                 >
-                  {step.toString().padStart(2, "0")}
+                  {String(step).padStart(2, "0")} {label}
                 </span>
-                <span className="hidden text-sm md:inline">{label}</span>
               </button>
             </li>
           );

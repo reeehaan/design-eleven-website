@@ -15,7 +15,7 @@ export function Label({ htmlFor, children, required, className }: LabelProps) {
     <label
       htmlFor={htmlFor}
       className={cn(
-        "block font-mono text-xs uppercase tracking-[0.08em] text-fg-muted",
+        "block font-meta text-meta-sm uppercase text-zinc",
         className,
       )}
     >
@@ -32,7 +32,12 @@ export function Label({ htmlFor, children, required, className }: LabelProps) {
 export function FieldError({ message }: { message?: string }) {
   if (!message) return null;
   return (
-    <p role="alert" className="mt-2 font-mono text-xs uppercase tracking-[0.08em] text-marking-deep">
+    // marking-deep is the one place orange survives in the UI: invalid state,
+    // where a green would read as success.
+    <p
+      role="alert"
+      className="mt-2 font-meta text-meta-sm uppercase text-marking-deep"
+    >
       {message}
     </p>
   );
@@ -42,6 +47,10 @@ type TextFieldProps = React.InputHTMLAttributes<HTMLInputElement> & {
   error?: string;
 };
 
+/** Underline, not a box — the rules on this site are all hairlines. */
+const fieldBase =
+  "w-full border-b border-concrete bg-transparent py-3 text-copy text-ink placeholder:text-zinc focus:border-verdigris focus:outline-none";
+
 export const TextField = forwardRef<HTMLInputElement, TextFieldProps>(
   function TextField({ className, error, ...props }, ref) {
     return (
@@ -49,13 +58,7 @@ export const TextField = forwardRef<HTMLInputElement, TextFieldProps>(
         ref={ref}
         {...props}
         aria-invalid={!!error}
-        className={cn(
-          "w-full border-b border-surface-line bg-transparent py-3 text-body text-fg-primary",
-          "placeholder:text-fg-subtle",
-          "focus:border-verdigris focus:outline-none",
-          error && "border-marking-deep",
-          className,
-        )}
+        className={cn(fieldBase, error && "border-marking-deep", className)}
       />
     );
   },
@@ -73,9 +76,8 @@ export const TextArea = forwardRef<HTMLTextAreaElement, TextAreaProps>(
         {...props}
         aria-invalid={!!error}
         className={cn(
-          "w-full resize-y border-b border-surface-line bg-transparent py-3 text-body text-fg-primary",
-          "placeholder:text-fg-subtle",
-          "focus:border-verdigris focus:outline-none",
+          fieldBase,
+          "resize-y",
           error && "border-marking-deep",
           className,
         )}
@@ -92,38 +94,59 @@ type ChoiceCardProps = {
   description?: string;
 };
 
-export function ChoiceCard({ selected, onSelect, label, index, description }: ChoiceCardProps) {
+export function ChoiceCard({
+  selected,
+  onSelect,
+  label,
+  index,
+  description,
+}: ChoiceCardProps) {
   return (
     <button
       type="button"
       onClick={onSelect}
       aria-pressed={selected}
       className={cn(
-        "group flex w-full flex-col items-start gap-2 border p-5 text-left transition-colors md:p-6",
+        // min-h so a one-word option and a two-line one are the same tile
+        "group flex min-h-24 w-full flex-col items-start justify-between gap-3 border p-5 text-left transition-colors",
         selected
-          ? "border-verdigris bg-verdigris/5"
-          : "border-surface-line hover:border-fg-primary",
+          ? "border-ink bg-ink text-paper"
+          : "border-concrete hover:border-verdigris",
       )}
     >
       {index && (
-        <span className="font-mono text-xs uppercase tracking-[0.08em] text-fg-subtle">
+        <span
+          className={cn(
+            "font-meta text-meta-sm uppercase transition-colors",
+            selected ? "text-paper/55" : "text-zinc",
+          )}
+        >
           {index}
         </span>
       )}
       <span
         className={cn(
-          "font-display text-xl transition-colors md:text-2xl",
-          selected ? "text-verdigris" : "text-fg-primary group-hover:text-verdigris",
+          "font-title text-d4 font-medium transition-colors",
+          selected ? "text-paper" : "text-ink group-hover:text-verdigris",
         )}
       >
         {label}
       </span>
-      {description && <span className="text-sm text-fg-muted">{description}</span>}
+      {description && (
+        <span
+          className={cn("text-fine", selected ? "text-concrete" : "text-zinc")}
+        >
+          {description}
+        </span>
+      )}
     </button>
   );
 }
 
-type CheckboxProps = Omit<React.InputHTMLAttributes<HTMLInputElement>, "type"> & {
+type CheckboxProps = Omit<
+  React.InputHTMLAttributes<HTMLInputElement>,
+  "type"
+> & {
   label: React.ReactNode;
 };
 
@@ -132,14 +155,19 @@ export const Checkbox = forwardRef<HTMLInputElement, CheckboxProps>(
     return (
       <label
         htmlFor={id}
-        className={cn("inline-flex items-center gap-3 text-sm text-fg-primary", className)}
+        className={cn(
+          "inline-flex cursor-pointer items-center gap-3 text-copy text-ink",
+          className,
+        )}
       >
         <input
           ref={ref}
           id={id}
           type="checkbox"
           {...props}
-          className="h-4 w-4 cursor-pointer accent-accent"
+          // accent-accent painted this orange, which the palette reserves for
+          // invalid state. A checkbox is an interaction, so it is verdigris.
+          className="h-4 w-4 cursor-pointer accent-verdigris"
         />
         <span>{label}</span>
       </label>

@@ -1,67 +1,107 @@
+import { cn } from "@/lib/utils";
 import { siteConfig } from "@/lib/site";
 
+type Channel = {
+  label: string;
+  value: string;
+  href: string;
+  note?: string;
+  external?: boolean;
+  /**
+   * Set the value in the mono face rather than the display face. An email
+   * address is a string you copy, not a number you read — at the display
+   * step it wrapped across two lines and still looked like a headline.
+   */
+  code?: boolean;
+};
+
+/**
+ * The three ways to reach us that are not the form, plus where we are.
+ *
+ * Deliberately quieter than it was. The phone number was set at text-4xl,
+ * which put it in direct competition with the form's own question — on a page
+ * whose job is to get the form filled in, the alternative to the form should
+ * not be the loudest thing on screen.
+ */
 export function ContactSidebar() {
-  const phoneTel = siteConfig.contact.phone.replace(/\s/g, "");
-  const whatsappUrl = `https://wa.me/${siteConfig.contact.whatsapp.replace(/[^0-9]/g, "")}`;
+  const { contact } = siteConfig;
+
+  const channels: Channel[] = [
+    {
+      label: "Phone",
+      value: contact.phoneDisplay,
+      href: `tel:${contact.phone.replace(/\s/g, "")}`,
+      note: contact.hours,
+    },
+    {
+      label: "WhatsApp",
+      value: "Message us",
+      href: `https://wa.me/${contact.whatsapp.replace(/[^0-9]/g, "")}`,
+      note: "Usually the fastest",
+      external: true,
+    },
+    {
+      label: "Email",
+      value: contact.email,
+      href: `mailto:${contact.email}`,
+      code: true,
+    },
+  ];
 
   return (
-    <aside className="flex flex-col gap-10">
-      <div>
-        <span className="font-mono text-xs uppercase tracking-[0.08em] text-fg-subtle">
-          Or contact directly
-        </span>
-        <h2 className="sr-only">Direct contact information</h2>
-      </div>
+    <aside aria-labelledby="direct-contact-heading">
+      <h2 id="direct-contact-heading" className="sr-only">
+        Contact us directly
+      </h2>
 
-      <div>
-        <span className="font-mono text-xs uppercase tracking-[0.08em] text-fg-muted">
-          Phone
-        </span>
-        <a
-          href={`tel:${phoneTel}`}
-          className="mt-2 block font-display text-3xl text-fg-primary transition-colors hover:text-verdigris md:text-4xl"
-        >
-          {siteConfig.contact.phoneDisplay}
-        </a>
-        <span className="mt-2 block text-sm text-fg-muted">
-          {siteConfig.contact.hours}
-        </span>
-      </div>
+      <p className="font-meta text-meta-sm uppercase text-zinc">
+        Rather not fill in a form?
+      </p>
 
-      <div>
-        <span className="font-mono text-xs uppercase tracking-[0.08em] text-fg-muted">
-          WhatsApp
-        </span>
-        <a
-          href={whatsappUrl}
-          target="_blank"
-          rel="noopener noreferrer"
-          className="mt-2 inline-flex items-center gap-2 font-display text-2xl text-fg-primary transition-colors hover:text-verdigris md:text-3xl"
-        >
-          Message us <span aria-hidden="true">→</span>
-        </a>
-      </div>
+      <ul className="mt-6 border-t border-concrete">
+        {channels.map((c) => (
+          <li key={c.label} className="border-b border-concrete">
+            <a
+              href={c.href}
+              {...(c.external
+                ? { target: "_blank", rel: "noopener noreferrer" }
+                : {})}
+              className="group block py-5"
+            >
+              <span className="block font-meta text-meta-sm uppercase text-zinc">
+                {c.label}
+              </span>
+              {/* block, not inline-flex: as an inline element this sat on the
+                  same line as its own label while every sibling stacked. */}
+              <span
+                className={cn(
+                  "mt-2 block break-words text-ink transition-colors group-hover:text-verdigris",
+                  c.code
+                    ? "font-meta text-meta"
+                    : "font-title text-d4 font-medium",
+                )}
+              >
+                {c.value}
+                {c.external && <span aria-hidden="true"> →</span>}
+              </span>
+              {c.note && (
+                <span className="mt-1.5 block text-fine text-zinc">
+                  {c.note}
+                </span>
+              )}
+            </a>
+          </li>
+        ))}
+      </ul>
 
-      <div>
-        <span className="font-mono text-xs uppercase tracking-[0.08em] text-fg-muted">
-          Email
-        </span>
-        <a
-          href={`mailto:${siteConfig.contact.email}`}
-          className="mt-2 block break-words text-fg-primary transition-colors hover:text-verdigris"
-        >
-          {siteConfig.contact.email}
-        </a>
-      </div>
-
-      <div>
-        <span className="font-mono text-xs uppercase tracking-[0.08em] text-fg-muted">
+      <div className="mt-8">
+        <span className="block font-meta text-meta-sm uppercase text-zinc">
           Office
         </span>
-        <p className="mt-2 text-fg-primary">
-          {siteConfig.contact.address.city}
+        <p className="mt-2 text-copy text-graphite">
+          {contact.address.street}
           <br />
-          {siteConfig.contact.address.country}
+          {contact.address.city}, {contact.address.country}
         </p>
       </div>
     </aside>

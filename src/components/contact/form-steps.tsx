@@ -47,11 +47,12 @@ export function Step1ProjectType({ data, onComplete }: StepProps) {
       noValidate
     >
       <div>
-        <h2 className="font-display text-display-md text-fg-primary">
+        <h2 className="font-title text-d3 font-medium text-ink">
           What are you building?
         </h2>
-        <p className="mt-3 max-w-md text-fg-muted">
-          Pick the closest match. We&rsquo;ll get into the details on the next step.
+        <p className="mt-3 max-w-measure text-copy text-graphite">
+          Pick the closest match. We&rsquo;ll get into the details on the next
+          step.
         </p>
       </div>
 
@@ -62,7 +63,9 @@ export function Step1ProjectType({ data, onComplete }: StepProps) {
             label={type.label}
             index={`0${i + 1}`}
             selected={selected === type.value}
-            onSelect={() => setValue("projectType", type.value, { shouldValidate: true })}
+            onSelect={() =>
+              setValue("projectType", type.value, { shouldValidate: true })
+            }
           />
         ))}
       </div>
@@ -93,11 +96,12 @@ export function Step2Details({ data, onComplete }: StepProps) {
       noValidate
     >
       <div>
-        <h2 className="font-display text-display-md text-fg-primary">
+        <h2 className="font-title text-d3 font-medium text-ink">
           Tell us about the project.
         </h2>
-        <p className="mt-3 max-w-md text-fg-muted">
-          A few sentences is plenty. We&rsquo;ll ask follow-up questions on the site visit.
+        <p className="mt-3 max-w-measure text-copy text-graphite">
+          A few sentences is plenty. We&rsquo;ll ask follow-up questions on the
+          site visit.
         </p>
       </div>
 
@@ -155,11 +159,12 @@ export function Step3BudgetTimeline({ data, onComplete }: StepProps) {
       noValidate
     >
       <div>
-        <h2 className="font-display text-display-md text-fg-primary">
+        <h2 className="font-title text-d3 font-medium text-ink">
           Budget &amp; timeline.
         </h2>
-        <p className="mt-3 max-w-md text-fg-muted">
-          Rough ranges are fine — we use this to plan our response, not to set your final number.
+        <p className="mt-3 max-w-measure text-copy text-graphite">
+          Rough ranges are fine — we use this to plan our response, not to set
+          your final number.
         </p>
       </div>
 
@@ -173,7 +178,9 @@ export function Step3BudgetTimeline({ data, onComplete }: StepProps) {
               key={band.value}
               label={band.label}
               selected={budget === band.value}
-              onSelect={() => setValue("budget", band.value, { shouldValidate: true })}
+              onSelect={() =>
+                setValue("budget", band.value, { shouldValidate: true })
+              }
             />
           ))}
         </div>
@@ -190,7 +197,9 @@ export function Step3BudgetTimeline({ data, onComplete }: StepProps) {
               key={option.value}
               label={option.label}
               selected={timeline === option.value}
-              onSelect={() => setValue("timeline", option.value, { shouldValidate: true })}
+              onSelect={() =>
+                setValue("timeline", option.value, { shouldValidate: true })
+              }
             />
           ))}
         </div>
@@ -228,10 +237,10 @@ export function Step4Contact({ data, onComplete }: StepProps) {
       noValidate
     >
       <div>
-        <h2 className="font-display text-display-md text-fg-primary">
+        <h2 className="font-title text-d3 font-medium text-ink">
           How can we reach you?
         </h2>
-        <p className="mt-3 max-w-md text-fg-muted">
+        <p className="mt-3 max-w-measure text-copy text-graphite">
           We&rsquo;ll respond within 1 business day with next steps.
         </p>
       </div>

@@ -108,7 +108,7 @@ export function PageMasthead({
                     className={cn(
                       "mt-2.5 text-ink",
                       cell.code
-                        ? "font-meta text-meta uppercase break-all"
+                        ? "font-meta text-meta break-words uppercase"
                         : "font-title text-d4 font-medium tabular-nums",
                     )}
                   >
