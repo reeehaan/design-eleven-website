@@ -34,7 +34,13 @@ export function BeforeAfter({ pair }: { pair: BeforeAfterType }) {
         </Reveal>
 
         <Reveal className="mt-12 md:mt-16">
-          <div className="overflow-hidden">
+          {/* Lenis owns touchmove globally and preventDefaults it to drive its
+              own scrolling, which cancels the pointer stream the slider drags
+              on — so on a phone the divider could not be moved at all. The
+              -touch variant only releases touch: the wheel still scrolls the
+              page smoothly, and `touch-action: pan-y` on the slider keeps
+              vertical swipes scrolling natively while horizontal ones drag. */}
+          <div data-lenis-prevent-touch className="overflow-hidden">
             <ReactCompareSlider
               itemOne={
                 <ReactCompareSliderImage
@@ -53,10 +59,13 @@ export function BeforeAfter({ pair }: { pair: BeforeAfterType }) {
               handle={
                 <div
                   aria-hidden="true"
-                  className="flex h-full w-1 items-center justify-center bg-verdigris"
+                  className="relative flex h-full w-0.5 items-center justify-center bg-verdigris"
                 >
-                  <div className="flex h-12 w-12 items-center justify-center rounded-full bg-verdigris text-bg-primary shadow-lg">
-                    <span className="font-mono text-sm">⇄</span>
+                  {/* Absolute, not a flex child: as a child of a 4px-wide flex
+                      container the 48px circle shrank to fit and rendered 8px
+                      across — a target no finger can hit. */}
+                  <div className="absolute flex h-12 w-12 items-center justify-center rounded-full bg-verdigris text-bg-primary">
+                    <span className="font-mono text-base leading-none">⇄</span>
                   </div>
                 </div>
               }
