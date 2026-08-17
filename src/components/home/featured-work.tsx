@@ -39,11 +39,23 @@ export function FeaturedWork() {
     const xTo = gsap.quickTo(el, "x", { duration: 0.55, ease: ease.out });
     const yTo = gsap.quickTo(el, "y", { duration: 0.55, ease: ease.out });
 
-    // Kept inside the list, so the preview can never ride up under the
-    // sticky header or hang off the bottom of the section.
-    const clampY = (y: number) => {
+    // Clamped against the viewport, not the list.
+    //
+    // Clamping to the container forced all 320px of the preview inside a list
+    // only ~450px tall, which left 133px of travel — the preview sat pinned in
+    // the middle third and read as stuck, flush against the list's top and
+    // bottom edges. The actual requirement was only ever that it not ride up
+    // under the sticky header, which is a viewport constraint.
+    const clampY = (clientY: number, containerTop: number) => {
       const half = el.offsetHeight / 2;
-      return Math.max(half, Math.min(container.offsetHeight - half, y));
+      const header =
+        document.querySelector("header")?.getBoundingClientRect().height ?? 80;
+      const lo = header + half;
+      const hi = window.innerHeight - half;
+      // On a viewport too short to hold the preview, both bounds cross; park
+      // it centred rather than letting Math.max win and jam it downward.
+      const y = lo > hi ? (lo + hi) / 2 : Math.min(Math.max(clientY, lo), hi);
+      return y - containerTop;
     };
 
     // Until the pointer has been located once, x/y are 0 and the preview
@@ -53,7 +65,7 @@ export function FeaturedWork() {
     const onMove = (e: PointerEvent) => {
       const r = container.getBoundingClientRect();
       const x = e.clientX - r.left;
-      const y = clampY(e.clientY - r.top);
+      const y = clampY(e.clientY, r.top);
       if (located) {
         xTo(x);
         yTo(y);
