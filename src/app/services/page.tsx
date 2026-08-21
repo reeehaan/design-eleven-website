@@ -4,6 +4,7 @@ import { RevealLines } from "@/components/motion/reveal-lines";
 import { Eyebrow } from "@/components/motion/eyebrow";
 import { Button } from "@/components/ui/button";
 import { PageMasthead } from "@/components/ui/page-masthead";
+import { EngagementsList } from "@/components/services/engagements-list";
 import { ServicesFaq } from "@/components/services/services-faq";
 import { ServicesRegister } from "@/components/services/services-register";
 import { engagements } from "@/lib/process";
@@ -47,84 +48,13 @@ export default function ServicesPage() {
         className="border-t border-concrete bg-paper"
       >
         <div className="mx-auto w-full max-w-360 px-6 py-20 md:px-10 md:py-24 lg:px-16">
-          <Eyebrow>S-01 · What you can hire us for</Eyebrow>
-          <RevealLines
-            as="h2"
-            id="engagements-heading"
-            className="mt-8 max-w-[20ch] font-title text-d2 font-medium text-ink"
-          >
-            Four engagements, priced honestly.
-          </RevealLines>
+          <EngagementsList />
 
-          <ul className="mt-14 grid border-l border-t border-concrete md:grid-cols-2">
-            {engagements.map((e) => (
-              <li
-                key={e.slug}
-                className="flex flex-col border-b border-r border-concrete p-7 md:p-9"
-              >
-                <p className="font-meta text-meta-sm uppercase text-zinc">
-                  {e.ref}
-                </p>
-                <h3 className="mt-4 font-title text-d4 font-medium text-ink">
-                  {e.title}
-                </h3>
-                <p className="mt-4 max-w-measure text-copy text-graphite">
-                  {e.whatItIs}
-                </p>
-
-                <p className="mt-5 max-w-measure text-fine text-zinc">
-                  <span className="font-meta text-meta-sm uppercase">
-                    Who it&rsquo;s for —{" "}
-                  </span>
-                  {e.whoItsFor}
-                </p>
-
-                {/* Typical range is the trust content, so it gets the title block */}
-                <dl className="mt-auto grid grid-cols-2 border-t border-concrete">
-                  <div className="border-r border-concrete pr-4 pt-4">
-                    <dt className="font-meta text-meta-sm uppercase text-zinc">
-                      Typical range
-                    </dt>
-                    <dd className="mt-2 font-meta text-meta uppercase text-ink">
-                      {e.typicalRange}
-                    </dd>
-                  </div>
-                  <div className="pl-4 pt-4">
-                    <dt className="font-meta text-meta-sm uppercase text-zinc">
-                      Typical duration
-                    </dt>
-                    <dd className="mt-2 font-meta text-meta uppercase text-ink">
-                      {e.typicalDuration}
-                    </dd>
-                  </div>
-                </dl>
-
-                <div className="mt-7">
-                  {/* Carries context so the contact form arrives pre-filled */}
-                  <Button
-                    variant="inline"
-                    href={`/contact?service=${e.contactParam}`}
-                  >
-                    Enquire about this
-                  </Button>
-                </div>
-              </li>
-            ))}
-          </ul>
-
-          <div className="mt-10 flex flex-col gap-6 border-t border-concrete pt-8 md:flex-row md:items-baseline md:justify-between">
-            <p className="max-w-measure text-fine text-zinc">
-              Ranges are typical, not quotes. Every job is measured and priced
-              individually — that is the whole point of having a quantity
-              surveyor run it. <span className="uppercase">[Draft copy]</span>
-            </p>
-            {/* The six stages and the contract terms used to sit below this
-                point. They are a different question, so they are a different
-                page — this is the hand-off. */}
-            <Button href="/process" variant="inline">
-              How a build runs, stage by stage
-            </Button>
-          </div>
+          <p className="mt-12 max-w-measure border-t border-concrete pt-8 text-fine text-zinc">
+            Ranges are typical, not quotes. Every job is measured and priced
+            individually — that is the whole point of having a quantity surveyor
+            run it. <span className="uppercase">[Draft copy]</span>
+          </p>
         </div>
       </section>
 
