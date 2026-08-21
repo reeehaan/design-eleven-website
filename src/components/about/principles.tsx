@@ -7,26 +7,34 @@ type Principle = {
   description: string;
 };
 
+/**
+ * One line each, deliberately.
+ *
+ * These ran to ~28 words apiece and mostly restated their own titles. Worse,
+ * "Owner-led, always" repeated the masthead ("Owner on site.") and the story
+ * paragraph ("our principal is at every site visit") — the same claim three
+ * times on one page — and "Honest estimates" elaborated on change-costs that
+ * /process now documents stage by stage. A commitment reads as a commitment
+ * when it is short enough to be one.
+ */
 const principles: Principle[] = [
   {
     title: "We finish what we start.",
-    description:
-      "Half-built projects, abandoned sites, ghosted contractors — we know the stories. We don't add to them. Once we commit, we deliver.",
+    description: "Abandoned sites are common here. We do not add to the count.",
   },
   {
     title: "Site is sacred.",
     description:
-      "Your home, your office, your land. We treat it like ours: clean, secure, respected. Crew shows up on time, leaves the site tidy, and protects what's already there.",
+      "Crew on time, site left clean, and whatever is already there protected.",
   },
   {
     title: "Honest estimates.",
     description:
-      "Itemised quotes in writing. If something changes, we tell you before we do it — never as an invoice line at the end. No vague 'extras', no surprises.",
+      "Itemised in writing. Variations priced and approved before the work, never after.",
   },
   {
     title: "Owner-led, always.",
-    description:
-      "Our principal is on every site, every week. Decisions go through someone who knows the build, not a manager who's never seen it. You always know who's responsible.",
+    description: "The person who priced your job is the one standing on it.",
   },
 ];
 
@@ -37,24 +45,18 @@ export function Principles() {
       className="border-t border-concrete bg-paper-sunk"
     >
       <div className="mx-auto w-full max-w-360 px-6 py-20 md:px-10 md:py-24 lg:px-16">
-        <div className="grid gap-8 lg:grid-cols-12 lg:items-end">
-          <div className="lg:col-span-7">
-            <Eyebrow>B-02 &middot; Principles</Eyebrow>
-            <RevealLines
-              as="h2"
-              id="principles-heading"
-              className="mt-8 max-w-[16ch] font-title text-d2 font-medium text-ink"
-            >
-              How we <span className="text-zinc">actually work.</span>
-            </RevealLines>
-          </div>
-          <div className="lg:col-span-5 lg:pb-2">
-            <p className="max-w-measure text-lead text-graphite">
-              Four things we hold ourselves to, on every project, regardless of
-              size.
-            </p>
-          </div>
-        </div>
+        {/* No lead paragraph and so no two-column split. The one that sat
+            here — "four things we hold ourselves to, on every project,
+            regardless of size" — described the list instead of saying
+            anything; the heading and the four numbered clauses are the list. */}
+        <Eyebrow>B-02 &middot; Principles</Eyebrow>
+        <RevealLines
+          as="h2"
+          id="principles-heading"
+          className="mt-8 max-w-[16ch] font-title text-d2 font-medium text-ink"
+        >
+          How we <span className="text-zinc">actually work.</span>
+        </RevealLines>
 
         {/* Numbered on a rule, the way a spec clause is — these are
             commitments, not features, and the numbering says so. */}

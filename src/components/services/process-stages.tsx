@@ -4,6 +4,7 @@ import { useRef, useState } from "react";
 import { gsap, useGSAP, ScrollTrigger } from "@/lib/motion/gsap";
 import { dur, ease, MQ } from "@/lib/motion/tokens";
 import { Eyebrow } from "@/components/motion/eyebrow";
+import { BuildModel } from "./build-model";
 import { stages } from "@/lib/process";
 
 /**
@@ -19,18 +20,21 @@ export function ProcessStages() {
     () => {
       const mm = gsap.matchMedia();
 
-      mm.add(`${MQ.desktop} and (prefers-reduced-motion: no-preference)`, () => {
-        const items = gsap.utils.toArray<HTMLElement>("[data-stage]");
-        const triggers = items.map((item, i) =>
-          ScrollTrigger.create({
-            trigger: item,
-            start: "top 55%",
-            end: "bottom 55%",
-            onToggle: (self) => self.isActive && setActive(i),
-          }),
-        );
-        return () => triggers.forEach((t) => t.kill());
-      });
+      mm.add(
+        `${MQ.desktop} and (prefers-reduced-motion: no-preference)`,
+        () => {
+          const items = gsap.utils.toArray<HTMLElement>("[data-stage]");
+          const triggers = items.map((item, i) =>
+            ScrollTrigger.create({
+              trigger: item,
+              start: "top 55%",
+              end: "bottom 55%",
+              onToggle: (self) => self.isActive && setActive(i),
+            }),
+          );
+          return () => triggers.forEach((t) => t.kill());
+        },
+      );
 
       mm.add(MQ.reduced, () => {});
       mm.add(MQ.belowDesktop, () => {});
@@ -46,14 +50,17 @@ export function ProcessStages() {
       const el = summary.current;
       if (!el) return;
       const mm = gsap.matchMedia();
-      mm.add(`${MQ.desktop} and (prefers-reduced-motion: no-preference)`, () => {
-        const tween = gsap.fromTo(
-          el,
-          { opacity: 0, y: 8 },
-          { opacity: 1, y: 0, duration: dur.quick, ease: ease.out },
-        );
-        return () => tween.kill();
-      });
+      mm.add(
+        `${MQ.desktop} and (prefers-reduced-motion: no-preference)`,
+        () => {
+          const tween = gsap.fromTo(
+            el,
+            { opacity: 0, y: 8 },
+            { opacity: 1, y: 0, duration: dur.quick, ease: ease.out },
+          );
+          return () => tween.kill();
+        },
+      );
       return () => mm.revert();
     },
     { scope: root, dependencies: [active] },
@@ -75,14 +82,19 @@ export function ProcessStages() {
             Six stages. You know the price before the third one starts.
           </h2>
 
-          <p className="mt-8 max-w-measure text-lead text-concrete">
-            Most of what goes wrong on a build goes wrong because nobody agreed
-            what was included. Every stage below states what we do, what you
-            decide, and what it costs to change your mind at that point.
-          </p>
+          {/* The lead paragraph that sat here said the same thing as the page
+              masthead directly above it — "what it costs to change your mind
+              at each stage" twice, four lines apart. The model says it
+              instead. */}
+
+          {/* Below lg the stage tracker never runs (the pin is desktop-only),
+              so mobile gets the finished massing rather than a model frozen at
+              stage one. */}
+          <BuildModel stage={stages.length - 1} className="mt-10 lg:hidden" />
 
           {/* Live summary — desktop only; below lg each stage carries its own */}
           <div className="mt-12 hidden lg:block">
+            <BuildModel stage={active} className="mb-12" />
             <div className="flex items-center gap-2" aria-hidden="true">
               {stages.map((s, i) => (
                 <span
