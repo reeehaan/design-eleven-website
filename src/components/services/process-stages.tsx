@@ -90,11 +90,19 @@ export function ProcessStages() {
           {/* Below lg the stage tracker never runs (the pin is desktop-only),
               so mobile gets the finished massing rather than a model frozen at
               stage one. */}
-          <BuildModel stage={stages.length - 1} className="mt-10 lg:hidden" />
+          <BuildModel
+            stage={stages.length - 1}
+            total={stages.length}
+            className="mt-10 lg:hidden"
+          />
 
           {/* Live summary — desktop only; below lg each stage carries its own */}
           <div className="mt-12 hidden lg:block">
-            <BuildModel stage={active} className="mb-12" />
+            <BuildModel
+              stage={active}
+              total={stages.length}
+              className="mb-12"
+            />
             <div className="flex items-center gap-2" aria-hidden="true">
               {stages.map((s, i) => (
                 <span

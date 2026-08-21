@@ -4,6 +4,7 @@ import { useEffect, useRef, useState } from "react";
 import { ScrollTrigger, reduced } from "@/lib/motion/gsap";
 import { RevealLines } from "@/components/motion/reveal-lines";
 import { RevealItems } from "@/components/motion/reveal-items";
+import { EstimateModel } from "./estimate-model";
 
 type Step = {
   ref: string;
@@ -102,11 +103,16 @@ export function Process() {
                 agreed what was included. This is how we avoid that.
               </p>
 
+              {/* Below md the step tracker never runs, so the stack would sit
+                  frozen on the site plan. Mobile gets the complete set. */}
+              <EstimateModel
+                step={steps.length - 1}
+                className="mt-10 md:hidden"
+              />
+
               {/* Progress — the only accent in this section */}
-              <div
-                className="mt-12 hidden md:block"
-                aria-hidden="true"
-              >
+              <div className="mt-12 hidden md:block" aria-hidden="true">
+                <EstimateModel step={activeIdx} className="mb-12" />
                 <div className="flex items-center gap-3">
                   {steps.map((s, i) => (
                     <span

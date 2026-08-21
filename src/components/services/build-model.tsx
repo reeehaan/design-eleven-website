@@ -17,8 +17,15 @@ import { cn } from "@/lib/utils";
  * setting-out crew marks the element they are working on.
  */
 
+/**
+ * Parts are placed on a 0–1 build progress line rather than on a stage index,
+ * so the same model serves the home page's four steps and this page's six.
+ * `at(n)` reads as "the part that lands at stage n of six".
+ */
+const at = (n: number) => n / 5;
+
 type Layer = {
-  /** Stage index (0-5) at which this part appears. */
+  /** Point on the 0–1 build line at which this part appears. */
   at: number;
   className: string;
   /** Height above the ground plane, in scene px. */
@@ -53,14 +60,18 @@ const EDGES = [
 
 const layers: Layer[] = [
   // 01 — site visit: the plot, and nothing else
-  { at: 0, className: "border-graphite/70", size: { w: GROUND, h: GROUND } },
+  {
+    at: at(0),
+    className: "border-graphite/70",
+    size: { w: GROUND, h: GROUND },
+  },
 
   // 02 — estimate: the structural grid measured onto it
-  { at: 1, className: "border-graphite", size: { w: FOOT, h: FOOT } },
+  { at: at(1), className: "border-graphite", size: { w: FOOT, h: FOOT } },
 
   // 03 — contract and programme: footings set out
   ...CORNERS.map((c) => ({
-    at: 2,
+    at: at(2),
     className: "border-concrete/60 bg-concrete/10",
     size: { w: 26, h: 26 },
     offset: c,
@@ -69,13 +80,13 @@ const layers: Layer[] = [
 
   // 04 — build: columns rise, then the slab lands on them
   ...CORNERS.map((c) => ({
-    at: 3,
+    at: at(3),
     className: "border-concrete/70 bg-paper/5",
     size: { w: 8, h: 74 },
     standing: { x: c.x, y: c.y },
   })),
   {
-    at: 3,
+    at: at(3),
     className: "border-concrete bg-paper/8",
     size: { w: FOOT + 16, h: FOOT + 16 },
     z: 74,
@@ -84,7 +95,7 @@ const layers: Layer[] = [
   // 05 — finishes: the envelope closes. Walls sit on the slab and run along
   // the edges, so they meet the roof rather than floating beside the columns.
   ...EDGES.map((e) => ({
-    at: 4,
+    at: at(4),
     className: "border-concrete/50 bg-paper/6",
     size: { w: FOOT, h: 60 },
     standing: { x: e.x, y: e.y, rotate: e.rotate, base: 74 },
@@ -92,7 +103,7 @@ const layers: Layer[] = [
 
   // 06 — handover: roof on, building closed
   {
-    at: 5,
+    at: at(5),
     className: "border-paper/70 bg-paper/10",
     size: { w: FOOT + 24, h: FOOT + 24 },
     z: 134,
@@ -101,11 +112,25 @@ const layers: Layer[] = [
 
 export function BuildModel({
   stage,
+  total,
   className,
 }: {
+  /** Index of the step currently in view. */
   stage: number;
+  /** How many steps that page has — four on the home page, six on /process. */
+  total: number;
   className?: string;
 }) {
+  const progress = total > 1 ? stage / (total - 1) : 1;
+
+  // The last part to have landed wears the survey paint. Derived rather than
+  // compared to `stage` directly, because with four steps a single step can
+  // bring on two parts at once and only the newest should be marked.
+  const newest = layers.reduce(
+    (hi, l) => (l.at <= progress + 1e-6 && l.at > hi ? l.at : hi),
+    -1,
+  );
+
   return (
     <div
       aria-hidden="true"
@@ -125,12 +150,12 @@ export function BuildModel({
           width: GROUND,
           height: GROUND,
           transformStyle: "preserve-3d",
-          transform: `rotateX(60deg) rotateZ(${-46 + stage * 3.2}deg) translateZ(${-stage * 6}px)`,
+          transform: `rotateX(60deg) rotateZ(${-46 + progress * 16}deg) translateZ(${-progress * 30}px)`,
         }}
       >
         {layers.map((layer, i) => {
-          const shown = stage >= layer.at;
-          const marking = stage === layer.at;
+          const shown = layer.at <= progress + 1e-6;
+          const marking = layer.at === newest;
 
           const base = `translate(-50%, -50%) translate(${layer.offset?.x ?? layer.standing?.x ?? 0}px, ${layer.offset?.y ?? layer.standing?.y ?? 0}px)`;
 
