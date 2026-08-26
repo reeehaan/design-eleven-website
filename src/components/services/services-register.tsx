@@ -17,8 +17,9 @@ function pad(n: number): string {
  * reach — the old flat grid had no ids, so those links hit nothing. <OpenOnHash>
  * then opens the row the fragment names.
  *
- * Not an exclusive accordion. Comparing two trades is a normal thing to want
- * to do, and `name` would collapse one to open the other.
+ * Exclusive, and closed on arrival: every row starts shut and opening one
+ * closes the last. Both come from the shared `name` attribute rather than
+ * state, so the section stays a server component.
  */
 export function ServicesRegister() {
   const services = getServicesOrdered();
@@ -39,9 +40,11 @@ export function ServicesRegister() {
               <details
                 id={service.slug}
                 data-trade={i}
-                // The first is open so the row pattern is legible on arrival —
-                // seven closed rows read as a list of links, not as content.
-                open={i === 0}
+                // Shared `name` makes this an exclusive accordion natively:
+                // opening a row closes whichever was open, with no JS and no
+                // state to keep in sync. Browsers without support degrade to
+                // independent rows, which is how this behaved before.
+                name="trades"
                 className="group scroll-mt-20 md:scroll-mt-24"
               >
                 <summary className="flex cursor-pointer list-none items-start gap-5 py-7 md:gap-8 md:py-8 [&::-webkit-details-marker]:hidden">
