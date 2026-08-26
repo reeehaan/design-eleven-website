@@ -73,8 +73,7 @@ export default function ServicesPage() {
           </RevealLines>
           <p className="mt-8 max-w-measure text-lead text-graphite">
             Work we do ourselves rather than sublet. It is why programmes hold:
-            there is no third party to wait on, and no one to blame. Open any
-            row for the scope, the sequence, and what it starts at.
+            there is no third party to wait on, and no one to blame.
           </p>
 
           <ServicesRegister />
