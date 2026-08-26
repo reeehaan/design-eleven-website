@@ -44,10 +44,13 @@ export const services: Service[] = [
       "Repair and renovation work is treated with the same rigour as new builds. We assess the existing structure honestly, scope only what's needed, and carry it out to a standard we'd put our name on.",
     ],
     image: {
-      // Generated, and served locally: no remote pattern to whitelist and no
-      // dependence on a CDN we do not control. Replace with a photograph of an
-      // actual Design Eleven site the day one exists — on a builder's page a
-      // real frame is evidence, and this is only ever decoration.
+      // Generated, and served locally rather than from the generator's CDN:
+      // no remote pattern to whitelist, no dependence on infrastructure we do
+      // not control. All seven service images below are generated the same
+      // way. Replace each with a photograph of actual Design Eleven work the
+      // day one exists for that trade — on a builder's page a real site is
+      // evidence, and every image here is only ever decoration standing in
+      // for it.
       src: "/services/building-construction.avif",
       alt: "A reinforced concrete frame mid-build — columns cast, the first-floor slab poured, timber formwork still strapped in place",
     },
@@ -100,8 +103,8 @@ export const services: Service[] = [
       "We design, fabricate in our workshop, and install on site. Materials are sourced to spec — mild steel, stainless, galvanised — with appropriate finishes for the environment.",
     ],
     image: {
-      src: "https://res.cloudinary.com/db0svseve/image/upload/f_auto,q_auto,w_1600,c_fill,g_auto/v1778661368/steel-fab_ftfxcz.avif",
-      alt: "Steel fabrication work — structural and decorative elements",
+      src: "/services/steel-fabrication.avif",
+      alt: "A wrought-iron gate mid-fabrication on a workshop bench, angle grinder and clamps beside it, welding equipment and steel stock along the walls",
     },
     included: [
       "Custom gates and grilles",
@@ -150,8 +153,8 @@ export const services: Service[] = [
       "We handle hot and cold water systems, drainage, sanitary fixtures, and hot-water solutions. Work is coordinated with electrical and structural trades on multi-discipline projects.",
     ],
     image: {
-      src: "https://res.cloudinary.com/db0svseve/image/upload/f_auto,q_auto,w_1600,c_fill,g_auto/v1778663603/plumbing_nw8mjq.avif",
-      alt: "Plumbing installation in a modern bathroom",
+      src: "/services/plumbing.avif",
+      alt: "First-fix copper and PVC pipework in a chased block wall, a pressure gauge fitted inline, fittings laid out on the floor below",
     },
     included: [
       "Hot and cold water system installation",
@@ -195,48 +198,48 @@ export const services: Service[] = [
     contactParam: "other",
     title: "Titanium Work",
     summary:
-      "Precision titanium fabrication — cladding, railings, gates, and architectural elements.",
+      "Titanium floor finishes — a smooth, high-strength, seamless surface for modern interiors.",
     description: [
-      "Titanium fabrication for projects that demand durability, corrosion resistance, and a refined finish. Used in coastal environments, high-end residential, and commercial work where steel would corrode or aluminium would look insufficient.",
-      "We cut, form, weld, and finish titanium to specification — from architectural cladding panels and decorative screens to railings, gates, and bespoke structural elements. Work is carried out in our workshop and installed on site.",
+      "A specialised modern flooring technique that blends titanium dioxide powder or liquid polymer additives with cement mortar to produce a smooth, high-strength surface finished semi-gloss or full gloss. The result is a sleek, seamless concrete floor with none of the joint lines a tiled surface carries.",
+      "We prepare the base slab, lay and cure the titanium-modified mortar, then grind and polish to the finish specified. Popular in contemporary residential and commercial interiors where a tiled or timber floor would read as busy against clean architecture.",
     ],
     image: {
-      src: "https://res.cloudinary.com/db0svseve/image/upload/f_auto,q_auto,w_1600,c_fill,g_auto/v1778664033/titanium-work_rnirii.avif",
-      alt: "Precision metalwork and titanium architectural elements",
+      src: "/services/titanium-work.avif",
+      alt: "A polished titanium floor installation catching natural light, meeting a plastered wall base in a modern interior",
     },
     included: [
-      "Architectural cladding and facade panels",
-      "Railings, balustrades, and handrails",
-      "Gates and security screens",
-      "Decorative panels and feature elements",
-      "Custom brackets and structural connectors",
-      "Surface finishing — brushed, polished, anodised",
-      "Workshop fabrication and on-site install",
-      "Coastal and corrosion-resistant specification",
+      "Base slab preparation and levelling",
+      "Titanium dioxide / polymer-modified mortar mix",
+      "Full-floor pours with minimal or no visible joints",
+      "Semi-gloss or full-gloss grind and polish",
+      "Colour and aggregate options within the mix",
+      "Sealing for stain and wear resistance",
+      "Suitable for residential and commercial floor areas",
+      "Coordinated with underfloor services before the pour",
     ],
     process: [
       {
-        title: "Design brief",
+        title: "Site assessment",
         description:
-          "Discuss the application, environment, and finish requirements. Technical drawings confirmed.",
+          "Check the base slab, moisture conditions, and traffic the floor needs to take. Finish and gloss level agreed.",
       },
       {
         title: "Specification & quote",
         description:
-          "Grade and finish specified. Fabrication and install quoted with lead time.",
+          "Mix design and finish specified. Area measured and quoted with a lead time for cure and polish.",
       },
       {
-        title: "Workshop fabrication",
+        title: "Pour & cure",
         description:
-          "Precision cut, formed, and finished in-house with quality inspection before dispatch.",
+          "Mortar laid to falls and levels, then left to cure fully before grinding begins.",
       },
       {
-        title: "Installation",
+        title: "Grind, polish & seal",
         description:
-          "On-site installation with final adjustments and surface protection.",
+          "Ground to the specified gloss level, then sealed. Final inspection under raking light before handover.",
       },
     ],
-    timeline: "2–8 weeks",
+    timeline: "1–3 weeks",
     startingFrom: "Quote on visit",
     order: 4,
     showOnHome: true,
@@ -252,8 +255,8 @@ export const services: Service[] = [
       "With a qualified Quantity Surveyor leading every engagement, our advice is grounded in real build cost knowledge — not guesswork. We work for the client, not the contractor.",
     ],
     image: {
-      src: "https://res.cloudinary.com/db0svseve/image/upload/f_auto,q_auto,w_1600,c_fill,g_auto/v1778664846/consulting_jlsxxc.avif",
-      alt: "Construction consulting — reviewing plans and specifications",
+      src: "/services/consulting.avif",
+      alt: "A site inspection checklist and architectural drawings on a clipboard, tape measure and laser meter beside them, set against a brick pier on an active site",
     },
     included: [
       "Project feasibility assessments",
@@ -302,8 +305,8 @@ export const services: Service[] = [
       "Accurate costing at the right stage saves money and avoids surprises. We work with architects, developers, and private clients to cost projects before they go to tender, during build, and at final account.",
     ],
     image: {
-      src: "https://res.cloudinary.com/db0svseve/image/upload/f_auto,q_auto,w_1600,c_fill,g_auto/v1778666026/costing_tisu8g.avif",
-      alt: "Quantity surveying and cost planning documents",
+      src: "/services/costing.avif",
+      alt: "A printed Bill of Quantities beside a laptop spreadsheet, calculator and scale ruler, on a bright office desk",
     },
     included: [
       "Bills of Quantities (BOQ)",
@@ -352,8 +355,8 @@ export const services: Service[] = [
       "Because our design team works alongside our build team, drawings are detailed and practical. Less rework on site, fewer surprises, and a result that matches the intent.",
     ],
     image: {
-      src: "https://res.cloudinary.com/db0svseve/image/upload/f_auto,q_auto,w_1600,c_fill,g_auto/v1778666109/design_ysia6v.avif",
-      alt: "Architectural design drawings and interior concept",
+      src: "/services/design.avif",
+      alt: "A white-card massing model on a studio desk beside rolled concept elevations and material swatches, sketches pinned on the wall behind",
     },
     included: [
       "Concept development and mood boards",
