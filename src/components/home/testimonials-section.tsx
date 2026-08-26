@@ -1,12 +1,15 @@
 "use client";
 
-import { useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import Link from "next/link";
-import { gsap, useGSAP } from "@/lib/motion/gsap";
+import { gsap, useGSAP, reduced } from "@/lib/motion/gsap";
 import { dur, ease } from "@/lib/motion/tokens";
 import { Eyebrow } from "@/components/motion/eyebrow";
 import { testimonials } from "@/lib/testimonials";
 import { getProjectBySlug } from "@/lib/projects";
+
+/** How long each quote holds before advancing on its own. */
+const AUTOPLAY_MS = 6000;
 
 export function TestimonialsSection() {
   const [index, setIndex] = useState(0);
@@ -16,10 +19,28 @@ export function TestimonialsSection() {
   const root = useRef<HTMLDivElement>(null);
   const total = testimonials.length;
 
+  // Runs until the reader touches either arrow, then stops for good — a
+  // testimonial that keeps sliding out from under someone mid-read is worse
+  // than one that stalls. Off entirely under reduced motion, which is the
+  // same rule the rest of the site's motion follows.
+  const [autoplay, setAutoplay] = useState(() => !reduced());
+
   const go = (next: number, direction: 1 | -1) => {
     dir.current = direction;
     setIndex((next + total) % total);
   };
+
+  const goManual = (next: number, direction: 1 | -1) => {
+    setAutoplay(false);
+    go(next, direction);
+  };
+
+  useEffect(() => {
+    if (!autoplay || total <= 1) return;
+    const id = window.setInterval(() => go(index + 1, 1), AUTOPLAY_MS);
+    return () => window.clearInterval(id);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [autoplay, index, total]);
 
   useGSAP(
     () => {
@@ -125,7 +146,7 @@ export function TestimonialsSection() {
             <div className="flex gap-2">
               <button
                 type="button"
-                onClick={() => go(index - 1, -1)}
+                onClick={() => goManual(index - 1, -1)}
                 aria-label="Previous testimonial"
                 className="group inline-flex h-12 w-12 items-center justify-center border border-concrete text-ink transition-colors duration-300 hover:border-verdigris hover:bg-verdigris hover:text-paper"
               >
@@ -138,7 +159,7 @@ export function TestimonialsSection() {
               </button>
               <button
                 type="button"
-                onClick={() => go(index + 1, 1)}
+                onClick={() => goManual(index + 1, 1)}
                 aria-label="Next testimonial"
                 className="group inline-flex h-12 w-12 items-center justify-center border border-concrete text-ink transition-colors duration-300 hover:border-verdigris hover:bg-verdigris hover:text-paper"
               >
