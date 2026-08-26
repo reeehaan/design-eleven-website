@@ -44,8 +44,12 @@ export const services: Service[] = [
       "Repair and renovation work is treated with the same rigour as new builds. We assess the existing structure honestly, scope only what's needed, and carry it out to a standard we'd put our name on.",
     ],
     image: {
-      src: "https://res.cloudinary.com/db0svseve/image/upload/f_auto,q_auto,w_1600,c_fill,g_auto/v1778660995/building-construction-repair_oj2trg.avif",
-      alt: "Building construction site with concrete structure",
+      // Generated, and served locally: no remote pattern to whitelist and no
+      // dependence on a CDN we do not control. Replace with a photograph of an
+      // actual Design Eleven site the day one exists — on a builder's page a
+      // real frame is evidence, and this is only ever decoration.
+      src: "/services/building-construction.avif",
+      alt: "A reinforced concrete frame mid-build — columns cast, the first-floor slab poured, timber formwork still strapped in place",
     },
     included: [
       "Site preparation, excavation, and foundations",
