@@ -8,21 +8,21 @@
      retire as each component is rewritten onto the tokens below. */
 
   /* Background */
-  --color-bg-primary: #F0F0EC;
-  --color-bg-secondary: #E4E5E0;
+  --color-bg-primary: #f0f0ec;
+  --color-bg-secondary: #e4e5e0;
 
   /* Foreground */
-  --color-fg-primary: #0E1417;
-  --color-fg-muted: #3A423F;
-  --color-fg-subtle: #656D6A;
+  --color-fg-primary: #0e1417;
+  --color-fg-muted: #3a423f;
+  --color-fg-subtle: #656d6a;
 
   /* Accent — the text-safe stop, since legacy usage is mostly links and rules */
-  --color-accent: #BF4317;
-  --color-accent-deep: #FF5A1F;
+  --color-accent: #bf4317;
+  --color-accent-deep: #ff5a1f;
 
   /* Surfaces */
-  --color-surface-dark: #0E1417;
-  --color-surface-line: #C9CBC4;
+  --color-surface-dark: #0e1417;
+  --color-surface-line: #c9cbc4;
 
   /* Section spacing */
   --spacing-section-sm: 4rem;
@@ -41,16 +41,16 @@
    ─────────────────────────────────────────────────────────────── */
 @theme {
   /* Ground */
-  --color-paper: #F0F0EC;      /* page ground — cool, not cream */
-  --color-paper-sunk: #E4E5E0; /* image wells, inputs, sunk panels */
+  --color-paper: #f0f0ec; /* page ground — cool, not cream */
+  --color-paper-sunk: #e4e5e0; /* image wells, inputs, sunk panels */
 
   /* Text */
-  --color-ink: #0E1417;        /* primary text, deep sections */
-  --color-graphite: #3A423F;   /* secondary text, rules on dark */
-  --color-zinc: #656D6A;       /* captions, metadata — 4.65:1 on paper (AA) */
+  --color-ink: #0e1417; /* primary text, deep sections */
+  --color-graphite: #3a423f; /* secondary text, rules on dark */
+  --color-zinc: #656d6a; /* captions, metadata — 4.65:1 on paper (AA) */
 
   /* Structure */
-  --color-concrete: #C9CBC4;   /* dividers, inactive states, 3D material */
+  --color-concrete: #c9cbc4; /* dividers, inactive states, 3D material */
 
   /* Warning only. Orange was pulled out of the UI entirely — it now appears
      nowhere except form errors and invalid state, where a green would read as
@@ -58,8 +58,8 @@
      paint, which is the one place hi-vis orange still belongs.
        marking      5.95:1 with ink on top. 2.73:1 on paper — never text there.
        marking-deep 4.56:1 on paper → error text and invalid borders. */
-  --color-marking: #FF5A1F;
-  --color-marking-deep: #BF4317;
+  --color-marking: #ff5a1f;
+  --color-marking-deep: #bf4317;
 
   /* Hover / interactive feedback — oxidised copper. Deliberately NOT the
      accent: marking now means "live or active" (in-progress work, current
@@ -67,7 +67,7 @@
      Two meanings, two colours, so neither gets diluted.
        verdigris       5.10:1 on paper  → hover on light grounds
        verdigris-light 5.24:1 on ink    → hover on deep sections */
-  --color-verdigris: #4E6B62;
+  --color-verdigris: #4e6b62;
   --color-verdigris-light: #699084;
 
   /* Display — Cabinet Grotesk. Negative tracking, tightens as it grows. */
@@ -165,11 +165,36 @@
     color: var(--color-fg-primary);
   }
 
-  h1, h2, h3 {
+  /* The custom pointer (components/motion/cursor.tsx) adds this class only
+     after confirming a fine pointer and no reduced-motion preference — so a
+     JS failure leaves the system cursor exactly as it always was, never
+     hidden with nothing to replace it. `!important` beats the cursor-pointer
+     / cursor-not-allowed utilities already on individual elements, which
+     would otherwise win on specificity.
+     Text inputs are the deliberate exception: the native I-beam is the one
+     cursor shape that carries real information (where a click will place the
+     caret), so it stays untouched and the custom pointer hides itself there
+     instead — see the `native` case in cursor.tsx. */
+  html.custom-cursor,
+  html.custom-cursor * {
+    cursor: none !important;
+  }
+
+  html.custom-cursor input,
+  html.custom-cursor textarea,
+  html.custom-cursor [contenteditable] {
+    cursor: auto !important;
+  }
+
+  h1,
+  h2,
+  h3 {
     font-family: var(--font-display);
   }
 
-  h4, h5, h6 {
+  h4,
+  h5,
+  h6 {
     font-family: var(--font-sans);
     font-weight: 500;
   }
@@ -265,7 +290,9 @@
 
 /* ─── Reduced Motion ─────────────────────────────────────────── */
 @media (prefers-reduced-motion: reduce) {
-  *, *::before, *::after {
+  *,
+  *::before,
+  *::after {
     animation-duration: 0.01ms !important;
     animation-iteration-count: 1 !important;
     transition-duration: 0.01ms !important;

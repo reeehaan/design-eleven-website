@@ -4,6 +4,7 @@ import { Geist_Mono } from "next/font/google";
 import { Navbar } from "@/components/layout/navbar";
 import { Footer } from "@/components/layout/footer";
 import { MotionProvider } from "@/lib/motion/provider";
+import { CustomCursor } from "@/components/motion/cursor";
 import { JsonLd } from "@/components/seo/json-ld";
 import { siteConfig } from "@/lib/site";
 import { localBusinessSchema } from "@/lib/structured-data";
@@ -98,10 +99,9 @@ export default function RootLayout({
       <body className="flex min-h-dvh flex-col">
         <JsonLd data={localBusinessSchema()} />
         <MotionProvider />
+        <CustomCursor />
         <Navbar />
-        <main className="relative z-10 flex-1">
-          {children}
-        </main>
+        <main className="relative z-10 flex-1">{children}</main>
         <Footer />
       </body>
     </html>
