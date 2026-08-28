@@ -4,6 +4,8 @@ import { RevealLines } from "@/components/motion/reveal-lines";
 import { RevealItems } from "@/components/motion/reveal-items";
 import { aboutImages } from "@/lib/images";
 
+const STEP_OFFSETS = ["", "md:translate-y-10", "md:translate-y-20"];
+
 export function BehindScenes() {
   return (
     <section
@@ -36,24 +38,29 @@ export function BehindScenes() {
           selector=":scope > li"
         >
           {aboutImages.bts.map((img, i) => (
-            <li
-              key={img.src}
-              // The middle frame drops, so the row reads as a contact sheet
-              // rather than three images in a row.
-              className={i === 1 ? "md:translate-y-12" : undefined}
-            >
-              <div className="relative aspect-4/5 w-full overflow-hidden bg-paper-sunk">
-                <Image
-                  src={img.src}
-                  alt={img.alt}
-                  fill
-                  sizes="(min-width: 768px) 30vw, 100vw"
-                  className="object-cover"
-                />
+            // The offset lives on an inner wrapper, not the <li> itself:
+            // RevealItems' scroll-reveal animates the <li>'s transform via
+            // GSAP, and GSAP's inline style permanently overrides a Tailwind
+            // transform class on the same element once it fires.
+            <li key={img.src}>
+              <div
+                // Each frame steps down a little further than the last,
+                // left to right — a staircase rather than three in a row.
+                className={STEP_OFFSETS[i]}
+              >
+                <div className="relative aspect-4/5 w-full overflow-hidden bg-paper-sunk">
+                  <Image
+                    src={img.src}
+                    alt={img.alt}
+                    fill
+                    sizes="(min-width: 768px) 30vw, 100vw"
+                    className="object-cover"
+                  />
+                </div>
+                <p className="mt-3 font-meta text-meta-sm uppercase text-zinc">
+                  {String(i + 1).padStart(2, "0")} — {img.alt}
+                </p>
               </div>
-              <p className="mt-3 font-meta text-meta-sm uppercase text-zinc">
-                {String(i + 1).padStart(2, "0")} — {img.alt}
-              </p>
             </li>
           ))}
         </RevealItems>
