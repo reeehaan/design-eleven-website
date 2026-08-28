@@ -25,7 +25,7 @@ export default function ContactPage() {
         eyebrow="C-00 · Contact"
         title="Start a project,"
         titleAccent="or just say hello."
-        intro="Four short steps — the first one is a single tap. Prefer to talk? Phone and WhatsApp are alongside the form."
+        intro="One tap, then one short form. Prefer to talk? Phone and WhatsApp are alongside the form."
         cells={[
           { label: "We reply within", value: "1", unit: "working day" },
           { label: "Site visit", value: "Free" },
@@ -33,7 +33,7 @@ export default function ContactPage() {
           // Not office hours: those already sit under Phone in the sidebar,
           // and the full string wrapped mid-time on a phone. The step count
           // is the number someone hesitating over a form actually wants.
-          { label: "Form steps", value: "04" },
+          { label: "Form steps", value: "02" },
         ]}
       />
 

@@ -6,10 +6,7 @@ import {
   PROJECT_TYPES,
   BUDGET_BANDS,
   TIMELINE_OPTIONS,
-  Step1Schema,
   Step2Schema,
-  Step3Schema,
-  Step4Schema,
   type ContactFormData,
 } from "@/lib/contact-form";
 import {
@@ -26,33 +23,17 @@ type StepProps = {
   onComplete: (patch: Partial<ContactFormData>) => void;
 };
 
+// Selecting a card *is* the answer — there's nothing left to validate, so
+// this advances the moment someone taps, no separate "Continue" required.
 export function Step1ProjectType({ data, onComplete }: StepProps) {
-  const {
-    handleSubmit,
-    setValue,
-    watch,
-    formState: { errors },
-  } = useForm<{ projectType: string }>({
-    resolver: zodResolver(Step1Schema),
-    defaultValues: { projectType: data.projectType },
-  });
-
-  const selected = watch("projectType");
-
   return (
-    <form
-      id="contact-form"
-      onSubmit={handleSubmit((values) => onComplete(values))}
-      className="flex flex-col gap-8"
-      noValidate
-    >
+    <div className="flex flex-col gap-8">
       <div>
         <h2 className="font-title text-d3 font-medium text-ink">
           What are you building?
         </h2>
         <p className="mt-3 max-w-measure text-copy text-graphite">
-          Pick the closest match. We&rsquo;ll get into the details on the next
-          step.
+          Pick the closest match — that takes you straight to the form.
         </p>
       </div>
 
@@ -62,46 +43,64 @@ export function Step1ProjectType({ data, onComplete }: StepProps) {
             key={type.value}
             label={type.label}
             index={`0${i + 1}`}
-            selected={selected === type.value}
-            onSelect={() =>
-              setValue("projectType", type.value, { shouldValidate: true })
-            }
+            selected={data.projectType === type.value}
+            onSelect={() => onComplete({ projectType: type.value })}
           />
         ))}
       </div>
-
-      <FieldError message={errors.projectType?.message as string | undefined} />
-    </form>
+    </div>
   );
 }
 
-export function Step2Details({ data, onComplete }: StepProps) {
+type Step2Values = {
+  location: string;
+  projectDetails: string;
+  budget?: string;
+  timeline?: string;
+  name: string;
+  email: string;
+  phone: string;
+  preferWhatsapp: boolean;
+};
+
+export function Step2Everything({ data, onComplete }: StepProps) {
   const {
     register,
     handleSubmit,
+    setValue,
+    watch,
     formState: { errors },
-  } = useForm<{ location: string; projectDetails: string }>({
+  } = useForm<Step2Values>({
     resolver: zodResolver(Step2Schema),
     defaultValues: {
       location: data.location,
       projectDetails: data.projectDetails,
+      budget: data.budget,
+      timeline: data.timeline,
+      name: data.name,
+      email: data.email,
+      phone: data.phone,
+      preferWhatsapp: data.preferWhatsapp,
     },
   });
+
+  const budget = watch("budget");
+  const timeline = watch("timeline");
 
   return (
     <form
       id="contact-form"
       onSubmit={handleSubmit((values) => onComplete(values))}
-      className="flex flex-col gap-8"
+      className="flex flex-col gap-10"
       noValidate
     >
       <div>
         <h2 className="font-title text-d3 font-medium text-ink">
-          Tell us about the project.
+          Tell us about it.
         </h2>
         <p className="mt-3 max-w-measure text-copy text-graphite">
-          A few sentences is plenty. We&rsquo;ll ask follow-up questions on the
-          site visit.
+          One short form — the budget and timeline are a bonus if you have
+          them, not a requirement.
         </p>
       </div>
 
@@ -125,7 +124,7 @@ export function Step2Details({ data, onComplete }: StepProps) {
           </Label>
           <TextArea
             id="projectDetails"
-            rows={6}
+            rows={5}
             placeholder="What's the project? Approximate size, scope, any specific requirements you have in mind…"
             error={errors.projectDetails?.message}
             {...register("projectDetails")}
@@ -133,119 +132,48 @@ export function Step2Details({ data, onComplete }: StepProps) {
           <FieldError message={errors.projectDetails?.message} />
         </div>
       </div>
-    </form>
-  );
-}
 
-export function Step3BudgetTimeline({ data, onComplete }: StepProps) {
-  const {
-    handleSubmit,
-    setValue,
-    watch,
-    formState: { errors },
-  } = useForm<{ budget: string; timeline: string }>({
-    resolver: zodResolver(Step3Schema),
-    defaultValues: { budget: data.budget, timeline: data.timeline },
-  });
-
-  const budget = watch("budget");
-  const timeline = watch("timeline");
-
-  return (
-    <form
-      id="contact-form"
-      onSubmit={handleSubmit((values) => onComplete(values))}
-      className="flex flex-col gap-10"
-      noValidate
-    >
-      <div>
-        <h2 className="font-title text-d3 font-medium text-ink">
-          Budget &amp; timeline.
-        </h2>
-        <p className="mt-3 max-w-measure text-copy text-graphite">
-          Rough ranges are fine — we use this to plan our response, not to set
-          your final number.
-        </p>
-      </div>
-
-      <div>
-        <Label required className="mb-4">
-          Budget range
-        </Label>
-        <div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
-          {BUDGET_BANDS.map((band) => (
-            <ChoiceCard
-              key={band.value}
-              label={band.label}
-              selected={budget === band.value}
-              onSelect={() =>
-                setValue("budget", band.value, { shouldValidate: true })
-              }
-            />
-          ))}
+      <div className="flex flex-col gap-6">
+        <div>
+          <Label className="mb-3">Budget range</Label>
+          <div className="grid gap-2 sm:grid-cols-3">
+            {BUDGET_BANDS.map((band) => (
+              <ChoiceCard
+                key={band.value}
+                label={band.label}
+                selected={budget === band.value}
+                onSelect={() =>
+                  setValue("budget", budget === band.value ? undefined : band.value, {
+                    shouldValidate: true,
+                  })
+                }
+              />
+            ))}
+          </div>
         </div>
-        <FieldError message={errors.budget?.message as string | undefined} />
-      </div>
 
-      <div>
-        <Label required className="mb-4">
-          When would you start?
-        </Label>
-        <div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
-          {TIMELINE_OPTIONS.map((option) => (
-            <ChoiceCard
-              key={option.value}
-              label={option.label}
-              selected={timeline === option.value}
-              onSelect={() =>
-                setValue("timeline", option.value, { shouldValidate: true })
-              }
-            />
-          ))}
+        <div>
+          <Label className="mb-3">When would you start?</Label>
+          <div className="grid gap-2 sm:grid-cols-3">
+            {TIMELINE_OPTIONS.map((option) => (
+              <ChoiceCard
+                key={option.value}
+                label={option.label}
+                selected={timeline === option.value}
+                onSelect={() =>
+                  setValue(
+                    "timeline",
+                    timeline === option.value ? undefined : option.value,
+                    { shouldValidate: true },
+                  )
+                }
+              />
+            ))}
+          </div>
         </div>
-        <FieldError message={errors.timeline?.message as string | undefined} />
-      </div>
-    </form>
-  );
-}
-
-export function Step4Contact({ data, onComplete }: StepProps) {
-  const {
-    register,
-    handleSubmit,
-    formState: { errors },
-  } = useForm<{
-    name: string;
-    email: string;
-    phone: string;
-    preferWhatsapp: boolean;
-  }>({
-    resolver: zodResolver(Step4Schema),
-    defaultValues: {
-      name: data.name,
-      email: data.email,
-      phone: data.phone,
-      preferWhatsapp: data.preferWhatsapp,
-    },
-  });
-
-  return (
-    <form
-      id="contact-form"
-      onSubmit={handleSubmit((values) => onComplete(values))}
-      className="flex flex-col gap-8"
-      noValidate
-    >
-      <div>
-        <h2 className="font-title text-d3 font-medium text-ink">
-          How can we reach you?
-        </h2>
-        <p className="mt-3 max-w-measure text-copy text-graphite">
-          We&rsquo;ll respond within 1 business day with next steps.
-        </p>
       </div>
 
-      <div className="flex flex-col gap-8">
+      <div className="flex flex-col gap-8 border-t border-concrete pt-10">
         <div>
           <Label htmlFor="name" required>
             Your name

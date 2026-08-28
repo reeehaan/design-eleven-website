@@ -3,12 +3,7 @@
 import { cn } from "@/lib/utils";
 import type { FormStep } from "@/lib/contact-form";
 
-const STEP_LABELS = [
-  "Project type",
-  "Details",
-  "Budget & timeline",
-  "Your info",
-] as const;
+const STEP_LABELS = ["Project type", "Your project"] as const;
 
 type StepIndicatorProps = {
   current: FormStep;
@@ -30,7 +25,7 @@ export function StepIndicator({ current, onJumpTo }: StepIndicatorProps) {
         <span className="text-zinc">{STEP_LABELS[current - 1]}</span>
       </p>
 
-      <ol className="grid grid-cols-4 gap-2">
+      <ol className="grid grid-cols-2 gap-2">
         {STEP_LABELS.map((label, i) => {
           const step = (i + 1) as FormStep;
           const isCurrent = step === current;

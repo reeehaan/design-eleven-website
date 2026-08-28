@@ -6,12 +6,7 @@ import { AnimatePresence, motion } from "framer-motion";
 import { Turnstile, type TurnstileInstance } from "@marsidev/react-turnstile";
 import { ArrowLink } from "@/components/ui/arrow-link";
 import { StepIndicator } from "./step-indicator";
-import {
-  Step1ProjectType,
-  Step2Details,
-  Step3BudgetTimeline,
-  Step4Contact,
-} from "./form-steps";
+import { Step1ProjectType, Step2Everything } from "./form-steps";
 import {
   formReducer,
   initialFormState,
@@ -40,7 +35,7 @@ export function ContactForm() {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
-  const isFinalStep = state.step === 4;
+  const isFinalStep = state.step === 2;
 
   const handleStepComplete = (patch: Partial<ContactFormData>) => {
     const merged = { ...state.data, ...patch };
@@ -140,40 +135,35 @@ export function ContactForm() {
         </AnimatePresence>
       </div>
 
-      <div className="flex items-center justify-between gap-4 border-t border-concrete pt-6">
-        <button
-          type="button"
-          onClick={() => dispatch({ type: "back" })}
-          disabled={
-            state.step === 1 || state.submission.status === "submitting"
-          }
-          className="font-meta text-meta-sm uppercase text-graphite transition-colors hover:text-verdigris disabled:cursor-not-allowed disabled:opacity-30 disabled:hover:text-graphite"
-        >
-          ← Back
-        </button>
+      {/* Step 1 has no footer — picking a card advances on its own, so there's
+          nothing to go back from or continue past yet. */}
+      {state.step === 2 && (
+        <div className="flex items-center justify-between gap-4 border-t border-concrete pt-6">
+          <button
+            type="button"
+            onClick={() => dispatch({ type: "back" })}
+            disabled={state.submission.status === "submitting"}
+            className="font-meta text-meta-sm uppercase text-graphite transition-colors hover:text-verdigris disabled:cursor-not-allowed disabled:opacity-30 disabled:hover:text-graphite"
+          >
+            ← Back
+          </button>
 
-        <button
-          type="submit"
-          form="contact-form"
-          disabled={
-            state.submission.status === "submitting" ||
-            (isFinalStep && !turnstileToken)
-          }
-          className="inline-flex items-center gap-3 rounded-full bg-fg-primary px-6 py-3 text-sm font-medium text-bg-primary transition-colors hover:bg-verdigris disabled:opacity-60"
-        >
-          {state.submission.status === "submitting" ? (
-            "Sending…"
-          ) : isFinalStep ? (
-            <>
-              Send request <span aria-hidden="true">→</span>
-            </>
-          ) : (
-            <>
-              Continue <span aria-hidden="true">→</span>
-            </>
-          )}
-        </button>
-      </div>
+          <button
+            type="submit"
+            form="contact-form"
+            disabled={state.submission.status === "submitting" || !turnstileToken}
+            className="inline-flex items-center gap-3 rounded-full bg-ink px-6 py-3 text-sm font-medium text-paper transition-colors hover:bg-verdigris disabled:opacity-60"
+          >
+            {state.submission.status === "submitting" ? (
+              "Sending…"
+            ) : (
+              <>
+                Send request <span aria-hidden="true">→</span>
+              </>
+            )}
+          </button>
+        </div>
+      )}
 
       {state.submission.status === "error" && (
         <p
@@ -200,11 +190,7 @@ function CurrentStep({
     case 1:
       return <Step1ProjectType data={data} onComplete={onComplete} />;
     case 2:
-      return <Step2Details data={data} onComplete={onComplete} />;
-    case 3:
-      return <Step3BudgetTimeline data={data} onComplete={onComplete} />;
-    case 4:
-      return <Step4Contact data={data} onComplete={onComplete} />;
+      return <Step2Everything data={data} onComplete={onComplete} />;
   }
 }
 

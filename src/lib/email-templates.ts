@@ -8,8 +8,9 @@ import { siteConfig } from "./site";
 
 function labelFor<T extends { value: string; label: string }>(
   options: readonly T[],
-  value: string,
+  value: string | undefined,
 ): string {
+  if (!value) return "Not specified yet";
   return options.find((o) => o.value === value)?.label ?? value;
 }
 

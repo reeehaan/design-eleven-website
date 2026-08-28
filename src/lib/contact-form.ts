@@ -33,26 +33,21 @@ export const Step1Schema = z.object({
   ),
 });
 
+// Budget and timeline are optional here — asking someone to commit to a
+// number before they've even described the project was the biggest source
+// of drop-off. We still collect them when offered; we just don't block on it.
 export const Step2Schema = z.object({
   location: z.string().min(2, "Please give us at least the city or town").max(120),
   projectDetails: z
     .string()
     .min(20, "Tell us a bit more — 20+ characters helps us quote accurately")
     .max(2000),
-});
-
-export const Step3Schema = z.object({
-  budget: z.enum(
-    BUDGET_BANDS.map((b) => b.value) as [string, ...string[]],
-    { message: "Please choose a budget range" },
-  ),
-  timeline: z.enum(
-    TIMELINE_OPTIONS.map((t) => t.value) as [string, ...string[]],
-    { message: "Please choose a timeline" },
-  ),
-});
-
-export const Step4Schema = z.object({
+  budget: z
+    .enum(BUDGET_BANDS.map((b) => b.value) as [string, ...string[]])
+    .optional(),
+  timeline: z
+    .enum(TIMELINE_OPTIONS.map((t) => t.value) as [string, ...string[]])
+    .optional(),
   name: z.string().min(2, "Please enter your name").max(100),
   email: z.string().email("Please enter a valid email address"),
   phone: z
@@ -66,8 +61,6 @@ export const Step4Schema = z.object({
 export const ContactFormSchema = z.object({
   ...Step1Schema.shape,
   ...Step2Schema.shape,
-  ...Step3Schema.shape,
-  ...Step4Schema.shape,
 });
 
 export type ContactFormData = z.infer<typeof ContactFormSchema>;
@@ -76,15 +69,15 @@ export const initialFormData: ContactFormData = {
   projectType: "",
   location: "",
   projectDetails: "",
-  budget: "",
-  timeline: "",
+  budget: undefined,
+  timeline: undefined,
   name: "",
   email: "",
   phone: "",
   preferWhatsapp: true,
 } as unknown as ContactFormData;
 
-export type FormStep = 1 | 2 | 3 | 4;
+export type FormStep = 1 | 2;
 
 export type SubmissionState =
   | { status: "idle" }
@@ -113,7 +106,7 @@ export function formReducer(state: FormState, action: FormAction): FormState {
     case "update":
       return { ...state, data: { ...state.data, ...action.patch } };
     case "next":
-      return state.step < 4 ? { ...state, step: (state.step + 1) as FormStep } : state;
+      return state.step < 2 ? { ...state, step: (state.step + 1) as FormStep } : state;
     case "back":
       return state.step > 1 ? { ...state, step: (state.step - 1) as FormStep } : state;
     case "goto":
