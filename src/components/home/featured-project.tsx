@@ -33,7 +33,7 @@ export function FeaturedProject({
           <div className="grid gap-8 md:grid-cols-12 md:gap-x-10">
             {/* Image */}
             <div className={`${imageOrder} md:col-span-7`}>
-              <div className="relative aspect-[4/3] w-full overflow-hidden bg-bg-secondary">
+              <div className="relative aspect-[4/3] w-full overflow-hidden bg-paper-sunk">
                 <Image
                   src={project.cover.src}
                   alt={project.cover.alt}
@@ -49,11 +49,11 @@ export function FeaturedProject({
               className={`${copyOrder} flex flex-col justify-between md:col-span-4 md:py-2`}
             >
               <div>
-                <span className="label-mono">
-                  <span aria-hidden="true" className="text-fg-subtle">
+                <span className="font-meta text-meta uppercase text-graphite">
+                  <span aria-hidden="true" className="text-zinc">
                     {indexLabel}
                   </span>
-                  <span aria-hidden="true" className="ml-3 text-fg-subtle">
+                  <span aria-hidden="true" className="ml-3 text-zinc">
                     —
                   </span>
                   <span className="ml-3">{project.category}</span>
@@ -61,36 +61,36 @@ export function FeaturedProject({
 
                 <h3
                   id={`project-${project.slug}-title`}
-                  className="mt-5 font-display text-display-md text-fg-primary transition-colors group-hover:text-verdigris"
+                  className="mt-5 font-title text-d3 font-medium text-ink transition-colors group-hover:text-verdigris"
                 >
                   {project.title}
                 </h3>
 
-                <p className="mt-4 text-body text-fg-muted">{project.summary}</p>
+                <p className="mt-4 text-copy text-graphite">{project.summary}</p>
               </div>
 
-              <dl className="mt-8 grid grid-cols-2 gap-y-3 border-t border-surface-line pt-5 font-mono text-xs text-fg-muted">
+              <dl className="mt-8 grid grid-cols-2 gap-y-3 border-t border-concrete pt-5 font-meta text-meta-sm text-graphite">
                 <dt className="sr-only">Location</dt>
                 <dd>
-                  <span className="block text-fg-subtle">LOCATION</span>
-                  <span className="mt-1 block text-fg-primary">{project.location}</span>
+                  <span className="block text-zinc">LOCATION</span>
+                  <span className="mt-1 block text-ink">{project.location}</span>
                 </dd>
                 <dt className="sr-only">Year</dt>
                 <dd>
-                  <span className="block text-fg-subtle">YEAR</span>
-                  <span className="mt-1 block text-fg-primary">{project.year}</span>
+                  <span className="block text-zinc">YEAR</span>
+                  <span className="mt-1 block text-ink">{project.year}</span>
                 </dd>
                 <dt className="sr-only">Duration</dt>
                 <dd>
-                  <span className="block text-fg-subtle">DURATION</span>
-                  <span className="mt-1 block text-fg-primary">{project.durationMonths} mo</span>
+                  <span className="block text-zinc">DURATION</span>
+                  <span className="mt-1 block text-ink">{project.durationMonths} mo</span>
                 </dd>
                 {project.area !== null && (
                   <>
                     <dt className="sr-only">Area</dt>
                     <dd>
-                      <span className="block text-fg-subtle">AREA</span>
-                      <span className="mt-1 block text-fg-primary">
+                      <span className="block text-zinc">AREA</span>
+                      <span className="mt-1 block text-ink">
                         {project.area.toLocaleString()} {project.areaUnit}
                       </span>
                     </dd>

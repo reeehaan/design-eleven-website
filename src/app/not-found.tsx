@@ -1,22 +1,21 @@
 import Link from "next/link";
 import { Container } from "@/components/ui/container";
-import { EyebrowLabel } from "@/components/ui/eyebrow-label";
+import { Eyebrow } from "@/components/motion/eyebrow";
 
 export default function NotFound() {
   return (
-    <Container as="section" className="flex min-h-[70vh] items-center py-section">
+    <Container as="section" className="flex min-h-[70vh] items-center py-20">
       <div className="max-w-3xl">
-        <EyebrowLabel>404</EyebrowLabel>
-        <h1 className="mt-6 font-display text-display-xl leading-[0.95] text-fg-primary">
-          Nothing built{" "}
-          <span className="text-fg-muted">here</span>.
+        <Eyebrow>404</Eyebrow>
+        <h1 className="mt-6 font-title text-d1 font-medium text-ink">
+          Nothing built <span className="text-graphite">here</span>.
         </h1>
-        <p className="mt-8 max-w-md text-body-lg text-fg-muted">
+        <p className="mt-8 max-w-md text-lead text-graphite">
           The page you were looking for doesn&rsquo;t exist &mdash; or has been
           moved. Here&rsquo;s where you might be headed:
         </p>
 
-        <ul className="mt-12 grid gap-x-12 gap-y-6 border-t border-surface-line pt-8 sm:grid-cols-2">
+        <ul className="mt-12 grid gap-x-12 gap-y-6 border-t border-concrete pt-8 sm:grid-cols-2">
           {[
             { href: "/", label: "Home" },
             { href: "/projects", label: "Browse projects" },
@@ -28,12 +27,12 @@ export default function NotFound() {
                 href={item.href}
                 className="group flex items-baseline justify-between gap-4 py-2"
               >
-                <span className="font-display text-2xl text-fg-primary transition-colors group-hover:text-verdigris md:text-3xl">
+                <span className="font-title text-2xl font-medium text-ink transition-colors group-hover:text-verdigris md:text-3xl">
                   {item.label}
                 </span>
                 <span
                   aria-hidden="true"
-                  className="font-mono text-fg-subtle transition-transform duration-300 group-hover:translate-x-1 group-hover:text-verdigris"
+                  className="font-meta text-zinc transition-transform duration-300 group-hover:translate-x-1 group-hover:text-verdigris"
                 >
                   →
                 </span>

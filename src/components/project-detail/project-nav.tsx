@@ -14,7 +14,7 @@ export function ProjectNav({ prev, next }: ProjectNavProps) {
   return (
     <section
       aria-label="More projects"
-      className="border-t border-surface-line py-section md:py-section-lg"
+      className="border-t border-concrete py-20 md:py-24"
     >
       <Container>
         <div className="grid gap-8 md:grid-cols-2 md:gap-12">
@@ -42,13 +42,13 @@ function NavCard({
       <div
         className={`flex items-baseline justify-between gap-4 ${direction === "next" ? "flex-row-reverse" : ""}`}
       >
-        <span className="font-mono text-xs uppercase tracking-[0.08em] text-fg-muted transition-colors group-hover:text-verdigris">
+        <span className="font-meta text-meta-sm uppercase text-graphite transition-colors group-hover:text-verdigris">
           {direction === "prev" ? "← Previous project" : "Next project →"}
         </span>
-        <span className="font-mono text-xs text-fg-subtle">{project.year}</span>
+        <span className="font-meta text-meta-sm text-zinc">{project.year}</span>
       </div>
 
-      <div className="relative aspect-[16/10] w-full overflow-hidden bg-bg-secondary">
+      <div className="relative aspect-[16/10] w-full overflow-hidden bg-paper-sunk">
         <Image
           src={project.cover.src}
           alt={project.cover.alt}
@@ -58,10 +58,10 @@ function NavCard({
         />
       </div>
 
-      <h3 className="font-display text-3xl text-fg-primary transition-colors group-hover:text-verdigris md:text-4xl">
+      <h3 className="font-title text-3xl font-medium text-ink transition-colors group-hover:text-verdigris md:text-4xl">
         {project.title}
       </h3>
-      <span className="font-mono text-xs uppercase tracking-[0.08em] text-fg-subtle">
+      <span className="font-meta text-meta-sm uppercase text-zinc">
         {project.category} · {project.location}
       </span>
     </Link>

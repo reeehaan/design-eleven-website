@@ -5,7 +5,7 @@ export default function Loading() {
       aria-label="Loading"
       className="flex min-h-[60vh] items-center justify-center"
     >
-      <span className="font-mono text-xs uppercase tracking-[0.08em] text-fg-subtle">
+      <span className="font-meta text-meta-sm uppercase text-zinc">
         Loading
         <span className="ml-2 inline-block animate-pulse">·</span>
       </span>

@@ -1,5 +1,5 @@
 import { Container } from "@/components/ui/container";
-import { EyebrowLabel } from "@/components/ui/eyebrow-label";
+import { Eyebrow } from "@/components/motion/eyebrow";
 import { Reveal } from "@/components/ui/reveal";
 import { testimonials } from "@/lib/testimonials";
 
@@ -10,11 +10,11 @@ export function ProjectTestimonial({ testimonialId }: { testimonialId: string })
   return (
     <section
       aria-labelledby="project-testimonial-heading"
-      className="border-t border-surface-line py-section md:py-section-lg"
+      className="border-t border-concrete py-20 md:py-24"
     >
       <Container>
         <Reveal>
-          <EyebrowLabel number="05">From the client</EyebrowLabel>
+          <Eyebrow>05 &middot; From the client</Eyebrow>
           <h2 id="project-testimonial-heading" className="sr-only">
             Client testimonial
           </h2>
@@ -22,18 +22,18 @@ export function ProjectTestimonial({ testimonialId }: { testimonialId: string })
           <blockquote className="mt-8 max-w-4xl">
             <span
               aria-hidden="true"
-              className="block font-display text-7xl leading-none text-verdigris md:text-8xl"
+              className="block font-title text-7xl leading-none text-verdigris md:text-8xl"
             >
               &ldquo;
             </span>
-            <p className="mt-2 font-display text-3xl leading-snug text-fg-primary md:text-5xl md:leading-tight">
+            <p className="mt-2 font-title text-3xl leading-snug text-ink md:text-5xl md:leading-tight">
               {testimonial.quote}
             </p>
-            <footer className="mt-10 flex flex-col gap-1 border-t border-surface-line pt-5 font-mono text-xs uppercase tracking-[0.08em] md:flex-row md:items-center md:gap-6">
-              <cite className="not-italic text-fg-primary">
+            <footer className="mt-10 flex flex-col gap-1 border-t border-concrete pt-5 font-meta text-meta uppercase md:flex-row md:items-center md:gap-6">
+              <cite className="not-italic text-ink">
                 — {testimonial.name}
               </cite>
-              <span className="text-fg-muted">{testimonial.role}</span>
+              <span className="text-graphite">{testimonial.role}</span>
             </footer>
           </blockquote>
         </Reveal>

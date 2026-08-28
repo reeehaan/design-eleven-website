@@ -31,7 +31,7 @@ export function ProjectCard({ project, index }: ProjectCardProps) {
       >
         <div
           className={cn(
-            "relative w-full overflow-hidden bg-bg-secondary",
+            "relative w-full overflow-hidden bg-paper-sunk",
             aspect === "tall" ? "aspect-[3/4]" : "aspect-[4/3]",
           )}
         >
@@ -49,17 +49,17 @@ export function ProjectCard({ project, index }: ProjectCardProps) {
         </div>
 
         <div className="mt-4 flex items-baseline justify-between gap-4">
-          <span className="font-mono text-xs uppercase tracking-[0.08em] text-fg-subtle">
+          <span className="font-meta text-meta-sm uppercase text-zinc">
             {(index + 1).toString().padStart(2, "0")}{" "}
-            <span className="text-fg-subtle">/</span> {project.category}
+            <span className="text-zinc">/</span> {project.category}
           </span>
-          <span className="font-mono text-xs text-fg-muted">{project.year}</span>
+          <span className="font-meta text-meta-sm text-graphite">{project.year}</span>
         </div>
 
-        <h3 className="mt-2 font-display text-2xl text-fg-primary transition-colors group-hover:text-verdigris md:text-3xl">
+        <h3 className="mt-2 font-title text-2xl font-medium text-ink transition-colors group-hover:text-verdigris md:text-3xl">
           {project.title}
         </h3>
-        <p className="mt-1 text-sm text-fg-muted">{project.location}</p>
+        <p className="mt-1 text-sm text-graphite">{project.location}</p>
       </Link>
     </motion.article>
   );

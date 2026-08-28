@@ -38,7 +38,7 @@ export function ServiceNav({ services }: ServiceNavProps) {
 
   return (
     <nav aria-label="Services on this page" className="sticky top-24 hidden md:block">
-      <span className="font-mono text-xs uppercase tracking-[0.08em] text-fg-subtle">
+      <span className="font-meta text-meta-sm uppercase text-zinc">
         Services
       </span>
 
@@ -51,14 +51,14 @@ export function ServiceNav({ services }: ServiceNavProps) {
                 "group flex items-baseline gap-3 py-2 text-sm transition-colors",
                 activeSlug === service.slug
                   ? "text-verdigris"
-                  : "text-fg-muted hover:text-fg-primary",
+                  : "text-graphite hover:text-ink",
               )}
             >
               <span
                 aria-hidden="true"
                 className={cn(
-                  "font-mono text-xs transition-colors",
-                  activeSlug === service.slug ? "text-verdigris" : "text-fg-subtle",
+                  "font-meta text-meta-sm transition-colors",
+                  activeSlug === service.slug ? "text-verdigris" : "text-zinc",
                 )}
               >
                 0{i + 1}
@@ -67,7 +67,7 @@ export function ServiceNav({ services }: ServiceNavProps) {
                 aria-hidden="true"
                 className={cn(
                   "h-px transition-all duration-300",
-                  activeSlug === service.slug ? "w-8 bg-verdigris" : "w-4 bg-surface-line",
+                  activeSlug === service.slug ? "w-8 bg-verdigris" : "w-4 bg-concrete",
                 )}
               />
               <span>{service.title}</span>

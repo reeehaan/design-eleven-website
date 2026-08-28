@@ -20,20 +20,20 @@ export function ProjectHero({ project }: { project: Project }) {
       {/* Gradient overlay */}
       <div
         aria-hidden="true"
-        className="absolute inset-x-0 bottom-0 h-2/3 bg-gradient-to-t from-surface-dark/85 via-surface-dark/40 to-transparent"
+        className="absolute inset-x-0 bottom-0 h-2/3 bg-gradient-to-t from-ink/85 via-ink/40 to-transparent"
       />
 
       {/* Title block */}
-      <Container className="absolute inset-x-0 bottom-0 pb-12 md:pb-section-sm">
-        <span className="font-mono text-xs uppercase tracking-[0.08em] text-bg-primary/80">
+      <Container className="absolute inset-x-0 bottom-0 pb-12 md:pb-16">
+        <span className="font-meta text-meta-sm uppercase text-paper/80">
           {project.category}{" "}
-          <span className="text-bg-primary/60">· {project.location}</span>{" "}
-          <span className="text-bg-primary/60">· {project.year}</span>
+          <span className="text-paper/60">· {project.location}</span>{" "}
+          <span className="text-paper/60">· {project.year}</span>
         </span>
 
         <h1
           id="project-hero-title"
-          className="mt-4 font-display text-display-xl leading-[0.95] text-bg-primary"
+          className="mt-4 font-title text-d1 font-medium text-paper"
         >
           {project.title}
         </h1>

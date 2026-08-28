@@ -5,7 +5,7 @@ import { useEffect, useState, useCallback } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { X, ChevronLeft, ChevronRight } from "lucide-react";
 import { Container } from "@/components/ui/container";
-import { EyebrowLabel } from "@/components/ui/eyebrow-label";
+import { Eyebrow } from "@/components/motion/eyebrow";
 import { Reveal } from "@/components/ui/reveal";
 import { cn } from "@/lib/utils";
 import type { ProjectImage } from "@/lib/projects";
@@ -45,14 +45,14 @@ export function ProjectGallery({ images }: { images: ProjectImage[] }) {
   return (
     <section
       aria-labelledby="gallery-heading"
-      className="border-t border-surface-line py-section md:py-section-lg"
+      className="border-t border-concrete py-20 md:py-24"
     >
       <Container>
         <Reveal>
-          <EyebrowLabel number="02">Gallery</EyebrowLabel>
+          <Eyebrow>02 &middot; Gallery</Eyebrow>
           <h2
             id="gallery-heading"
-            className="mt-6 font-display text-display-md text-fg-primary"
+            className="mt-6 font-title text-d3 font-medium text-ink"
           >
             More from the build.
           </h2>
@@ -70,7 +70,7 @@ export function ProjectGallery({ images }: { images: ProjectImage[] }) {
                 >
                   <div
                     className={cn(
-                      "relative w-full overflow-hidden bg-bg-secondary",
+                      "relative w-full overflow-hidden bg-paper-sunk",
                       i === 0 ? "aspect-[16/9]" : "aspect-[4/3]",
                     )}
                   >

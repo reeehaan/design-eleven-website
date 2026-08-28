@@ -17,7 +17,7 @@ export function ArrowLink({
   const colorStyle =
     variant === "default"
       ? "text-verdigris hover:text-verdigris"
-      : "text-fg-primary hover:text-verdigris";
+      : "text-ink hover:text-verdigris";
 
   return (
     <Link

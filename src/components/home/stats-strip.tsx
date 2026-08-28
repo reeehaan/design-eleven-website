@@ -24,10 +24,10 @@ export function StatsStrip() {
   return (
     <section
       aria-label="Company at a glance"
-      className="border-y border-surface-line"
+      className="border-y border-concrete"
     >
       <Container>
-        <ul className="grid grid-cols-1 divide-y divide-surface-line md:grid-cols-3 md:divide-x md:divide-y-0">
+        <ul className="grid grid-cols-1 divide-y divide-concrete md:grid-cols-3 md:divide-x md:divide-y-0">
           {stats.map((stat, i) => (
             <li
               key={stat.label}
@@ -35,12 +35,12 @@ export function StatsStrip() {
             >
               <CountUp
                 value={stat.value}
-                className="font-display text-5xl text-fg-primary md:text-7xl tabular-nums"
+                className="font-title text-5xl font-medium text-ink md:text-7xl tabular-nums"
               />
-              <span className="label-mono">
+              <span className="font-meta text-meta uppercase text-graphite">
                 <span className="sr-only">{stat.value} </span>
                 {stat.label}
-                <span aria-hidden="true" className="ml-3 text-fg-subtle">
+                <span aria-hidden="true" className="ml-3 text-zinc">
                   / {(i + 1).toString().padStart(2, "0")}
                 </span>
               </span>
