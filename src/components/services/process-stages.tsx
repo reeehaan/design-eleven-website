@@ -70,58 +70,50 @@ export function ProcessStages() {
 
   return (
     <div ref={root} className="lg:grid lg:grid-cols-12 lg:gap-x-12">
-      {/* Pinned column */}
+      {/* Pinned column: the heading, the model, and a live read of the stage */}
       <div className="lg:col-span-5">
         <div className="lg:sticky lg:top-28">
-          <Eyebrow onDark>A-200 · How a job runs</Eyebrow>
+          <Eyebrow>A-200 · How a job runs</Eyebrow>
 
           <h2
             id="process-heading"
-            className="mt-8 font-title text-d2 font-medium text-paper"
+            className="mt-8 font-title text-d2 font-medium text-ink"
           >
             Six stages. You know the price before the third one starts.
           </h2>
 
-          {/* The lead paragraph that sat here said the same thing as the page
-              masthead directly above it — "what it costs to change your mind
-              at each stage" twice, four lines apart. The model says it
-              instead. */}
-
           {/* Below lg the stage tracker never runs (the pin is desktop-only),
               so mobile gets the finished massing rather than a model frozen at
               stage one. */}
-          <BuildModel
-            stage={stages.length - 1}
-            total={stages.length}
-            className="mt-10 lg:hidden"
-          />
+          <div data-on-dark className="mt-10 bg-ink p-6 text-paper lg:hidden">
+            <BuildModel stage={stages.length - 1} total={stages.length} />
+          </div>
 
-          {/* Live summary — desktop only; below lg each stage carries its own */}
-          <div className="mt-12 hidden lg:block">
-            <BuildModel
-              stage={active}
-              total={stages.length}
-              className="mb-12"
-            />
-            <div className="flex items-center gap-2" aria-hidden="true">
-              {stages.map((s, i) => (
-                <span
-                  key={s.ref}
-                  className={`h-px flex-1 transition-colors duration-500 ${
-                    i <= active ? "bg-verdigris-light" : "bg-graphite"
+          <ol className="mt-10 hidden gap-y-1 lg:grid">
+            {stages.map((stage, i) => (
+              <li key={stage.ref}>
+                <a
+                  href={`#stage-${stage.n}`}
+                  className={`flex items-baseline gap-4 border-t border-concrete py-2.5 font-title text-lg transition-colors duration-300 ${
+                    i === active ? "text-ink" : "text-zinc hover:text-ink"
                   }`}
-                />
-              ))}
-            </div>
+                >
+                  <span className="w-6 font-meta text-meta tabular-nums">
+                    {stage.n}
+                  </span>
+                  {stage.title}
+                </a>
+              </li>
+            ))}
+          </ol>
 
+          <div data-on-dark className="mt-10 hidden bg-ink p-6 text-paper lg:block">
+            <BuildModel stage={active} total={stages.length} />
             <div ref={summary} className="mt-6">
-              <p className="font-meta text-meta uppercase text-verdigris-light">
+              <p className="font-meta text-meta text-verdigris-light">
                 {current.ref} · Stage {current.n} of {stages.length}
               </p>
-              <p className="mt-3 font-title text-d4 font-medium text-paper">
-                {current.title}
-              </p>
-              <p className="mt-3 font-meta text-meta-sm uppercase text-zinc">
+              <p className="mt-2 font-meta text-meta-sm text-zinc">
                 Typically {current.duration}
               </p>
             </div>
@@ -129,53 +121,54 @@ export function ProcessStages() {
         </div>
       </div>
 
-      {/* Stages */}
+      {/* Stages: hairline rows, label left, title and copy beside it */}
       <ol className="mt-16 lg:col-span-7 lg:mt-0">
         {stages.map((stage, i) => (
           <li
             key={stage.ref}
+            id={`stage-${stage.n}`}
             data-stage
-            className="border-t border-graphite py-10 first:border-t-0 first:pt-0 lg:py-14"
+            className="scroll-mt-28 border-t border-ink py-10 lg:py-14"
           >
-            <div className="flex flex-wrap items-baseline gap-x-5 gap-y-2">
-              <span
-                className={`font-meta text-meta uppercase transition-colors duration-500 ${
-                  i === active ? "text-verdigris-light" : "text-zinc"
+            <div className="grid gap-x-8 gap-y-6 md:grid-cols-12">
+              <p
+                className={`font-meta text-meta transition-colors duration-500 md:col-span-3 ${
+                  i === active ? "text-ink" : "text-zinc"
                 }`}
               >
-                {stage.ref}
-              </span>
-              <span className="font-meta text-meta-sm uppercase text-zinc">
-                Typically {stage.duration}
-              </span>
+                Stage {stage.n}
+              </p>
+              <div className="md:col-span-9">
+                <h3 className="font-title text-d3 font-medium text-ink">
+                  {stage.title}
+                </h3>
+                <p className="mt-5 max-w-measure text-copy text-graphite">
+                  {stage.does}
+                </p>
+
+                <dl className="mt-8 grid gap-6 sm:grid-cols-2">
+                  <div className="border-t border-concrete pt-4">
+                    <dt className="font-meta text-meta-sm text-zinc">
+                      You decide
+                    </dt>
+                    <dd className="mt-2 text-fine text-graphite">
+                      {stage.decides}
+                    </dd>
+                  </div>
+                  <div className="border-t border-concrete pt-4">
+                    <dt className="font-meta text-meta-sm text-zinc">
+                      Cost to change your mind
+                    </dt>
+                    <dd className="mt-2 text-fine text-graphite">
+                      {stage.changeCost}
+                    </dd>
+                  </div>
+                </dl>
+                <p className="mt-6 font-meta text-meta-sm text-zinc">
+                  Typically {stage.duration}
+                </p>
+              </div>
             </div>
-
-            <h3 className="mt-6 font-title text-d3 font-medium text-paper">
-              <span className="text-zinc">{stage.n}</span> {stage.title}
-            </h3>
-
-            <p className="mt-5 max-w-measure text-copy text-concrete">
-              {stage.does}
-            </p>
-
-            <dl className="mt-8 grid gap-6 sm:grid-cols-2">
-              <div className="border-t border-graphite pt-4">
-                <dt className="font-meta text-meta-sm uppercase text-zinc">
-                  You decide
-                </dt>
-                <dd className="mt-2 text-fine text-concrete">
-                  {stage.decides}
-                </dd>
-              </div>
-              <div className="border-t border-graphite pt-4">
-                <dt className="font-meta text-meta-sm uppercase text-zinc">
-                  Cost to change your mind
-                </dt>
-                <dd className="mt-2 text-fine text-concrete">
-                  {stage.changeCost}
-                </dd>
-              </div>
-            </dl>
           </li>
         ))}
       </ol>
