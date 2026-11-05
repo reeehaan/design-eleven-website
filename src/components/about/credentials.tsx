@@ -46,7 +46,7 @@ export function Credentials() {
       aria-labelledby="credentials-heading"
       className="border-t border-graphite bg-ink text-paper"
     >
-      <div className="mx-auto w-full max-w-360 px-6 py-20 md:px-10 md:py-24 lg:px-16">
+      <div className="w-full px-3 py-20 md:py-24">
         <div className="grid gap-8 lg:grid-cols-12 lg:items-end">
           <div className="lg:col-span-7">
             <Eyebrow onDark>B-05 &middot; Credentials</Eyebrow>
@@ -79,7 +79,7 @@ export function Credentials() {
             >
               <span
                 aria-hidden="true"
-                className="font-meta text-meta-sm uppercase text-zinc md:col-span-1"
+                className="font-meta text-meta-sm text-zinc md:col-span-1"
               >
                 {String(i + 1).padStart(2, "0")}
               </span>
@@ -88,7 +88,7 @@ export function Credentials() {
                 {cred.label}
               </h3>
 
-              <span className="font-meta text-meta uppercase text-concrete md:col-span-3">
+              <span className="font-meta text-meta text-concrete md:col-span-3">
                 {cred.number}
               </span>
 
@@ -96,8 +96,8 @@ export function Credentials() {
                 <span
                   className={
                     cred.onFile
-                      ? "font-meta text-meta-sm uppercase text-verdigris-light"
-                      : "font-meta text-meta-sm uppercase text-zinc"
+                      ? "font-meta text-meta-sm text-verdigris-light"
+                      : "font-meta text-meta-sm text-zinc"
                   }
                 >
                   {cred.onFile ? "On file" : "Pending"}

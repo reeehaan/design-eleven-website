@@ -12,7 +12,7 @@ export function BehindScenes() {
       aria-labelledby="bts-heading"
       className="border-t border-concrete bg-paper"
     >
-      <div className="mx-auto w-full max-w-360 px-6 py-20 md:px-10 md:py-24 lg:px-16">
+      <div className="w-full px-3 py-20 md:py-24">
         <div className="grid gap-8 lg:grid-cols-12 lg:items-end">
           <div className="lg:col-span-7">
             <Eyebrow>B-04 &middot; Behind the scenes</Eyebrow>
@@ -57,8 +57,8 @@ export function BehindScenes() {
                     className="object-cover"
                   />
                 </div>
-                <p className="mt-3 font-meta text-meta-sm uppercase text-zinc">
-                  {String(i + 1).padStart(2, "0")} — {img.alt}
+                <p className="mt-3 font-meta text-meta-sm text-zinc">
+                  {String(i + 1).padStart(2, "0")}, {img.alt}
                 </p>
               </div>
             </li>

@@ -1,92 +1,109 @@
+"use client";
+
 import Image from "next/image";
-import { Eyebrow } from "@/components/motion/eyebrow";
-import { RevealLines } from "@/components/motion/reveal-lines";
-import { Reveal } from "@/components/ui/reveal";
-import { ScrubParagraph } from "@/components/motion/scrub-paragraph";
+import { useRef } from "react";
+import { gsap, useGSAP } from "@/lib/motion/gsap";
+import { FlipText } from "@/components/motion/flip-text";
 import { aboutImages } from "@/lib/images";
 import { siteConfig } from "@/lib/site";
 
+/**
+ * Centred portrait. As it scrolls into view the photograph grows to full size
+ * while the owner's first and last names travel in from the left and right
+ * edges of the screen and stop with a few letters over the photo's sides.
+ */
+const mark = "cursor-default text-verdigris";
+
 export function OwnerStory() {
+  const [first, ...rest] = siteConfig.owner.split(" ");
+  const root = useRef<HTMLElement>(null);
+
+  useGSAP(
+    () => {
+      const mm = gsap.matchMedia();
+      mm.add("(prefers-reduced-motion: no-preference)", () => {
+        const vw = window.innerWidth;
+        const overlap = vw < 768 ? 14 : 28;
+        const tl = gsap.timeline({
+          defaults: { ease: "none" },
+          scrollTrigger: {
+            trigger: root.current,
+            start: "top 80%",
+            end: "top 15%",
+            scrub: 0.3,
+          },
+        });
+        tl.fromTo("[data-photo]", { scale: 0.55 }, { scale: 1 }, 0)
+          .fromTo("[data-first]", { x: -vw * 0.6 }, { x: overlap }, 0)
+          .fromTo("[data-last]", { x: vw * 0.6 }, { x: -overlap }, 0);
+        return () => {
+          tl.scrollTrigger?.kill();
+          tl.kill();
+        };
+      });
+      return () => mm.revert();
+    },
+    { scope: root },
+  );
+
+  const name =
+    "absolute top-1/2 z-10 -translate-y-1/2 whitespace-nowrap font-sans text-[clamp(0.9rem,3.8vw,1.75rem)] font-semibold tracking-[-0.02em] text-ink";
+
   return (
     <section
+      ref={root}
       aria-labelledby="owner-story-heading"
-      className="border-t border-concrete bg-paper"
+      className="overflow-clip bg-paper px-3 pb-14 md:pb-40"
     >
-      <div className="mx-auto w-full max-w-360 px-6 py-20 md:px-10 md:py-24 lg:px-16">
-        <div className="grid gap-x-12 gap-y-10 lg:grid-cols-12">
-          <Reveal className="lg:col-span-5">
-            <div className="relative aspect-4/5 w-full overflow-hidden bg-paper-sunk">
-              <Image
-                src={aboutImages.owner.src}
-                alt={aboutImages.owner.alt}
-                fill
-                priority
-                sizes="(min-width: 1024px) 40vw, 100vw"
-                className="object-cover"
-              />
-            </div>
+      <h2
+        id="owner-story-heading"
+        className="text-center font-sans text-[clamp(1.75rem,3vw,2.75rem)] font-semibold leading-none tracking-[-0.03em] text-ink"
+      >
+        Meet the owner
+      </h2>
 
-            {/* Photo caption in the title-block voice, same as a drawing sheet */}
-            <p className="mt-4 font-meta text-meta-sm uppercase text-zinc">
-              Portrait — {siteConfig.owner}, founder
-            </p>
-          </Reveal>
-
-          <div className="lg:col-span-6 lg:col-start-7">
-            <Eyebrow>B-01 &middot; The story</Eyebrow>
-            <RevealLines
-              as="h2"
-              id="owner-story-heading"
-              className="mt-8 max-w-[18ch] font-title text-d2 font-medium text-ink"
-            >
-              A small crew, <span className="text-zinc">careful work.</span>
-            </RevealLines>
-
-            {/* The word scrub, on the one page the motion system permits it:
-                "two places only — the About statement and a case-study brief".
-                It forces reading pace, which is the point on the paragraph
-                that carries why the studio exists. It was built for this and
-                had never been used. */}
-            <ScrubParagraph className="mt-8 max-w-measure text-lead text-graphite">
-              {siteConfig.name} was founded in {siteConfig.established} by{" "}
-              {siteConfig.owner}
-              {/* Explicit: the transform strips the space between an
-                  expression and the text that follows it on a wrapped
-                  line, which rendered "Thilakarathneafter". */}{" "}
-              after years working on residential and commercial sites across Sri
-              Lanka. The decision to start independently came from a simple
-              frustration: too many projects were being managed by people who
-              weren&apos;t actually on site.
-            </ScrubParagraph>
-
-            {/* Both paragraphs scrub, because together they are the statement
-                — the rule is one statement, not one <p>. The third paragraph
-                is gone: it listed the three build types the Work page already
-                filters by, then closed on "clear communication, honest pricing
-                and craftsmanship", which every contractor writes and no client
-                believes. The masthead figures and the qualification below
-                argue it with evidence instead. */}
-            <ScrubParagraph className="mt-6 max-w-measure text-lead text-graphite">
-              Today we are a small, owner-led crew. Our principal is at every
-              site visit, every key decision, every handover. We do not take on
-              more projects than we can supervise properly — that is the
-              trade-off, and it is one we are happy to make.
-            </ScrubParagraph>
-
-            <Reveal>
-              {/* The qualification is the load-bearing fact in this section —
-                  a QS pricing the job is what the rest of the site claims. */}
-              <dl className="mt-8 border-t border-concrete pt-5">
-                <dt className="font-meta text-meta-sm uppercase text-zinc">
-                  {siteConfig.ownerTitle}
-                </dt>
-                <dd className="mt-2 font-meta text-meta uppercase text-ink">
-                  {siteConfig.ownerCredentials}
-                </dd>
-              </dl>
-            </Reveal>
-          </div>
+      <div className="relative mx-auto mt-8 w-[48%] max-w-sm md:w-[36%] md:max-w-none">
+        <div
+          data-photo
+          className="relative aspect-4/5 w-full overflow-clip bg-paper-sunk"
+        >
+          <Image
+            src={aboutImages.owner.src}
+            alt={aboutImages.owner.alt}
+            fill
+            sizes="(min-width: 768px) 36vw, 50vw"
+            className="object-cover"
+          />
         </div>
+        <p data-first className={`${name} right-full`} aria-hidden="true">
+          {first}
+        </p>
+        <p data-last className={`${name} left-full`} aria-hidden="true">
+          {rest.join(" ")}
+        </p>
+        <p className="sr-only">{siteConfig.owner}</p>
+      </div>
+
+      <div
+        data-fx="rise"
+        className="mx-auto mt-10 max-w-2xl space-y-5 text-center font-sans text-[clamp(1.0625rem,1.6vw,1.375rem)] font-semibold leading-[1.25] tracking-[-0.01em] text-ink"
+      >
+        <p>
+          {siteConfig.owner} is a{" "}
+          <FlipText className={mark}>qualified quantity surveyor</FlipText> and
+          the <FlipText className={mark}>proprietor</FlipText> of{" "}
+          {siteConfig.name}. He holds {siteConfig.ownerCredentials}, and founded
+          the studio in{" "}
+          <FlipText className={mark}>{String(siteConfig.established)}</FlipText>{" "}
+          after years working on residential and commercial sites across Sri
+          Lanka.
+        </p>
+        <p>
+          He <FlipText className={mark}>prices every job himself</FlipText> and
+          is <FlipText className={mark}>on site</FlipText> for every visit,
+          every key decision and every handover, so the person who gave you the
+          number is the person standing on your project.
+        </p>
       </div>
     </section>
   );

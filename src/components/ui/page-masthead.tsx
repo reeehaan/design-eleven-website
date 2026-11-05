@@ -2,6 +2,8 @@ import { Eyebrow } from "@/components/motion/eyebrow";
 import { RevealLines } from "@/components/motion/reveal-lines";
 import { Reveal } from "@/components/ui/reveal";
 import { cn } from "@/lib/utils";
+import { SplitTitle } from "@/components/ui/split-title";
+import type { SiteImage } from "@/lib/images";
 
 export type MastheadCell = {
   label: string;
@@ -29,6 +31,8 @@ type PageMastheadProps = {
    * facts worth stating — an invented figure is worse than a plain header.
    */
   cells?: MastheadCell[];
+  /** Breaks the title around a photograph, title and accent either side. */
+  splitImage?: SiteImage;
 };
 
 /**
@@ -49,14 +53,28 @@ export function PageMasthead({
   titleAccent,
   intro,
   cells,
+  splitImage,
 }: PageMastheadProps) {
   return (
     <section
       aria-labelledby="page-masthead-title"
       className="border-b border-concrete bg-paper"
     >
-      <div className="mx-auto w-full max-w-360 px-6 pt-12 md:px-10 md:pt-16 lg:px-16">
+      <div className="w-full px-3 pt-12 md:pt-16">
         <div className="grid gap-x-10 gap-y-8 lg:grid-cols-12 lg:items-end">
+          {splitImage && titleAccent ? (
+            <div className="lg:col-span-12">
+              <Eyebrow>{eyebrow}</Eyebrow>
+              <div className="mt-7">
+                <SplitTitle
+                  id="page-masthead-title"
+                  left={title}
+                  right={titleAccent}
+                  image={splitImage}
+                />
+              </div>
+            </div>
+          ) : (
           <div className="lg:col-span-8">
             <Eyebrow>{eyebrow}</Eyebrow>
             <RevealLines
@@ -73,8 +91,9 @@ export function PageMasthead({
               )}
             </RevealLines>
           </div>
+          )}
 
-          <div className="lg:col-span-4 lg:pb-2">
+          <div className={cn("lg:pb-2", splitImage ? "lg:col-span-5 lg:col-start-8" : "lg:col-span-4")}>
             <Reveal>
               <p className="max-w-measure font-body text-lead text-graphite">
                 {intro}
@@ -101,20 +120,20 @@ export function PageMasthead({
                     i === 0 ? "md:pl-0" : "md:pl-6",
                   )}
                 >
-                  <dt className="font-meta text-meta-sm uppercase text-zinc">
+                  <dt className="font-meta text-meta-sm text-zinc">
                     {cell.label}
                   </dt>
                   <dd
                     className={cn(
                       "mt-2.5 text-ink",
                       cell.code
-                        ? "font-meta text-meta break-words uppercase"
+                        ? "font-meta text-meta break-words "
                         : "font-title text-d4 font-medium tabular-nums",
                     )}
                   >
                     {cell.value}
                     {cell.unit && (
-                      <span className="ml-1.5 font-meta text-meta uppercase text-zinc">
+                      <span className="ml-1.5 font-meta text-meta text-zinc">
                         {cell.unit}
                       </span>
                     )}

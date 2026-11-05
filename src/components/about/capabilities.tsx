@@ -25,7 +25,7 @@ export function Capabilities() {
       aria-labelledby="capabilities-heading"
       className="border-t border-concrete bg-paper"
     >
-      <div className="mx-auto w-full max-w-360 px-6 py-20 md:px-10 md:py-24 lg:px-16">
+      <div className="w-full px-3 py-20 md:py-24">
         <div className="grid gap-8 lg:grid-cols-12 lg:items-end">
           <div className="lg:col-span-7">
             <Eyebrow>B-03 &middot; Capabilities</Eyebrow>
@@ -45,14 +45,14 @@ export function Capabilities() {
           </div>
         </div>
 
-        <Reveal className="mt-14 md:mt-16">
+        <Reveal className="mt-14 md:mt-10 md:mt-16">
           <dl className="border-t border-concrete">
             {capabilities.map((cap) => (
               <div
                 key={cap.label}
                 className="grid gap-x-8 gap-y-1 border-b border-concrete py-6 md:grid-cols-12 md:items-baseline"
               >
-                <dt className="font-meta text-meta-sm uppercase text-zinc md:col-span-3">
+                <dt className="font-meta text-meta-sm text-zinc md:col-span-3">
                   {cap.label}
                 </dt>
                 <dd className="font-title text-d4 font-medium text-ink md:col-span-9">
