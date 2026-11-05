@@ -1,6 +1,7 @@
 import Link from "next/link";
 import { cn } from "@/lib/utils";
 import type { ComponentProps, ReactNode } from "react";
+import { ArrowRight } from "lucide-react";
 
 type ArrowLinkProps = ComponentProps<typeof Link> & {
   children: ReactNode;
@@ -33,7 +34,7 @@ export function ArrowLink({
         aria-hidden="true"
         className="transition-transform duration-300 ease-out group-hover:translate-x-1"
       >
-        →
+        <ArrowRight aria-hidden="true" className="inline-block h-[1em] w-[1em] align-[-0.12em]" />
       </span>
     </Link>
   );

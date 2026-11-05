@@ -3,7 +3,7 @@
 import { useEffect, useRef, useState } from "react";
 import { createPortal } from "react-dom";
 import Link from "next/link";
-import { Menu, X } from "lucide-react";
+import { ArrowRight, Menu, X } from "lucide-react";
 import { siteConfig } from "@/lib/site";
 import { gsap, reduced } from "@/lib/motion/gsap";
 import { ease } from "@/lib/motion/tokens";
@@ -11,6 +11,7 @@ import { ease } from "@/lib/motion/tokens";
 /** Full-screen navigation overlay. */
 export function MobileMenu() {
   const [open, setOpen] = useState(false);
+
   const panel = useRef<HTMLDivElement>(null);
   const closeBtn = useRef<HTMLButtonElement>(null);
   const openBtn = useRef<HTMLButtonElement>(null);
@@ -90,7 +91,7 @@ export function MobileMenu() {
         aria-expanded={open}
         aria-controls="mobile-menu"
         onClick={() => setOpen(true)}
-        className="inline-flex h-10 w-10 items-center justify-center text-ink transition-colors hover:text-verdigris md:hidden"
+        className="inline-flex h-10 w-10 items-center justify-center text-current transition-colors hover:text-verdigris md:hidden"
       >
         <Menu size={22} />
       </button>
@@ -99,14 +100,15 @@ export function MobileMenu() {
         createPortal(
         <div
           id="mobile-menu"
+          data-lenis-prevent
           ref={panel}
           role="dialog"
           aria-modal="true"
           aria-label="Site navigation"
-          className="fixed inset-0 z-50 flex flex-col bg-ink text-paper md:hidden"
+          className="fixed inset-0 z-50 flex flex-col bg-paper text-ink md:hidden"
         >
-          <div className="flex h-16 shrink-0 items-center justify-between border-b border-graphite px-6">
-            <span className="font-meta text-meta uppercase text-zinc">
+          <div className="flex h-16 shrink-0 items-center justify-between border-b border-concrete px-6">
+            <span className="font-meta text-meta text-zinc">
               Menu
             </span>
             <button
@@ -114,7 +116,7 @@ export function MobileMenu() {
               type="button"
               aria-label="Close menu"
               onClick={() => setOpen(false)}
-              className="inline-flex h-10 w-10 items-center justify-center text-paper transition-colors hover:text-verdigris-light"
+              className="inline-flex h-10 w-10 items-center justify-center text-ink transition-colors hover:text-verdigris"
             >
               <X size={22} />
             </button>
@@ -125,23 +127,23 @@ export function MobileMenu() {
             className="flex flex-1 flex-col justify-center px-6"
           >
             <ul>
-              {siteConfig.nav.map((item, i) => (
+              {siteConfig.nav.filter((n) => n.href !== "/contact").map((item, i) => (
                 <li
                   key={item.href}
-                  className="border-b border-graphite last:border-0"
+                  className="border-b border-concrete last:border-0"
                 >
                   <Link
                     href={item.href}
                     onClick={() => setOpen(false)}
                     className="flex items-baseline gap-5 py-5"
                   >
-                    <span className="font-meta text-meta-sm uppercase text-zinc">
+                    <span className="font-meta text-meta-sm text-zinc">
                       {String(i + 1).padStart(2, "0")}
                     </span>
                     <span className="block overflow-hidden pb-[0.06em]">
                       <span
                         data-nav-line
-                        className="block font-title text-d3 font-medium text-paper"
+                        className="block font-title text-d3 font-medium text-ink"
                       >
                         {item.label}
                       </span>
@@ -155,29 +157,29 @@ export function MobileMenu() {
               data-nav-tail
               href="/contact"
               onClick={() => setOpen(false)}
-              className="mt-10 inline-flex items-center justify-center gap-2 bg-verdigris px-6 py-4 font-meta text-meta uppercase text-paper"
+              className="mt-10 inline-flex items-center justify-center gap-2 bg-verdigris px-6 py-4 font-meta text-meta text-ink"
             >
               Start a project
-              <span aria-hidden="true">→</span>
+              <ArrowRight aria-hidden="true" className="inline-block h-[1em] w-[1em] align-[-0.12em]" />
             </Link>
           </nav>
 
           {/* Title block, not a link farm */}
           <div
             data-nav-tail
-            className="shrink-0 border-t border-graphite px-6 py-6"
+            className="shrink-0 border-t border-concrete px-6 py-6"
           >
-            <p className="font-meta text-meta-sm uppercase text-zinc">Direct</p>
+            <p className="font-meta text-meta-sm text-zinc">Direct</p>
             <div className="mt-3 flex flex-col gap-1">
               <a
                 href={`tel:${siteConfig.contact.phone.replace(/\s/g, "")}`}
-                className="font-meta text-meta uppercase text-paper"
+                className="font-meta text-meta text-ink"
               >
                 {siteConfig.contact.phoneDisplay}
               </a>
               <a
                 href={`mailto:${siteConfig.contact.email}`}
-                className="font-meta text-meta-sm text-concrete"
+                className="font-meta text-meta-sm text-graphite"
               >
                 {siteConfig.contact.email}
               </a>
