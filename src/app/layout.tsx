@@ -4,7 +4,7 @@ import { Geist_Mono } from "next/font/google";
 import { Navbar } from "@/components/layout/navbar";
 import { Footer } from "@/components/layout/footer";
 import { MotionProvider } from "@/lib/motion/provider";
-import { CustomCursor } from "@/components/motion/cursor";
+import { PageTransition } from "@/components/motion/page-transition";
 import { JsonLd } from "@/components/seo/json-ld";
 import { siteConfig } from "@/lib/site";
 import { localBusinessSchema } from "@/lib/structured-data";
@@ -78,8 +78,8 @@ export const metadata: Metadata = {
 
 export const viewport: Viewport = {
   themeColor: [
-    { media: "(prefers-color-scheme: light)", color: "#F0F0EC" },
-    { media: "(prefers-color-scheme: dark)", color: "#0E1417" },
+    { media: "(prefers-color-scheme: light)", color: "#F3EFE8" },
+    { media: "(prefers-color-scheme: dark)", color: "#231E19" },
   ],
   width: "device-width",
   initialScale: 1,
@@ -99,7 +99,7 @@ export default function RootLayout({
       <body className="flex min-h-dvh flex-col">
         <JsonLd data={localBusinessSchema()} />
         <MotionProvider />
-        <CustomCursor />
+        <PageTransition />
         <Navbar />
         <main className="relative z-10 flex-1">{children}</main>
         <Footer />

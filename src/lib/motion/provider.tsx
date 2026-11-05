@@ -10,8 +10,9 @@ import { gsap, ScrollTrigger, reduced } from "./gsap";
  */
 export function MotionProvider() {
   useEffect(() => {
-    // Smooth scroll hijacks native scrolling entirely, so with reduced motion
-    // we leave the browser's own scrolling alone and only wire up refreshes.
+    // Smooth scrolling everywhere, touch included. The scroll scenes are
+    // sticky tracks (plus one pinned section) that ScrollTrigger reads from
+    // Lenis, so they stay in step with it. Reduced motion keeps native scroll.
     const useLenis = !reduced();
     let lenis: Lenis | null = null;
     let tick: ((time: number) => void) | null = null;
@@ -20,7 +21,11 @@ export function MotionProvider() {
       lenis = new Lenis({
         duration: 1.05,
         easing: (t: number) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
-        touchMultiplier: 1.6,
+        smoothWheel: true,
+        // Touch gets the same easing instead of the browser's own fling.
+        syncTouch: true,
+        syncTouchLerp: 0.12,
+        touchMultiplier: 1.2,
       });
 
       lenis.on("scroll", ScrollTrigger.update);
@@ -39,11 +44,14 @@ export function MotionProvider() {
     let refreshTimer: number | undefined;
     const refresh = () => {
       window.clearTimeout(refreshTimer);
+      window.clearTimeout(settle);
       refreshTimer = window.setTimeout(() => ScrollTrigger.refresh(), 120);
     };
 
     document.fonts?.ready.then(refresh).catch(() => {});
     window.addEventListener("load", refresh);
+    // Late layout (images, the hero's measured track) settles after load.
+    const settle = window.setTimeout(() => ScrollTrigger.refresh(), 1200);
     window.addEventListener("resize", refresh);
 
     return () => {
