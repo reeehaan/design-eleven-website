@@ -1,6 +1,7 @@
 import Link from "next/link";
 import { Container } from "@/components/ui/container";
 import { Eyebrow } from "@/components/motion/eyebrow";
+import { ArrowRight } from "lucide-react";
 
 export default function NotFound() {
   return (
@@ -11,7 +12,7 @@ export default function NotFound() {
           Nothing built <span className="text-graphite">here</span>.
         </h1>
         <p className="mt-8 max-w-md text-lead text-graphite">
-          The page you were looking for doesn&rsquo;t exist &mdash; or has been
+          The page you were looking for doesn&rsquo;t exist, or has been
           moved. Here&rsquo;s where you might be headed:
         </p>
 
@@ -34,7 +35,7 @@ export default function NotFound() {
                   aria-hidden="true"
                   className="font-meta text-zinc transition-transform duration-300 group-hover:translate-x-1 group-hover:text-verdigris"
                 >
-                  →
+                  <ArrowRight aria-hidden="true" className="inline-block h-[1em] w-[1em] align-[-0.12em]" />
                 </span>
               </Link>
             </li>

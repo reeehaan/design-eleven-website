@@ -5,6 +5,7 @@ import { Container } from "@/components/ui/container";
 import { Eyebrow } from "@/components/motion/eyebrow";
 import { ArrowLink } from "@/components/ui/arrow-link";
 import { siteConfig } from "@/lib/site";
+import { ArrowRight } from "lucide-react";
 
 export default function Error({
   error,
@@ -35,14 +36,14 @@ export default function Error({
             onClick={reset}
             className="inline-flex items-center gap-3 rounded-full bg-ink px-6 py-3 text-sm font-medium text-paper transition-colors hover:bg-verdigris"
           >
-            Try again <span aria-hidden="true">→</span>
+            Try again <ArrowRight aria-hidden="true" className="inline-block h-[1em] w-[1em] align-[-0.12em]" />
           </button>
           <ArrowLink href="/" variant="subtle">
             Go home
           </ArrowLink>
         </div>
 
-        <div className="mt-12 border-t border-concrete pt-6 font-meta text-meta-sm uppercase text-graphite">
+        <div className="mt-12 border-t border-concrete pt-6 font-meta text-meta-sm text-graphite">
           Or call us directly:{" "}
           <a
             href={`tel:${siteConfig.contact.phone.replace(/\s/g, "")}`}
