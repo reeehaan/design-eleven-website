@@ -8,17 +8,18 @@ import { ease } from "@/lib/motion/tokens";
 import { RevealLines } from "@/components/motion/reveal-lines";
 import { RevealItems } from "@/components/motion/reveal-items";
 import { getFeaturedProjects, type Project } from "@/lib/projects";
+import { ArrowRight } from "lucide-react";
 
 function metaStrip(p: Project): string {
   return [
     p.projectNo,
-    p.location.toUpperCase(),
+    p.location,
     String(p.year),
-    p.area ? `${p.area.toLocaleString()} SQ FT` : null,
-    `${p.durationMonths} ${p.durationMonths === 1 ? "MONTH" : "MONTHS"}`,
+    p.area ? `${p.area.toLocaleString()} sq ft` : null,
+    `${p.durationMonths} ${p.durationMonths === 1 ? "month" : "months"}`,
   ]
     .filter(Boolean)
-    .join(" · ");
+    .join(", ");
 }
 
 export function FeaturedWork() {
@@ -113,7 +114,7 @@ export function FeaturedWork() {
       aria-labelledby="work-heading"
       className="border-t border-concrete bg-paper"
     >
-      <div className="mx-auto w-full max-w-360 px-6 py-20 md:px-10 md:py-28 lg:px-16">
+      <div className="w-full px-3 py-20 md:py-28">
         <div className="flex flex-wrap items-end justify-between gap-6">
           <RevealLines
             as="h2"
@@ -124,9 +125,9 @@ export function FeaturedWork() {
           </RevealLines>
           <Link
             href="/projects"
-            className="font-meta text-meta uppercase text-verdigris underline-offset-4 hover:underline"
+            className="font-meta text-meta text-verdigris underline-offset-4 hover:underline"
           >
-            All projects →
+            All projects <ArrowRight aria-hidden="true" className="inline-block h-[1em] w-[1em] align-[-0.12em]" />
           </Link>
         </div>
 
@@ -165,24 +166,24 @@ export function FeaturedWork() {
                   {/* Accent rule wipes in from the left on hover and focus */}
                   <span
                     aria-hidden="true"
-                    className="absolute bottom-0 left-0 h-px w-0 bg-verdigris transition-[width] duration-500 ease-out group-hover:w-full group-focus-visible:w-full"
+                    className="absolute bottom-0 left-0 h-px w-full origin-left scale-x-0 bg-verdigris transition-transform duration-500 ease-out group-hover:scale-x-100 group-focus-visible:scale-x-100"
                   />
 
                   <div className="flex flex-wrap items-baseline gap-x-5 gap-y-3">
-                    <span className="font-meta text-meta-sm uppercase text-zinc">
+                    <span className="font-meta text-meta-sm text-zinc">
                       {String(i + 1).padStart(2, "0")}
                     </span>
                     <h3 className="font-title text-d3 font-medium text-ink transition-transform duration-500 ease-out md:group-hover:translate-x-3">
                       {p.title}
                     </h3>
                     {p.status === "in-progress" && (
-                      <span className="bg-verdigris px-2.5 py-1 font-meta text-meta-sm uppercase text-paper">
+                      <span className="bg-verdigris px-2.5 py-1 font-meta text-meta-sm text-paper">
                         In progress
                       </span>
                     )}
                   </div>
 
-                  <p className="font-meta text-meta-sm uppercase text-zinc md:text-right">
+                  <p className="font-meta text-meta-sm text-zinc md:text-right">
                     {metaStrip(p)}
                   </p>
                 </Link>

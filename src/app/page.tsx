@@ -1,20 +1,24 @@
+import { Wordmark } from "@/components/home/wordmark";
 import { Hero } from "@/components/home/hero";
-import { FeaturedWork } from "@/components/home/featured-work";
-import { ServicesList } from "@/components/home/services-list";
-import { Process } from "@/components/home/process";
+import {
+  HomeApproach,
+  HomeIntro,
+  HomeProcess,
+} from "@/components/home/home-sections";
+import { HomeShowcase } from "@/components/home/home-showcase";
+import { getFeaturedProjects } from "@/lib/projects";
 import { TestimonialsSection } from "@/components/home/testimonials-section";
 import { FinalCta } from "@/components/home/final-cta";
 
 export default function HomePage() {
   return (
     <>
-      {/* StatsStrip removed: it asserted "40+ projects delivered" and
-          "100% licensed & insured", neither of which is evidenced anywhere.
-          The hero title block now carries the facts we can stand behind. */}
       <Hero />
-      <FeaturedWork />
-      <ServicesList />
-      <Process />
+      <HomeIntro />
+      <Wordmark />
+      <HomeShowcase projects={getFeaturedProjects()} />
+      <HomeApproach />
+      <HomeProcess />
       <TestimonialsSection />
       <FinalCta />
     </>

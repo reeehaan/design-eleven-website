@@ -83,12 +83,12 @@ export function Process() {
       aria-labelledby="process-heading"
       className="border-t border-graphite bg-ink text-paper"
     >
-      <div className="mx-auto w-full max-w-360 px-6 py-20 md:px-10 md:py-28 lg:px-16">
+      <div className="w-full px-3 py-20 md:py-28">
         <div ref={root} className="md:grid md:grid-cols-12 md:gap-x-12">
           {/* Sticky column — holds the heading and a live step counter */}
           <div className="md:col-span-5">
             <div className="md:sticky md:top-28">
-              <p className="font-meta text-meta uppercase text-zinc">
+              <p className="font-meta text-meta text-zinc">
                 A-200 · How a job runs
               </p>
               <RevealLines
@@ -123,7 +123,7 @@ export function Process() {
                     />
                   ))}
                 </div>
-                <p className="mt-4 font-meta text-meta-sm uppercase text-zinc">
+                <p className="mt-4 font-meta text-meta-sm text-zinc">
                   Step {String(activeIdx + 1).padStart(2, "0")} of{" "}
                   {String(steps.length).padStart(2, "0")} ·{" "}
                   {steps[activeIdx].duration}
@@ -146,13 +146,13 @@ export function Process() {
               >
                 <div className="flex items-baseline gap-5">
                   <span
-                    className={`font-meta text-meta uppercase transition-colors duration-500 ${
+                    className={`font-meta text-meta transition-colors duration-500 ${
                       i === activeIdx ? "text-verdigris-light" : "text-zinc"
                     }`}
                   >
                     {step.ref}
                   </span>
-                  <span className="font-meta text-meta-sm uppercase text-zinc">
+                  <span className="font-meta text-meta-sm text-zinc">
                     {step.duration}
                   </span>
                 </div>
@@ -163,7 +163,7 @@ export function Process() {
                 <p className="mt-5 max-w-measure text-copy text-concrete">
                   {step.description}
                 </p>
-                <p className="mt-5 max-w-measure border-l border-graphite pl-5 font-meta text-meta-sm uppercase text-zinc">
+                <p className="mt-5 max-w-measure border-l border-graphite pl-5 font-meta text-meta-sm text-zinc">
                   {step.decision}
                 </p>
               </li>

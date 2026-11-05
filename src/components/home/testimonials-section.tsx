@@ -7,6 +7,7 @@ import { dur, ease } from "@/lib/motion/tokens";
 import { Eyebrow } from "@/components/motion/eyebrow";
 import { testimonials } from "@/lib/testimonials";
 import { getProjectBySlug } from "@/lib/projects";
+import { ArrowLeft, ArrowRight } from "lucide-react";
 
 /** How long each quote holds before advancing on its own. */
 const AUTOPLAY_MS = 6000;
@@ -68,7 +69,7 @@ export function TestimonialsSection() {
       aria-labelledby="testimonials-heading"
       className="border-t border-concrete bg-paper"
     >
-      <div className="mx-auto w-full max-w-360 px-6 py-20 md:px-10 md:py-28 lg:px-16">
+      <div className="w-full px-3 py-20 md:py-28">
         <Eyebrow>A-400 · Word from clients</Eyebrow>
         <h2 id="testimonials-heading" className="sr-only">
           Client testimonials
@@ -106,8 +107,8 @@ export function TestimonialsSection() {
                   <p className="mt-2 max-w-[22ch] font-title text-d3 font-medium leading-snug text-ink md:max-w-[26ch]">
                     {t.quote}
                   </p>
-                  <footer className="mt-10 flex flex-col gap-1 border-t border-concrete pt-5 font-meta text-meta-sm uppercase md:flex-row md:items-center md:gap-6">
-                    <cite className="not-italic text-ink">— {t.name}</cite>
+                  <footer className="mt-10 flex flex-col gap-1 border-t border-concrete pt-5 font-meta text-meta-sm md:flex-row md:items-center md:gap-6">
+                    <cite className="not-italic text-ink">{t.name}</cite>
                     <span className="text-zinc">{t.role}</span>
                     {/* Two testimonials still point at projects that were
                         never published, and one at a draft. Only link when
@@ -118,7 +119,7 @@ export function TestimonialsSection() {
                         tabIndex={isActive ? 0 : -1}
                         className="text-verdigris underline-offset-4 transition-colors hover:underline md:ml-auto"
                       >
-                        View project →
+                        View project <ArrowRight aria-hidden="true" className="inline-block h-[1em] w-[1em] align-[-0.12em]" />
                       </Link>
                     )}
                   </footer>
@@ -131,7 +132,7 @@ export function TestimonialsSection() {
               their position never depends on the quote's height. */}
           <div className="flex items-center justify-between gap-6 md:col-span-3 md:flex-col md:items-end md:justify-start md:gap-8">
             <p
-              className="font-meta text-meta uppercase text-zinc"
+              className="font-meta text-meta text-zinc"
               aria-live="polite"
             >
               <span className="text-ink">
@@ -154,7 +155,7 @@ export function TestimonialsSection() {
                   aria-hidden="true"
                   className="transition-transform duration-300 ease-out group-hover:-translate-x-0.5"
                 >
-                  ←
+                  <ArrowLeft aria-hidden="true" className="inline-block h-[1em] w-[1em] align-[-0.12em]" />
                 </span>
               </button>
               <button
@@ -167,7 +168,7 @@ export function TestimonialsSection() {
                   aria-hidden="true"
                   className="transition-transform duration-300 ease-out group-hover:translate-x-0.5"
                 >
-                  →
+                  <ArrowRight aria-hidden="true" className="inline-block h-[1em] w-[1em] align-[-0.12em]" />
                 </span>
               </button>
             </div>

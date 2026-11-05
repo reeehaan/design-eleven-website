@@ -2,6 +2,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { Container } from "@/components/ui/container";
 import type { Project } from "@/lib/projects";
+import { ArrowRight } from "lucide-react";
 
 type FeaturedProjectProps = {
   project: Project;
@@ -49,12 +50,12 @@ export function FeaturedProject({
               className={`${copyOrder} flex flex-col justify-between md:col-span-4 md:py-2`}
             >
               <div>
-                <span className="font-meta text-meta uppercase text-graphite">
+                <span className="font-meta text-meta text-graphite">
                   <span aria-hidden="true" className="text-zinc">
                     {indexLabel}
                   </span>
                   <span aria-hidden="true" className="ml-3 text-zinc">
-                    —
+                    
                   </span>
                   <span className="ml-3">{project.category}</span>
                 </span>
@@ -104,7 +105,7 @@ export function FeaturedProject({
                   aria-hidden="true"
                   className="transition-transform duration-300 ease-out group-hover:translate-x-1"
                 >
-                  →
+                  <ArrowRight aria-hidden="true" className="inline-block h-[1em] w-[1em] align-[-0.12em]" />
                 </span>
               </span>
             </div>

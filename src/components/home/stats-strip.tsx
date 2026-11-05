@@ -37,7 +37,7 @@ export function StatsStrip() {
                 value={stat.value}
                 className="font-title text-5xl font-medium text-ink md:text-7xl tabular-nums"
               />
-              <span className="font-meta text-meta uppercase text-graphite">
+              <span className="font-meta text-meta text-graphite">
                 <span className="sr-only">{stat.value} </span>
                 {stat.label}
                 <span aria-hidden="true" className="ml-3 text-zinc">

@@ -10,6 +10,7 @@ import { Eyebrow } from "@/components/motion/eyebrow";
 import { RevealItems } from "@/components/motion/reveal-items";
 import { Button } from "@/components/ui/button";
 import { getHomeServices } from "@/lib/services";
+import { ArrowRight } from "lucide-react";
 
 export function ServicesList() {
   const services = getHomeServices();
@@ -48,7 +49,7 @@ export function ServicesList() {
       aria-labelledby="services-heading"
       className="border-t border-concrete bg-paper"
     >
-      <div className="mx-auto w-full max-w-360 px-6 py-20 md:px-10 md:py-28 lg:px-16">
+      <div className="w-full px-3 py-20 md:py-28">
         <div className="grid gap-8 lg:grid-cols-12 lg:items-end">
           <div className="lg:col-span-7">
             <Eyebrow>A-300 · What we build</Eyebrow>
@@ -63,7 +64,7 @@ export function ServicesList() {
           <div className="lg:col-span-5 lg:pb-2">
             <p className="max-w-measure text-lead text-graphite">
               From design and costing through to construction, steel
-              fabrication and plumbing — every service is owner-led from first
+              fabrication and plumbing, every service is owner-led from first
               visit to handover.
             </p>
           </div>
@@ -93,7 +94,7 @@ export function ServicesList() {
 
                     <span
                       aria-hidden="true"
-                      className={`font-meta text-meta-sm uppercase text-zinc transition-colors duration-300 md:w-10 md:shrink-0 ${
+                      className={`font-meta text-meta-sm text-zinc transition-colors duration-300 md:w-10 md:shrink-0 ${
                         isActive ? "lg:text-verdigris" : ""
                       }`}
                     >
@@ -126,18 +127,18 @@ export function ServicesList() {
                         </div>
                         <dl className="mt-4 flex gap-8">
                           <div>
-                            <dt className="font-meta text-meta-sm uppercase text-zinc">
+                            <dt className="font-meta text-meta-sm text-zinc">
                               Typical
                             </dt>
-                            <dd className="mt-1 font-meta text-meta-sm uppercase text-ink">
+                            <dd className="mt-1 font-meta text-meta-sm text-ink">
                               {service.timeline}
                             </dd>
                           </div>
                           <div>
-                            <dt className="font-meta text-meta-sm uppercase text-zinc">
+                            <dt className="font-meta text-meta-sm text-zinc">
                               From
                             </dt>
-                            <dd className="mt-1 font-meta text-meta-sm uppercase text-ink">
+                            <dd className="mt-1 font-meta text-meta-sm text-ink">
                               {service.startingFrom}
                             </dd>
                           </div>
@@ -147,11 +148,11 @@ export function ServicesList() {
 
                     <span
                       aria-hidden="true"
-                      className={`font-meta text-meta-sm text-zinc transition-all duration-300 md:shrink-0 ${
+                      className={`font-meta text-meta-sm text-zinc transition-[transform,color] duration-300 md:shrink-0 ${
                         isActive ? "lg:translate-x-1 lg:text-verdigris" : ""
                       }`}
                     >
-                      →
+                      <ArrowRight aria-hidden="true" className="inline-block h-[1em] w-[1em] align-[-0.12em]" />
                     </span>
                   </Link>
                 </li>
@@ -182,23 +183,23 @@ export function ServicesList() {
 
               {/* The facts are the reason this column exists */}
               <div ref={meta} className="mt-5">
-                <p className="font-meta text-meta uppercase text-ink">
+                <p className="font-meta text-meta text-ink">
                   {current.title}
                 </p>
                 <dl className="mt-4 grid grid-cols-2 border-t border-concrete pt-4">
                   <div className="border-r border-concrete pr-4">
-                    <dt className="font-meta text-meta-sm uppercase text-zinc">
+                    <dt className="font-meta text-meta-sm text-zinc">
                       Typical duration
                     </dt>
-                    <dd className="mt-2 font-meta text-meta uppercase text-ink">
+                    <dd className="mt-2 font-meta text-meta text-ink">
                       {current.timeline}
                     </dd>
                   </div>
                   <div className="pl-4">
-                    <dt className="font-meta text-meta-sm uppercase text-zinc">
+                    <dt className="font-meta text-meta-sm text-zinc">
                       Starting from
                     </dt>
-                    <dd className="mt-2 font-meta text-meta uppercase text-ink">
+                    <dd className="mt-2 font-meta text-meta text-ink">
                       {current.startingFrom}
                     </dd>
                   </div>

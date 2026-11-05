@@ -14,26 +14,26 @@ export function FinalCta() {
   return (
     <section
       aria-labelledby="final-cta-heading"
-      className="border-t border-graphite bg-ink text-paper"
+      className="border-t border-concrete bg-paper text-ink"
     >
-      <div className="mx-auto w-full max-w-360 px-6 py-14 md:px-10 md:py-16 lg:px-16">
+      <div className="w-full px-3 py-14 md:py-16">
         <div className="grid gap-8 lg:grid-cols-12 lg:items-end lg:gap-x-12">
           <div className="lg:col-span-7">
-            <Eyebrow onDark>A-500 · Ready when you are</Eyebrow>
+            <Eyebrow>A-500 · Ready when you are</Eyebrow>
 
             {/* d3, not the hero's step — a closing line should not compete
                 with the opening one. */}
             <RevealLines
               as="h2"
               id="final-cta-heading"
-              className="mt-7 font-title text-d3 font-medium text-paper"
+              className="mt-7 font-title text-d3 font-medium text-ink"
             >
               Let&rsquo;s build.
             </RevealLines>
 
-            <p className="mt-5 max-w-measure text-copy text-concrete">
+            <p className="mt-5 max-w-measure text-copy text-graphite">
               A site visit and an estimate cost nothing. Tell us what
-              you&rsquo;re thinking — we&rsquo;ll give you a straight answer
+              you&rsquo;re thinking, we&rsquo;ll give you a straight answer
               and an honest number.
             </p>
           </div>
@@ -41,7 +41,7 @@ export function FinalCta() {
           {/* The ask sits on the statement's baseline rather than under it,
               so the band stays one line of thought. */}
           <div className="lg:col-span-5 lg:flex lg:justify-end lg:pb-1">
-            <Button href="/contact" variant="primary" onDark arrow magnetic>
+            <Button href="/contact" variant="primary" arrow magnetic>
               Request a quote
             </Button>
           </div>

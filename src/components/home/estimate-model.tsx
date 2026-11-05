@@ -100,7 +100,7 @@ export function EstimateModel({
             <div
               key={sheet.kind}
               className={cn(
-                "absolute left-1/2 top-1/2 border transition-all duration-700 ease-out motion-reduce:transition-none",
+                "absolute left-1/2 top-1/2 border transition-[transform,opacity,border-color,background-color] duration-700 ease-out motion-reduce:transition-none",
                 active
                   ? "border-marking bg-ink/80"
                   : "border-concrete/65 bg-ink/70",
