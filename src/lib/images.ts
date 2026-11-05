@@ -6,18 +6,40 @@ export type SiteImage = {
 };
 
 export const heroImages = {
+  // PLACEHOLDER (Unsplash): a modern tropical home. Swap for the studio's own
+  // photograph when it exists.
   home: {
-    src: "https://res.cloudinary.com/db0svseve/image/upload/v1778582054/hero-image_v7auf5.jpg",
-    alt: "A finished residential home — warm light, clean lines",
-    width: 1200,
-    height: 1600,
+    src: "https://images.unsplash.com/photo-1766603636671-484c4911a84b?auto=format&fit=crop&w=2400&q=80",
+    alt: "A modern two-storey home with timber and stone, palms and a lawn",
+    width: 2400,
+    height: 1350,
+  },
+
+} satisfies Record<string, SiteImage>;
+
+/**
+ * PLACEHOLDERS: Unsplash stand-ins for the home band and the about page's
+ * hero and portrait. Swap each for the studio's own photograph when it exists.
+ */
+export const homeImages = {
+  approach: {
+    src: "https://images.unsplash.com/photo-1760067537540-cc36c1700d7e?auto=format&fit=crop&w=1600&q=80",
+    alt: "A modern kitchen with an island and a view into the garden",
+    width: 1600,
+    height: 1200,
   },
 } satisfies Record<string, SiteImage>;
 
 export const aboutImages = {
+  hero: {
+    src: "https://images.unsplash.com/photo-1773382434184-49a6709a44a1?auto=format&fit=crop&w=2000&q=80",
+    alt: "A worker crouching on a house site beside freshly laid brick walls",
+    width: 2000,
+    height: 1333,
+  },
   owner: {
-    src: "https://images.unsplash.com/photo-1581094794329-c8112a89af12?auto=format&fit=crop&w=1200&q=80",
-    alt: "Design Eleven studio founder on a job site",
+    src: "https://images.unsplash.com/photo-1778074762022-c33cc42f79ae?auto=format&fit=crop&w=1200&q=80",
+    alt: "Two site staff reviewing plans on a tablet",
     width: 1200,
     height: 1500,
   },
@@ -46,6 +68,7 @@ export const aboutImages = {
     },
   ],
 } satisfies {
+  hero: SiteImage;
   owner: SiteImage;
   bts: SiteImage[];
 };
