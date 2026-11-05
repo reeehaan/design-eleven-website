@@ -65,28 +65,28 @@ export function EngagementsList() {
           <div className="mt-10 hidden md:block">
             <ScopeModel index={activeIdx} />
 
-            <p className="mt-4 font-meta text-meta-sm uppercase text-zinc">
+            <p className="mt-4 font-meta text-meta-sm text-zinc">
               Log scale &middot; LKR 45K – 45M
             </p>
 
-            <p className="mt-8 font-meta text-meta-sm uppercase text-zinc">
+            <p className="mt-8 font-meta text-meta-sm text-zinc">
               <span className="text-marking-deep">In scope</span> &middot;{" "}
               {active.title}
             </p>
             <dl className="mt-4 grid grid-cols-2 border-t border-concrete pt-4">
               <div className="border-r border-concrete pr-4">
-                <dt className="font-meta text-meta-sm uppercase text-zinc">
+                <dt className="font-meta text-meta-sm text-zinc">
                   Typical range
                 </dt>
-                <dd className="mt-2 font-meta text-meta uppercase text-ink">
+                <dd className="mt-2 font-meta text-meta text-ink">
                   {active.typicalRange}
                 </dd>
               </div>
               <div className="pl-4">
-                <dt className="font-meta text-meta-sm uppercase text-zinc">
+                <dt className="font-meta text-meta-sm text-zinc">
                   Typical duration
                 </dt>
-                <dd className="mt-2 font-meta text-meta uppercase text-ink">
+                <dd className="mt-2 font-meta text-meta text-ink">
                   {active.typicalDuration}
                 </dd>
               </div>
@@ -104,13 +104,13 @@ export function EngagementsList() {
           >
             <div className="flex flex-wrap items-baseline gap-x-5 gap-y-2">
               <span
-                className={`font-meta text-meta uppercase transition-colors duration-500 ${
+                className={`font-meta text-meta transition-colors duration-500 ${
                   i === activeIdx ? "text-marking-deep" : "text-zinc"
                 }`}
               >
                 {e.ref}
               </span>
-              <span className="font-meta text-meta-sm uppercase text-zinc">
+              <span className="font-meta text-meta-sm text-zinc">
                 {e.typicalRange} &middot; {e.typicalDuration}
               </span>
             </div>

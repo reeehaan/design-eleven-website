@@ -48,7 +48,7 @@ export function ServicesRegister() {
                 className="group scroll-mt-20 md:scroll-mt-24"
               >
                 <summary className="flex cursor-pointer list-none items-start gap-5 py-7 md:gap-8 md:py-8 [&::-webkit-details-marker]:hidden">
-                  <span className="mt-1.5 font-meta text-meta-sm uppercase text-zinc transition-colors duration-300 group-open:text-verdigris md:mt-2 md:w-10 md:shrink-0">
+                  <span className="mt-1.5 font-meta text-meta-sm text-zinc transition-colors duration-300 group-open:text-verdigris md:mt-2 md:w-10 md:shrink-0">
                     {pad(i + 1)}
                   </span>
 
@@ -63,7 +63,7 @@ export function ServicesRegister() {
 
                   {/* Duration on the closed row, so the seven can be compared
                   without opening any of them. */}
-                  <span className="hidden shrink-0 pt-2 font-meta text-meta-sm uppercase text-zinc lg:block lg:w-44 lg:text-right">
+                  <span className="hidden shrink-0 pt-2 font-meta text-meta-sm text-zinc lg:block lg:w-44 lg:text-right">
                     {service.timeline}
                   </span>
 
@@ -93,18 +93,18 @@ export function ServicesRegister() {
                     {/* The two numbers a client is actually here for */}
                     <dl className="mt-5 grid grid-cols-2 border-t border-concrete pt-4">
                       <div className="border-r border-concrete pr-4">
-                        <dt className="font-meta text-meta-sm uppercase text-zinc">
+                        <dt className="font-meta text-meta-sm text-zinc">
                           Typical duration
                         </dt>
-                        <dd className="mt-2 font-meta text-meta uppercase text-ink">
+                        <dd className="mt-2 font-meta text-meta text-ink">
                           {service.timeline}
                         </dd>
                       </div>
                       <div className="pl-4">
-                        <dt className="font-meta text-meta-sm uppercase text-zinc">
+                        <dt className="font-meta text-meta-sm text-zinc">
                           Starting from
                         </dt>
-                        <dd className="mt-2 font-meta text-meta uppercase text-ink">
+                        <dd className="mt-2 font-meta text-meta text-ink">
                           {service.startingFrom}
                         </dd>
                       </div>
@@ -128,7 +128,7 @@ export function ServicesRegister() {
                       ))}
                     </div>
 
-                    <h4 className="mt-10 font-meta text-meta-sm uppercase text-zinc">
+                    <h4 className="mt-10 font-meta text-meta-sm text-zinc">
                       What&rsquo;s included
                     </h4>
                     <ul className="mt-4 grid border-t border-concrete sm:grid-cols-2 sm:gap-x-10">

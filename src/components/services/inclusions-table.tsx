@@ -42,19 +42,19 @@ export function InclusionsTable() {
             <tr className="border-b border-ink">
               <th
                 scope="col"
-                className="py-4 pr-6 font-meta text-meta-sm uppercase text-zinc"
+                className="py-4 pr-6 font-meta text-meta-sm text-zinc"
               >
                 Element
               </th>
               <th
                 scope="col"
-                className="py-4 pr-6 font-meta text-meta-sm uppercase text-ink"
+                className="py-4 pr-6 font-meta text-meta-sm text-ink"
               >
                 Included
               </th>
               <th
                 scope="col"
-                className="py-4 font-meta text-meta-sm uppercase text-zinc"
+                className="py-4 font-meta text-meta-sm text-zinc"
               >
                 Not included
               </th>
@@ -65,7 +65,7 @@ export function InclusionsTable() {
               <tr key={row.item} className="border-b border-concrete align-top">
                 <th
                   scope="row"
-                  className="py-5 pr-6 font-meta text-meta uppercase text-ink"
+                  className="py-5 pr-6 font-meta text-meta text-ink"
                 >
                   {row.item}
                 </th>

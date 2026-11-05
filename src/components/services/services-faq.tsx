@@ -46,7 +46,7 @@ export function ServicesFaq() {
       aria-labelledby="services-faq-heading"
       className="border-t border-concrete bg-paper"
     >
-      <div className="mx-auto w-full max-w-360 px-6 py-20 md:px-10 md:py-24 lg:px-16">
+      <div className="w-full px-3 py-20 md:py-24">
         <div className="grid gap-8 lg:grid-cols-12 lg:items-end">
           <div className="lg:col-span-7">
             <Eyebrow>S-03 &middot; Common questions</Eyebrow>

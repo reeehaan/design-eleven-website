@@ -38,7 +38,7 @@ export function ServiceNav({ services }: ServiceNavProps) {
 
   return (
     <nav aria-label="Services on this page" className="sticky top-24 hidden md:block">
-      <span className="font-meta text-meta-sm uppercase text-zinc">
+      <span className="font-meta text-meta-sm text-zinc">
         Services
       </span>
 
@@ -66,8 +66,8 @@ export function ServiceNav({ services }: ServiceNavProps) {
               <span
                 aria-hidden="true"
                 className={cn(
-                  "h-px transition-all duration-300",
-                  activeSlug === service.slug ? "w-8 bg-verdigris" : "w-4 bg-concrete",
+                  "h-px w-8 origin-left transition-[transform,background-color] duration-300",
+                  activeSlug === service.slug ? "bg-verdigris" : "scale-x-50 bg-concrete",
                 )}
               />
               <span>{service.title}</span>

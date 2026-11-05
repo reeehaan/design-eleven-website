@@ -5,6 +5,7 @@ import { Eyebrow } from "@/components/motion/eyebrow";
 import { Reveal } from "@/components/ui/reveal";
 import { CheckList } from "@/components/ui/check-list";
 import type { Service } from "@/lib/services";
+import { ArrowRight } from "lucide-react";
 
 type ServiceSectionProps = {
   service: Service;
@@ -44,9 +45,9 @@ export function ServiceSection({ service, index }: ServiceSectionProps) {
             <p className="mt-5 text-copy text-graphite">{service.summary}</p>
 
             <dl className="mt-8 grid grid-cols-2 gap-y-4 border-t border-concrete pt-5 font-meta text-meta">
-              <dt className="uppercase text-zinc">Timeline</dt>
+              <dt className="text-zinc">Timeline</dt>
               <dd className="text-right text-ink">{service.timeline}</dd>
-              <dt className="uppercase text-zinc">Starts at</dt>
+              <dt className="text-zinc">Starts at</dt>
               <dd className="text-right text-ink">{service.startingFrom}</dd>
             </dl>
 
@@ -55,7 +56,7 @@ export function ServiceSection({ service, index }: ServiceSectionProps) {
               className="mt-6 inline-flex items-center gap-3 text-base font-medium text-verdigris transition-colors hover:text-verdigris"
             >
               <span className="border-b border-current pb-1">Request a quote</span>
-              <span aria-hidden="true">→</span>
+              <ArrowRight aria-hidden="true" className="inline-block h-[1em] w-[1em] align-[-0.12em]" />
             </Link>
           </Reveal>
         </div>
@@ -108,10 +109,7 @@ export function ServiceSection({ service, index }: ServiceSectionProps) {
                   className="border-t border-concrete py-6 last:border-b"
                 >
                   <div className="grid gap-4 md:grid-cols-12 md:gap-x-6">
-                    <span className="font-meta text-meta-sm uppercase text-zinc md:col-span-1">
-                      0{i + 1}
-                    </span>
-                    <h4 className="font-title text-xl font-medium text-ink md:col-span-4">
+                    <h4 className="font-title text-xl font-medium text-ink md:col-span-5">
                       {step.title}
                     </h4>
                     <p className="text-graphite md:col-span-7">{step.description}</p>
