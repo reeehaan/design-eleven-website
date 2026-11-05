@@ -1,78 +1,191 @@
 "use client";
 
-import { useReducer, useEffect, useState, useRef } from "react";
+import { useState, useRef } from "react";
 import { useSearchParams } from "next/navigation";
-import { AnimatePresence, motion } from "framer-motion";
+import { useForm } from "react-hook-form";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { z } from "zod";
+import { motion } from "framer-motion";
 import { Turnstile, type TurnstileInstance } from "@marsidev/react-turnstile";
+import { ArrowRight } from "lucide-react";
 import { ArrowLink } from "@/components/ui/arrow-link";
-import { StepIndicator } from "./step-indicator";
-import { Step1ProjectType, Step2Everything } from "./form-steps";
 import {
-  formReducer,
-  initialFormState,
-  type ContactFormData,
-  type FormStep,
+  Label,
+  TextField,
+  TextArea,
+  SelectField,
+  FieldError,
+  Checkbox,
+} from "@/components/ui/form-field";
+import {
+  BUDGET_BANDS,
   PROJECT_TYPES,
+  type ContactFormData,
 } from "@/lib/contact-form";
 import { submitContactForm } from "@/app/contact/actions";
 
-export function ContactForm() {
-  const [state, dispatch] = useReducer(formReducer, initialFormState);
-  const [turnstileToken, setTurnstileToken] = useState<string>("");
-  const turnstileRef = useRef<TurnstileInstance | null>(null);
-  const searchParams = useSearchParams();
+const OWNER_BUILDER = [
+  { value: "Yes", label: "Yes" },
+  { value: "No", label: "No" },
+] as const;
 
+const HEARD_FROM = [
+  { value: "Google", label: "Google" },
+  { value: "Facebook", label: "Facebook" },
+  { value: "Instagram", label: "Instagram" },
+  { value: "WhatsApp", label: "WhatsApp" },
+  { value: "A friend or past client", label: "A friend or past client" },
+  { value: "Other", label: "Other" },
+] as const;
+
+const EnquirySchema = z.object({
+  name: z.string().min(2, "Please enter your name").max(100),
+  phone: z
+    .string()
+    .min(7, "Please enter a valid phone number")
+    .max(20)
+    .regex(/^[\d\s+()-]+$/, "Numbers, spaces, and + - ( ) only"),
+  email: z.string().email("Please enter a valid email address"),
+  address: z
+    .string()
+    .min(2, "Please give us at least the city or town")
+    .max(120),
+  district: z.string().max(60).optional(),
+  postcode: z.string().max(12).optional(),
+  projectType: z.enum(
+    PROJECT_TYPES.map((t) => t.value) as [string, ...string[]],
+    { message: "Please choose what your enquiry is about" },
+  ),
+  ownerBuilder: z.string().optional(),
+  budget: z.string().optional(),
+  completeBy: z.string().optional(),
+  comments: z.string().max(1800).optional(),
+  link: z.string().max(300).optional(),
+  heardFrom: z.string().optional(),
+  preferWhatsapp: z.boolean(),
+});
+
+type EnquiryValues = z.infer<typeof EnquirySchema>;
+
+/**
+ * The enquiry is one page. The fields our records have no column for (owner
+ * builder, the date, the link, how they found us) travel inside the project
+ * description, so the studio reads them in the same email as everything else.
+ */
+function toSubmission(v: EnquiryValues): ContactFormData {
+  const extras = [
+    v.ownerBuilder && `Owner builder: ${v.ownerBuilder}`,
+    v.completeBy && `Needed by: ${v.completeBy}`,
+    v.link && `Reference link: ${v.link}`,
+    v.heardFrom && `Heard about us: ${v.heardFrom}`,
+  ].filter(Boolean);
+
+  const details = [
+    v.comments?.trim() || "No additional comments provided.",
+    extras.length ? extras.join("\n") : null,
+  ]
+    .filter(Boolean)
+    .join("\n\n");
+
+  const location = [
+    v.address,
+    [v.district, v.postcode].filter(Boolean).join(" "),
+  ]
+    .filter(Boolean)
+    .join(", ");
+
+  return {
+    projectType: v.projectType,
+    location,
+    projectDetails: details,
+    budget: (v.budget || undefined) as ContactFormData["budget"],
+    timeline: undefined,
+    name: v.name,
+    email: v.email,
+    phone: v.phone,
+    preferWhatsapp: v.preferWhatsapp,
+  } as ContactFormData;
+}
+
+type Status =
+  | { state: "idle" }
+  | { state: "submitting" }
+  | { state: "success" }
+  | { state: "error"; message: string };
+
+function Field({
+  id,
+  label,
+  required,
+  error,
+  children,
+}: {
+  id: string;
+  label: string;
+  required?: boolean;
+  error?: string;
+  children: React.ReactNode;
+}) {
+  return (
+    <div>
+      <Label htmlFor={id} required={required}>
+        {label}
+      </Label>
+      {children}
+      <FieldError message={error} />
+    </div>
+  );
+}
+
+export function ContactForm() {
+  const searchParams = useSearchParams();
+  const service = searchParams.get("service");
+  const known = PROJECT_TYPES.some((t) => t.value === service);
+
+  const [status, setStatus] = useState<Status>({ state: "idle" });
+  const [turnstileToken, setTurnstileToken] = useState("");
+  const turnstileRef = useRef<TurnstileInstance | null>(null);
   const siteKey = process.env.NEXT_PUBLIC_TURNSTILE_SITE_KEY;
 
-  useEffect(() => {
-    // Validate against the enum — an unrecognised ?service= would otherwise
-    // seed an invalid projectType that only fails at submit.
-    const service = searchParams.get("service");
-    const known = PROJECT_TYPES.some((t) => t.value === service);
-    if (service && known) {
-      dispatch({ type: "update", patch: { projectType: service } });
-    }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+  const {
+    register,
+    handleSubmit,
+    reset,
+    formState: { errors },
+  } = useForm<EnquiryValues>({
+    resolver: zodResolver(EnquirySchema),
+    defaultValues: {
+      projectType: known ? (service as string) : "",
+      preferWhatsapp: true,
+    },
+  });
 
-  const isFinalStep = state.step === 2;
-
-  const handleStepComplete = (patch: Partial<ContactFormData>) => {
-    const merged = { ...state.data, ...patch };
-    dispatch({ type: "update", patch });
-    if (isFinalStep) {
-      void handleSubmit(merged);
-    } else {
-      dispatch({ type: "next" });
-    }
-  };
-
-  const handleSubmit = async (data: ContactFormData) => {
+  const onSubmit = async (values: EnquiryValues) => {
     if (!turnstileToken) {
-      dispatch({
-        type: "submit-error",
+      setStatus({
+        state: "error",
         message:
           "Please complete the verification challenge before submitting.",
       });
       return;
     }
-
-    dispatch({ type: "submit-start" });
-
+    setStatus({ state: "submitting" });
     try {
-      const result = await submitContactForm({ data, turnstileToken });
-
+      const result = await submitContactForm({
+        data: toSubmission(values),
+        turnstileToken,
+      });
       if (result.ok) {
-        dispatch({ type: "submit-success" });
+        setStatus({ state: "success" });
       } else {
-        dispatch({ type: "submit-error", message: result.message });
+        setStatus({ state: "error", message: result.message });
         turnstileRef.current?.reset();
         setTurnstileToken("");
       }
     } catch (err) {
       console.error("[contact] Submission threw:", err);
-      dispatch({
-        type: "submit-error",
+      setStatus({
+        state: "error",
         message:
           "Something went wrong on our end. Please try again in a moment.",
       });
@@ -81,117 +194,178 @@ export function ContactForm() {
     }
   };
 
-  if (state.submission.status === "success") {
-    return <SuccessView onReset={() => dispatch({ type: "reset" })} />;
+  if (status.state === "success") {
+    return (
+      <SuccessView
+        onReset={() => {
+          reset();
+          setStatus({ state: "idle" });
+        }}
+      />
+    );
   }
 
   return (
-    <div>
-      <StepIndicator
-        current={state.step}
-        onJumpTo={(step) => dispatch({ type: "goto", step })}
+    <form
+      id="contact-form"
+      onSubmit={(e) => void handleSubmit(onSubmit)(e)}
+      noValidate
+      className="flex flex-col gap-9"
+    >
+      <Field id="name" label="Name" required error={errors.name?.message}>
+        <TextField
+          id="name"
+          autoComplete="name"
+          error={errors.name?.message}
+          {...register("name")}
+        />
+      </Field>
+      <Field id="phone" label="Phone" required error={errors.phone?.message}>
+        <TextField
+          id="phone"
+          type="tel"
+          autoComplete="tel"
+          error={errors.phone?.message}
+          {...register("phone")}
+        />
+      </Field>
+      <Field
+        id="email"
+        label="Email address"
+        required
+        error={errors.email?.message}
+      >
+        <TextField
+          id="email"
+          type="email"
+          autoComplete="email"
+          error={errors.email?.message}
+          {...register("email")}
+        />
+      </Field>
+      <Field
+        id="address"
+        label="Project address"
+        required
+        error={errors.address?.message}
+      >
+        <TextField
+          id="address"
+          autoComplete="street-address"
+          error={errors.address?.message}
+          {...register("address")}
+        />
+      </Field>
+      <Field id="district" label="District">
+        <TextField id="district" {...register("district")} />
+      </Field>
+      <Field id="postcode" label="Postal code">
+        <TextField
+          id="postcode"
+          autoComplete="postal-code"
+          {...register("postcode")}
+        />
+      </Field>
+      <Field
+        id="projectType"
+        label="Is your enquiry about?"
+        required
+        error={errors.projectType?.message}
+      >
+        <SelectField
+          id="projectType"
+          placeholder="Select an option"
+          options={PROJECT_TYPES}
+          error={errors.projectType?.message}
+          {...register("projectType")}
+        />
+      </Field>
+      <Field id="ownerBuilder" label="Are you an owner builder?">
+        <SelectField
+          id="ownerBuilder"
+          placeholder="Select an option"
+          options={OWNER_BUILDER}
+          {...register("ownerBuilder")}
+        />
+      </Field>
+      <Field id="budget" label="What is your budget?">
+        <SelectField
+          id="budget"
+          placeholder="Select a budget"
+          options={BUDGET_BANDS}
+          {...register("budget")}
+        />
+      </Field>
+      <Field
+        id="completeBy"
+        label="When do you need your project completed by?"
+      >
+        <TextField id="completeBy" type="date" {...register("completeBy")} />
+      </Field>
+      <Field id="comments" label="Please add any additional comments">
+        <TextArea id="comments" rows={4} {...register("comments")} />
+      </Field>
+      <Field
+        id="link"
+        label="Optional: link to a Pinterest board, Dropbox files, etc."
+      >
+        <TextField id="link" type="url" inputMode="url" {...register("link")} />
+      </Field>
+      <Field id="heardFrom" label="How did you hear about Design Eleven?">
+        <SelectField
+          id="heardFrom"
+          placeholder="Select an option"
+          options={HEARD_FROM}
+          {...register("heardFrom")}
+        />
+      </Field>
+
+      <Checkbox
+        id="preferWhatsapp"
+        label="Reach me on WhatsApp first, it's faster"
+        {...register("preferWhatsapp")}
       />
 
-      <div className="py-10 md:py-12">
-        <AnimatePresence mode="wait">
-          <motion.div
-            key={state.step}
-            initial={{ opacity: 0, y: 12 }}
-            animate={{ opacity: 1, y: 0 }}
-            exit={{ opacity: 0, y: -8 }}
-            transition={{ duration: 0.35, ease: [0.22, 1, 0.36, 1] }}
-          >
-            <CurrentStep
-              step={state.step}
-              data={state.data}
-              onComplete={handleStepComplete}
-            />
-
-            {isFinalStep && siteKey && (
-              <div className="mt-10">
-                <span className="font-meta text-meta-sm uppercase text-zinc">
-                  Verification
-                </span>
-                <div className="mt-3">
-                  <Turnstile
-                    ref={turnstileRef}
-                    siteKey={siteKey}
-                    onSuccess={(token) => setTurnstileToken(token)}
-                    onError={() => setTurnstileToken("")}
-                    onExpire={() => setTurnstileToken("")}
-                    options={{ theme: "light" }}
-                  />
-                </div>
-              </div>
-            )}
-
-            {isFinalStep && !siteKey && (
-              <p className="mt-10 font-meta text-meta-sm uppercase text-verdigris">
-                Verification not configured — set NEXT_PUBLIC_TURNSTILE_SITE_KEY
-                in .env.local.
-              </p>
-            )}
-          </motion.div>
-        </AnimatePresence>
-      </div>
-
-      {/* Step 1 has no footer — picking a card advances on its own, so there's
-          nothing to go back from or continue past yet. */}
-      {state.step === 2 && (
-        <div className="flex items-center justify-between gap-4 border-t border-concrete pt-6">
-          <button
-            type="button"
-            onClick={() => dispatch({ type: "back" })}
-            disabled={state.submission.status === "submitting"}
-            className="font-meta text-meta-sm uppercase text-graphite transition-colors hover:text-verdigris disabled:cursor-not-allowed disabled:opacity-30 disabled:hover:text-graphite"
-          >
-            ← Back
-          </button>
-
-          <button
-            type="submit"
-            form="contact-form"
-            disabled={state.submission.status === "submitting" || !turnstileToken}
-            className="inline-flex items-center gap-3 rounded-full bg-ink px-6 py-3 text-sm font-medium text-paper transition-colors hover:bg-verdigris disabled:opacity-60"
-          >
-            {state.submission.status === "submitting" ? (
-              "Sending…"
-            ) : (
-              <>
-                Send request <span aria-hidden="true">→</span>
-              </>
-            )}
-          </button>
+      {siteKey ? (
+        <div>
+          <Turnstile
+            ref={turnstileRef}
+            siteKey={siteKey}
+            onSuccess={(token) => setTurnstileToken(token)}
+            onError={() => setTurnstileToken("")}
+            onExpire={() => setTurnstileToken("")}
+            options={{ theme: "light" }}
+          />
         </div>
-      )}
-
-      {state.submission.status === "error" && (
-        <p
-          role="alert"
-          className="mt-6 font-meta text-meta-sm uppercase text-marking-deep"
-        >
-          {state.submission.message}
+      ) : (
+        <p className="font-meta text-meta-sm text-marking-deep">
+          Verification not configured, set NEXT_PUBLIC_TURNSTILE_SITE_KEY in
+          .env.local.
         </p>
       )}
-    </div>
-  );
-}
 
-function CurrentStep({
-  step,
-  data,
-  onComplete,
-}: {
-  step: FormStep;
-  data: ContactFormData;
-  onComplete: (patch: Partial<ContactFormData>) => void;
-}) {
-  switch (step) {
-    case 1:
-      return <Step1ProjectType data={data} onComplete={onComplete} />;
-    case 2:
-      return <Step2Everything data={data} onComplete={onComplete} />;
-  }
+      <div>
+        <button
+          type="submit"
+          disabled={status.state === "submitting" || !turnstileToken}
+          className="inline-flex w-full items-center justify-between border-b border-ink pb-2 text-left font-sans text-[1.0625rem] font-semibold text-ink transition-colors hover:border-verdigris hover:text-verdigris disabled:cursor-not-allowed disabled:opacity-50"
+        >
+          {status.state === "submitting"
+            ? "Sending…"
+            : "Submit project enquiry"}
+          <ArrowRight aria-hidden="true" className="h-4 w-4" />
+        </button>
+        {status.state === "error" && (
+          <p
+            role="alert"
+            className="mt-4 font-meta text-meta-sm text-marking-deep"
+          >
+            {status.message}
+          </p>
+        )}
+      </div>
+    </form>
+  );
 }
 
 function SuccessView({ onReset }: { onReset: () => void }) {
@@ -202,16 +376,15 @@ function SuccessView({ onReset }: { onReset: () => void }) {
       transition={{ duration: 0.5, ease: [0.22, 1, 0.36, 1] }}
       className="border-t border-concrete py-20 text-center md:py-28"
     >
-      <span className="font-meta text-meta-sm uppercase text-verdigris">
+      <span className="font-meta text-meta-sm text-verdigris">
         Request received
       </span>
       <h2 className="mt-6 font-title text-d2 font-medium text-ink">
-        Thanks &mdash;{" "}
-        <span className="text-graphite">we&rsquo;ll be in touch.</span>
+        Thanks, <span className="text-graphite">we&rsquo;ll be in touch.</span>
       </h2>
       <p className="mx-auto mt-6 max-w-md text-lead text-graphite">
         We&rsquo;ll personally review your request and respond within 1 business
-        day. Check your inbox — we&rsquo;ve sent you a confirmation.
+        day. Check your inbox, we&rsquo;ve sent you a confirmation.
       </p>
       <div className="mt-10">
         <ArrowLink href="/" variant="subtle">
@@ -221,7 +394,7 @@ function SuccessView({ onReset }: { onReset: () => void }) {
       <button
         type="button"
         onClick={onReset}
-        className="mt-8 font-meta text-meta-sm uppercase text-zinc transition-colors hover:text-verdigris"
+        className="mt-8 font-meta text-meta-sm text-zinc transition-colors hover:text-verdigris"
       >
         Submit another request
       </button>

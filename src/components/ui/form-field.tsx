@@ -1,6 +1,7 @@
 "use client";
 
 import { forwardRef } from "react";
+import { ChevronDown } from "lucide-react";
 import { cn } from "@/lib/utils";
 
 type LabelProps = {
@@ -15,7 +16,7 @@ export function Label({ htmlFor, children, required, className }: LabelProps) {
     <label
       htmlFor={htmlFor}
       className={cn(
-        "block font-meta text-meta-sm uppercase text-zinc",
+        "block font-meta text-meta-sm text-zinc",
         className,
       )}
     >
@@ -36,7 +37,7 @@ export function FieldError({ message }: { message?: string }) {
     // where a green would read as success.
     <p
       role="alert"
-      className="mt-2 font-meta text-meta-sm uppercase text-marking-deep"
+      className="mt-2 font-meta text-meta-sm text-marking-deep"
     >
       {message}
     </p>
@@ -117,7 +118,7 @@ export function ChoiceCard({
       {index && (
         <span
           className={cn(
-            "font-meta text-meta-sm uppercase transition-colors",
+            "font-meta text-meta-sm transition-colors",
             selected ? "text-paper/55" : "text-zinc",
           )}
         >
@@ -171,6 +172,45 @@ export const Checkbox = forwardRef<HTMLInputElement, CheckboxProps>(
         />
         <span>{label}</span>
       </label>
+    );
+  },
+);
+
+
+type SelectFieldProps = React.SelectHTMLAttributes<HTMLSelectElement> & {
+  error?: string;
+  placeholder: string;
+  options: readonly { value: string; label: string }[];
+};
+
+/** A native select, set as an underline with a chevron to match the fields. */
+export const SelectField = forwardRef<HTMLSelectElement, SelectFieldProps>(
+  function SelectField({ className, error, placeholder, options, ...props }, ref) {
+    return (
+      <div className="relative">
+        <select
+          ref={ref}
+          {...props}
+          aria-invalid={!!error}
+          className={cn(
+            fieldBase,
+            "cursor-pointer appearance-none pr-8",
+            error && "border-marking-deep",
+            className,
+          )}
+        >
+          <option value="">{placeholder}</option>
+          {options.map((o) => (
+            <option key={o.value} value={o.value}>
+              {o.label}
+            </option>
+          ))}
+        </select>
+        <ChevronDown
+          aria-hidden="true"
+          className="pointer-events-none absolute right-1 top-1/2 h-4 w-4 -translate-y-1/2 text-zinc"
+        />
+      </div>
     );
   },
 );

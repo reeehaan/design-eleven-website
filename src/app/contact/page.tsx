@@ -1,6 +1,5 @@
 import type { Metadata } from "next";
 import { Suspense } from "react";
-import { PageMasthead } from "@/components/ui/page-masthead";
 import { ContactForm } from "@/components/contact/contact-form";
 import { ContactSidebar } from "@/components/contact/contact-sidebar";
 import { stages } from "@/lib/process";
@@ -20,46 +19,50 @@ export const metadata: Metadata = {
 
 export default function ContactPage() {
   return (
-    <>
-      <PageMasthead
-        eyebrow="C-00 · Contact"
-        title="Start a project,"
-        titleAccent="or just say hello."
-        intro="One tap, then one short form. Prefer to talk? Phone and WhatsApp are alongside the form."
-        cells={[
-          { label: "We reply within", value: "1", unit: "working day" },
-          { label: "Site visit", value: "Free" },
-          { label: "Estimate in", value: stages[1].duration },
-          // Not office hours: those already sit under Phone in the sidebar,
-          // and the full string wrapped mid-time on a phone. The step count
-          // is the number someone hesitating over a form actually wants.
-          { label: "Form steps", value: "02" },
-        ]}
-      />
+    <section
+      aria-labelledby="contact-heading"
+      className="bg-paper px-3 pb-16 pt-12 md:pb-32 md:pt-48"
+    >
+      <div className="grid grid-cols-12 gap-x-3 gap-y-10 md:gap-y-16">
+        <div className="col-span-12 md:sticky md:top-28 md:col-span-5 md:self-start">
+          <div className="max-w-[26rem] space-y-6 font-sans text-[1.0625rem] font-semibold leading-[1.15] tracking-[-0.01em] text-ink">
+            <p>
+              Tell us about your site, the project you are planning and your
+              timeline. Prefer to talk? Phone and WhatsApp are alongside the
+              form.
+            </p>
+            <p>
+              We reply within 1 working day. The site visit is free, and the
+              itemised estimate follows in {stages[1].duration}.
+            </p>
+          </div>
+          <div className="mt-10 md:mt-16">
+            <ContactSidebar />
+          </div>
+        </div>
 
-      <section className="mx-auto w-full max-w-360 px-6 py-12 md:px-10 md:py-16 lg:px-16">
-        <div className="grid gap-12 lg:grid-cols-12 lg:gap-x-16">
-          <div className="lg:col-span-7">
+        <div className="col-span-12 md:col-span-6 md:col-start-7">
+          <h1
+            id="contact-heading"
+            className="font-sans text-[clamp(1.75rem,2.9vw,2.5rem)] font-semibold leading-[1.02] tracking-[-0.03em] text-ink"
+          >
+            Start a project, or just say hello.
+          </h1>
+          <div className="mt-10">
             <Suspense fallback={<FormFallback />}>
               <ContactForm />
             </Suspense>
           </div>
-
-          {/* Sticky so the phone number is still reachable at step 04 without
-              scrolling back up past the form. */}
-          <div className="lg:col-span-4 lg:col-start-9 lg:sticky lg:top-28 lg:self-start">
-            <ContactSidebar />
-          </div>
         </div>
-      </section>
-    </>
+      </div>
+    </section>
   );
 }
 
 function FormFallback() {
   return (
     <div className="py-6">
-      <span className="font-meta text-meta-sm uppercase text-zinc">
+      <span className="font-meta text-meta-sm text-zinc">
         Loading form…
       </span>
     </div>

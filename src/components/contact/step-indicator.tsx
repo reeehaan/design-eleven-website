@@ -17,7 +17,7 @@ export function StepIndicator({ current, onJumpTo }: StepIndicatorProps) {
     <nav aria-label="Form progress">
       {/* "Step 01 of 04" carries the whole message on a phone, where the
           per-step labels are too narrow to read. */}
-      <p className="mb-3 flex items-baseline justify-between font-meta text-meta-sm uppercase">
+      <p className="mb-3 flex items-baseline justify-between font-meta text-meta-sm ">
         <span className="text-ink">
           Step {String(current).padStart(2, "0")} of{" "}
           {String(total).padStart(2, "0")}
@@ -59,10 +59,10 @@ export function StepIndicator({ current, onJumpTo }: StepIndicatorProps) {
                 <span
                   aria-hidden="true"
                   className={cn(
-                    "hidden font-meta text-meta-sm uppercase transition-colors md:inline",
+                    "hidden font-meta text-meta-sm transition-colors md:inline",
                     isCurrent && "text-ink",
                     isPast && "text-zinc group-hover:text-verdigris",
-                    isFuture && "text-concrete",
+                    isFuture && "text-zinc",
                   )}
                 >
                   {String(step).padStart(2, "0")} {label}

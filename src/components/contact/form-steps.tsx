@@ -33,7 +33,7 @@ export function Step1ProjectType({ data, onComplete }: StepProps) {
           What are you building?
         </h2>
         <p className="mt-3 max-w-measure text-copy text-graphite">
-          Pick the closest match — that takes you straight to the form.
+          Pick the closest match, that takes you straight to the form.
         </p>
       </div>
 
@@ -99,7 +99,7 @@ export function Step2Everything({ data, onComplete }: StepProps) {
           Tell us about it.
         </h2>
         <p className="mt-3 max-w-measure text-copy text-graphite">
-          One short form — the budget and timeline are a bonus if you have
+          One short form, the budget and timeline are a bonus if you have
           them, not a requirement.
         </p>
       </div>
@@ -221,7 +221,7 @@ export function Step2Everything({ data, onComplete }: StepProps) {
         <div className="pt-2">
           <Checkbox
             id="preferWhatsapp"
-            label="Reach me on WhatsApp first — it's faster"
+            label="Reach me on WhatsApp first, it's faster"
             {...register("preferWhatsapp")}
           />
         </div>
