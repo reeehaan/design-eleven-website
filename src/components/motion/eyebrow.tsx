@@ -5,7 +5,7 @@ import { gsap, useGSAP } from "@/lib/motion/gsap";
 import { dur, ease, START } from "@/lib/motion/tokens";
 
 /**
- * Section eyebrow. The rule draws left-to-right slightly ahead of the heading
+ * Section divider. The rule draws left-to-right slightly ahead of the heading
  * it introduces, so the eye is led in rather than racing it.
  */
 export function Eyebrow({
@@ -53,19 +53,11 @@ export function Eyebrow({
       ? "bg-graphite"
       : "bg-concrete";
 
-  const textColour = active
-    ? onDark
-      ? "text-verdigris-light"
-      : "text-verdigris"
-    : "text-zinc";
-
   return (
-    <div ref={ref} className={`flex items-center gap-4 ${className ?? ""}`}>
-      <span
-        className={`font-meta text-meta uppercase transition-colors duration-300 ${textColour}`}
-      >
-        {children}
-      </span>
+    <div ref={ref} className={`flex items-center ${className ?? ""}`}>
+      {/* The label stays for assistive tech; sighted readers get the rule,
+          since the heading beneath it already names the section. */}
+      <span className="sr-only">{children}</span>
       <span
         data-rule
         aria-hidden="true"

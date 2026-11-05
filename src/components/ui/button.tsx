@@ -177,7 +177,7 @@ export function Button({
   );
 
   const base =
-    "group relative inline-flex select-none items-center justify-center overflow-hidden font-meta text-meta uppercase";
+    "group relative inline-flex select-none items-center justify-center overflow-hidden font-meta text-meta ";
 
   const variants: Record<Variant, string> = {
     primary: onDark

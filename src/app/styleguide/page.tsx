@@ -14,7 +14,7 @@ function Sheet({
   return (
     <section className="border-t border-concrete py-16 md:py-24">
       <header className="mb-10 md:mb-14">
-        <p className="font-meta text-meta uppercase text-zinc">
+        <p className="font-meta text-meta text-zinc">
           {sheet} <span className="text-concrete">·</span> {title}
         </p>
         {note ? (
@@ -138,13 +138,13 @@ function ColourRow({ s }: { s: Swatch }) {
         aria-hidden="true"
       />
       <div className="flex min-w-0 flex-1 flex-col justify-center gap-1">
-        <p className="font-meta text-meta uppercase text-ink">{s.name}</p>
+        <p className="font-meta text-meta text-ink">{s.name}</p>
         <p className="text-fine text-graphite">{s.role}</p>
       </div>
       <div className="hidden shrink-0 flex-col justify-center gap-1 text-right sm:flex">
-        <p className="font-meta text-meta-sm uppercase text-zinc">{s.hex}</p>
+        <p className="font-meta text-meta-sm text-zinc">{s.hex}</p>
         {s.ratio ? (
-          <p className="font-meta text-meta-sm uppercase text-zinc">
+          <p className="font-meta text-meta-sm text-zinc">
             {s.ratio}{" "}
             <span
               className={
@@ -155,7 +155,7 @@ function ColourRow({ s }: { s: Swatch }) {
             </span>
           </p>
         ) : (
-          <p className="font-meta text-meta-sm uppercase text-concrete">
+          <p className="font-meta text-meta-sm text-concrete">
             ground
           </p>
         )}
@@ -189,8 +189,8 @@ function TitleBlock() {
     <dl className="grid grid-cols-2 border-l border-t border-concrete sm:grid-cols-3 lg:grid-cols-5">
       {titleBlockFields.map((f) => (
         <div key={f.k} className="border-b border-r border-concrete p-4">
-          <dt className="font-meta text-meta-sm uppercase text-zinc">{f.k}</dt>
-          <dd className="mt-2 font-meta text-meta uppercase text-ink">{f.v}</dd>
+          <dt className="font-meta text-meta-sm text-zinc">{f.k}</dt>
+          <dd className="mt-2 font-meta text-meta text-ink">{f.v}</dd>
         </div>
       ))}
     </dl>
@@ -201,7 +201,7 @@ function TitleBlock() {
 // outline-color, which makes the focus ring fade in over 150ms. A focus
 // indicator has to be instant, so only fill and label are transitioned.
 const btnBase =
-  "inline-flex items-center justify-center px-6 py-3 font-meta text-meta uppercase transition-[color,background-color] duration-150";
+  "inline-flex items-center justify-center px-6 py-3 font-meta text-meta transition-[color,background-color] duration-150";
 
 function Buttons() {
   return (
@@ -234,12 +234,12 @@ function ProjectCard() {
     <article className="group max-w-md">
       <div className="relative aspect-4/3 overflow-hidden bg-paper-sunk">
         <div className="absolute inset-0 flex items-center justify-center">
-          <span className="font-meta text-meta-sm uppercase text-concrete">
+          <span className="font-meta text-meta-sm text-concrete">
             Project image
           </span>
         </div>
         {/* Live-state marker: the accent earns its place only on in-progress work. */}
-        <span className="absolute left-0 top-0 bg-verdigris px-3 py-1.5 font-meta text-meta-sm uppercase text-ink">
+        <span className="absolute left-0 top-0 bg-verdigris px-3 py-1.5 font-meta text-meta-sm text-ink">
           In progress
         </span>
       </div>
@@ -252,7 +252,7 @@ function ProjectCard() {
           without touching the original layout.
         </p>
         {/* The mono strip the brief asks every card to carry. */}
-        <p className="mt-4 border-t border-concrete pt-3 font-meta text-meta-sm uppercase text-zinc">
+        <p className="mt-4 border-t border-concrete pt-3 font-meta text-meta-sm text-zinc">
           PRJ-001 · ANURADHAPURA · 2024 · 280 SQ FT · 1 MONTH
         </p>
       </div>
@@ -268,7 +268,7 @@ function Forms() {
   return (
     <div className="grid gap-8 md:grid-cols-2">
       <div>
-        <label htmlFor="f-default" className="font-meta text-meta uppercase text-zinc">
+        <label htmlFor="f-default" className="font-meta text-meta text-zinc">
           Name
         </label>
         <input
@@ -280,7 +280,7 @@ function Forms() {
       </div>
 
       <div>
-        <label htmlFor="f-filled" className="font-meta text-meta uppercase text-zinc">
+        <label htmlFor="f-filled" className="font-meta text-meta text-zinc">
           Location
         </label>
         <input
@@ -292,7 +292,7 @@ function Forms() {
       </div>
 
       <div>
-        <label htmlFor="f-error" className="font-meta text-meta uppercase text-zinc">
+        <label htmlFor="f-error" className="font-meta text-meta text-zinc">
           Phone
         </label>
         <input
@@ -309,7 +309,7 @@ function Forms() {
       </div>
 
       <div>
-        <label htmlFor="f-disabled" className="font-meta text-meta uppercase text-concrete">
+        <label htmlFor="f-disabled" className="font-meta text-meta text-concrete">
           Upload plans
         </label>
         <input
@@ -323,7 +323,7 @@ function Forms() {
 
       <div className="md:col-span-2">
         <div className="border-l-2 border-verdigris bg-paper-sunk p-5">
-          <p className="font-meta text-meta uppercase text-ink">Enquiry received</p>
+          <p className="font-meta text-meta text-ink">Enquiry received</p>
           <p className="mt-3 max-w-measure text-copy text-graphite">
             Isuru will call you on{" "}
             <span className="text-ink">{siteConfig.contact.phoneDisplay}</span>{" "}
@@ -345,7 +345,7 @@ export default function StyleguidePage() {
       <div className="mx-auto w-full max-w-360 px-6 md:px-10 lg:px-16">
         {/* Sheet header — the title block used as the page's own masthead */}
         <header className="py-16 md:py-24">
-          <p className="font-meta text-meta uppercase text-zinc">
+          <p className="font-meta text-meta text-zinc">
             A-00 <span className="text-concrete">·</span> Design system
           </p>
           <h1 className="mt-8 text-d1 font-title font-medium">
@@ -375,7 +375,7 @@ export default function StyleguidePage() {
 
           <div className="mt-12 grid gap-6 md:grid-cols-2">
             <div className="bg-ink p-8">
-              <p className="font-meta text-meta uppercase text-marking">
+              <p className="font-meta text-meta text-marking">
                 Marking on ink · 5.95:1
               </p>
               <p className="mt-4 max-w-measure text-copy text-concrete">
@@ -384,7 +384,7 @@ export default function StyleguidePage() {
               </p>
             </div>
             <div className="border border-concrete p-8">
-              <p className="font-meta text-meta uppercase text-marking-deep">
+              <p className="font-meta text-meta text-marking-deep">
                 Marking-deep on paper · 4.56:1
               </p>
               <p className="mt-4 max-w-measure text-copy text-graphite">
@@ -401,7 +401,7 @@ export default function StyleguidePage() {
           note="Cabinet Grotesk for display, Switzer for body, Geist Mono for the title block. All three self-hosted — the site makes no font CDN request."
         >
           <div className="border border-concrete p-8 md:p-14">
-            <p className="font-meta text-meta uppercase text-zinc">
+            <p className="font-meta text-meta text-zinc">
               PRJ-001 · ANURADHAPURA · 2024
             </p>
             <p className="mt-8 text-d2 font-title font-medium">
@@ -413,7 +413,7 @@ export default function StyleguidePage() {
               every rupee buys before anyone breaks ground, and the number at
               the end is the number you agreed.
             </p>
-            <p className="mt-6 font-meta text-meta-sm uppercase text-zinc">
+            <p className="mt-6 font-meta text-meta-sm text-zinc">
               [DRAFT COPY] · specimen only
             </p>
           </div>
@@ -431,10 +431,10 @@ export default function StyleguidePage() {
                 className="border-b border-concrete pb-10 last:border-0"
               >
                 <div className="mb-4 flex flex-wrap items-baseline gap-x-4 gap-y-1">
-                  <span className="font-meta text-meta uppercase text-marking-deep">
+                  <span className="font-meta text-meta text-marking-deep">
                     {t.name}
                   </span>
-                  <span className="font-meta text-meta-sm uppercase text-zinc">
+                  <span className="font-meta text-meta-sm text-zinc">
                     {t.spec}
                   </span>
                 </div>
@@ -508,8 +508,8 @@ export default function StyleguidePage() {
               { k: "DRAWN BY", v: "PHASE 1" },
             ].map((f) => (
               <div key={f.k}>
-                <dt className="font-meta text-meta-sm uppercase text-zinc">{f.k}</dt>
-                <dd className="mt-2 font-meta text-meta uppercase text-ink">{f.v}</dd>
+                <dt className="font-meta text-meta-sm text-zinc">{f.k}</dt>
+                <dd className="mt-2 font-meta text-meta text-ink">{f.v}</dd>
               </div>
             ))}
           </dl>

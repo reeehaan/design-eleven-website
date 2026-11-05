@@ -36,7 +36,7 @@ function Bay({
         <div className="max-w-measure">
           <Eyebrow>{`${sheet} · ${title}`}</Eyebrow>
           <p className="mt-4 text-copy text-graphite">
-            <span className="font-meta text-meta-sm uppercase text-zinc">
+            <span className="font-meta text-meta-sm text-zinc">
               Assigned to:{" "}
             </span>
             {assignment}
@@ -78,7 +78,7 @@ export default function MotionStyleguide() {
               ["TRIGGER", START],
             ].map(([k, v]) => (
               <div key={k} className="bg-paper p-4">
-                <dt className="font-meta text-meta-sm uppercase text-zinc">
+                <dt className="font-meta text-meta-sm text-zinc">
                   {k}
                 </dt>
                 <dd className="mt-2 font-meta text-meta-sm text-ink">{v}</dd>
@@ -96,7 +96,7 @@ export default function MotionStyleguide() {
             Lines slide up from behind their own mask, which is what makes the
             movement read as drafted rather than floaty.
           </RevealLines>
-          <p className="mt-6 font-meta text-meta-sm uppercase text-zinc">
+          <p className="mt-6 font-meta text-meta-sm text-zinc">
             stagger {stagger.line}s · ease {ease.expo} · once
           </p>
         </Bay>
@@ -127,7 +127,7 @@ export default function MotionStyleguide() {
             “Honest estimate, no surprise costs at the end. The renovation came
             in slightly under budget.”
           </RevealLead>
-          <p className="mt-6 font-meta text-meta-sm uppercase text-zinc">
+          <p className="mt-6 font-meta text-meta-sm text-zinc">
             filter blur(8px) → 0 · the only non-compositor property on the site
           </p>
         </Bay>
@@ -138,7 +138,7 @@ export default function MotionStyleguide() {
           assignment="Title-block metadata only. Once, on first view — never on hover."
         >
           <ScrambleMeta
-            className="font-meta text-meta uppercase text-ink"
+            className="font-meta text-meta text-ink"
             segments={[
               { value: "PRJ-001", kind: "num" },
               { value: "ANURADHAPURA", kind: "word" },
@@ -170,13 +170,13 @@ export default function MotionStyleguide() {
                   suffix={n.s}
                   className="font-title text-d2 font-medium text-ink"
                 />
-                <p className="mt-2 font-meta text-meta-sm uppercase text-zinc">
+                <p className="mt-2 font-meta text-meta-sm text-zinc">
                   {n.l}
                 </p>
               </div>
             ))}
           </div>
-          <p className="mt-6 font-meta text-meta-sm uppercase text-zinc">
+          <p className="mt-6 font-meta text-meta-sm text-zinc">
             tabular-nums · snap 1 · Intl.NumberFormat · once
           </p>
         </Bay>
@@ -246,7 +246,7 @@ export default function MotionStyleguide() {
         </Bay>
 
         <footer className="border-t border-concrete py-12">
-          <p className="font-meta text-meta-sm uppercase text-zinc">
+          <p className="font-meta text-meta-sm text-zinc">
             SHEET M-00 — M-08 · REVISION A · FOR REVIEW
           </p>
         </footer>

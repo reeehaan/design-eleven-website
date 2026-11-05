@@ -41,12 +41,12 @@ export function maintenancePage(): string {
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Geist+Mono:wght@400;500&display=swap" />
 <style>
   :root {
-    --paper: #F0F0EC;
-    --ink: #0E1417;
-    --graphite: #3A423F;
-    --zinc: #656D6A;
-    --concrete: #C9CBC4;
-    --verdigris: #4E6B62;
+    --paper: #F3EFE8;
+    --ink: #231E19;
+    --graphite: #4A3F36;
+    --zinc: #6A5D51;
+    --concrete: #D3CABC;
+    --verdigris: #7A4E2D;
 
     --title: "Cabinet Grotesk", system-ui, sans-serif;
     --body: "Switzer", system-ui, sans-serif;
@@ -97,7 +97,7 @@ export function maintenancePage(): string {
     font-family: var(--meta);
     font-size: .6875rem;
     letter-spacing: .06em;
-    text-transform: uppercase;
+    
     color: var(--zinc);
   }
 
@@ -113,7 +113,7 @@ export function maintenancePage(): string {
     font-family: var(--meta);
     font-size: .75rem;
     letter-spacing: .04em;
-    text-transform: uppercase;
+    
     color: var(--zinc);
   }
   .eyebrow::after {
@@ -166,7 +166,7 @@ export function maintenancePage(): string {
     font-family: var(--meta);
     font-size: .6875rem;
     letter-spacing: .06em;
-    text-transform: uppercase;
+    
     color: var(--zinc);
   }
   .reg dd { margin-top: .625rem; }
@@ -201,7 +201,7 @@ export function maintenancePage(): string {
     font-family: var(--meta);
     font-size: .6875rem;
     letter-spacing: .06em;
-    text-transform: uppercase;
+    
     color: var(--zinc);
   }
 </style>

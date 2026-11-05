@@ -12,7 +12,7 @@ export default async function OpengraphImage() {
         style={{
           width: "100%",
           height: "100%",
-          background: "#F0F0EC",
+          background: "#F3EFE8",
           padding: "80px",
           display: "flex",
           flexDirection: "column",
@@ -25,8 +25,8 @@ export default async function OpengraphImage() {
             fontFamily: "ui-monospace, monospace",
             fontSize: 22,
             letterSpacing: "0.15em",
-            textTransform: "uppercase",
-            color: "#656D6A",
+            
+            color: "#6A5D51",
             display: "flex",
           }}
         >
@@ -41,7 +41,7 @@ export default async function OpengraphImage() {
               fontSize: 88,
               lineHeight: 1.05,
               letterSpacing: "-0.02em",
-              color: "#0E1417",
+              color: "#231E19",
               display: "flex",
             }}
           >
@@ -53,7 +53,7 @@ export default async function OpengraphImage() {
               fontSize: 88,
               lineHeight: 1.05,
               letterSpacing: "-0.02em",
-              color: "#3A423F",
+              color: "#4A3F36",
               display: "flex",
             }}
           >
@@ -67,7 +67,7 @@ export default async function OpengraphImage() {
             display: "flex",
             alignItems: "center",
             justifyContent: "space-between",
-            borderTop: "1px solid #C9CBC4",
+            borderTop: "1px solid #D3CABC",
             paddingTop: 24,
           }}
         >
@@ -75,7 +75,7 @@ export default async function OpengraphImage() {
             style={{
               fontFamily: "ui-monospace, monospace",
               fontSize: 22,
-              color: "#3A423F",
+              color: "#4A3F36",
               display: "flex",
             }}
           >
@@ -85,11 +85,11 @@ export default async function OpengraphImage() {
             style={{
               fontFamily: "ui-monospace, monospace",
               fontSize: 22,
-              color: "#BF4317",
+              color: "#8A5F00",
               display: "flex",
             }}
           >
-            Construction · Design · Sri Lanka
+            Construction, Design, Sri Lanka
           </div>
         </div>
       </div>

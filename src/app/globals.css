@@ -1,3 +1,4 @@
+/* Hallmark · redesign: full · theme: custom · warm linen paper, umber ink, brass accent, umber hover · hero: Stage (/) island scroll · built: the project */
 @import "tailwindcss";
 @plugin "@tailwindcss/typography";
 
@@ -8,21 +9,21 @@
      retire as each component is rewritten onto the tokens below. */
 
   /* Background */
-  --color-bg-primary: #f0f0ec;
-  --color-bg-secondary: #e4e5e0;
+  --color-bg-primary: #f3efe8;
+  --color-bg-secondary: #e9e3d8;
 
   /* Foreground */
-  --color-fg-primary: #0e1417;
-  --color-fg-muted: #3a423f;
-  --color-fg-subtle: #656d6a;
+  --color-fg-primary: #231e19;
+  --color-fg-muted: #4a3f36;
+  --color-fg-subtle: #6a5d51;
 
   /* Accent — the text-safe stop, since legacy usage is mostly links and rules */
-  --color-accent: #bf4317;
-  --color-accent-deep: #ff5a1f;
+  --color-accent: #8a5f00;
+  --color-accent-deep: #d9a845;
 
   /* Surfaces */
-  --color-surface-dark: #0e1417;
-  --color-surface-line: #c9cbc4;
+  --color-surface-dark: #231e19;
+  --color-surface-line: #d3cabc;
 
   /* Section spacing */
   --spacing-section-sm: 4rem;
@@ -41,16 +42,23 @@
    ─────────────────────────────────────────────────────────────── */
 @theme {
   /* Ground */
-  --color-paper: #f0f0ec; /* page ground — cool, not cream */
-  --color-paper-sunk: #e4e5e0; /* image wells, inputs, sunk panels */
+  --color-paper: #f3efe8; /* page ground — warm linen */
+  --color-paper-sunk: #e9e3d8; /* image wells, inputs, sunk panels */
 
   /* Text */
-  --color-ink: #0e1417; /* primary text, deep sections */
-  --color-graphite: #3a423f; /* secondary text, rules on dark */
-  --color-zinc: #656d6a; /* captions, metadata — 4.65:1 on paper (AA) */
+  --color-ink: #231e19; /* primary text, deep sections */
+  --color-graphite: #4a3f36; /* secondary text, rules on dark */
+  --color-zinc: #6a5d51; /* captions, metadata — 4.65:1 on paper (AA) */
 
   /* Structure */
-  --color-concrete: #c9cbc4; /* dividers, inactive states, 3D material */
+  --color-concrete: #d3cabc;
+
+  /* The page-transition sheet: near black, a step darker than ink. */
+  --color-void: #121110; /* dividers, inactive states, 3D material */
+
+  /* Secondary text on ink. zinc is tuned for paper (4.7:1) and drops to 3.4:1
+     on ink, so deep sections read from mist instead (6.9:1). */
+  --color-mist: #a89c8f;
 
   /* Warning only. Orange was pulled out of the UI entirely — it now appears
      nowhere except form errors and invalid state, where a green would read as
@@ -58,8 +66,8 @@
      paint, which is the one place hi-vis orange still belongs.
        marking      5.95:1 with ink on top. 2.73:1 on paper — never text there.
        marking-deep 4.56:1 on paper → error text and invalid borders. */
-  --color-marking: #ff5a1f;
-  --color-marking-deep: #bf4317;
+  --color-marking: #d9a845;
+  --color-marking-deep: #8a5f00;
 
   /* Hover / interactive feedback — oxidised copper. Deliberately NOT the
      accent: marking now means "live or active" (in-progress work, current
@@ -67,19 +75,19 @@
      Two meanings, two colours, so neither gets diluted.
        verdigris       5.10:1 on paper  → hover on light grounds
        verdigris-light 5.24:1 on ink    → hover on deep sections */
-  --color-verdigris: #4e6b62;
-  --color-verdigris-light: #699084;
+  --color-verdigris: #7a4e2d;
+  --color-verdigris-light: #e0b458;
 
   /* Display — Cabinet Grotesk. Negative tracking, tightens as it grows. */
-  --text-d1: clamp(3.25rem, 8vw, 6.5rem);
+  --text-d1: clamp(2.5rem, 5.4vw, 4.75rem);
   --text-d1--line-height: 0.92;
   --text-d1--letter-spacing: -0.04em;
 
-  --text-d2: clamp(2.5rem, 5.5vw, 4.25rem);
+  --text-d2: clamp(2rem, 3.6vw, 3.25rem);
   --text-d2--line-height: 0.96;
   --text-d2--letter-spacing: -0.035em;
 
-  --text-d3: clamp(2rem, 4vw, 3rem);
+  --text-d3: clamp(1.75rem, 2.9vw, 2.5rem);
   --text-d3--line-height: 1;
   --text-d3--letter-spacing: -0.03em;
 
@@ -99,27 +107,27 @@
   --text-fine--line-height: 1.55;
 
   /* Meta — Geist Mono. The title-block voice. Positive tracking, uppercase. */
-  --text-meta: 0.75rem;
+  --text-meta: 0.8125rem;
   --text-meta--line-height: 1.4;
-  --text-meta--letter-spacing: 0.04em;
+  --text-meta--letter-spacing: 0;
 
-  --text-meta-sm: 0.6875rem;
+  --text-meta-sm: 0.75rem;
   --text-meta-sm--line-height: 1.35;
-  --text-meta-sm--letter-spacing: 0.06em;
+  --text-meta-sm--letter-spacing: 0;
 
   /* Measure — brief caps body copy at ~68 characters */
   --container-measure: 68ch;
 }
 
 @theme inline {
-  --font-title: var(--font-cabinet), system-ui, sans-serif;
+  --font-title: var(--font-switzer), system-ui, sans-serif;
   --font-body: var(--font-switzer), system-ui, sans-serif;
-  --font-meta: var(--font-geist-mono), ui-monospace, monospace;
+  --font-meta: var(--font-switzer), system-ui, sans-serif;
 }
 
 /* Fonts reference CSS variables set by next/font at runtime */
 @theme inline {
-  --font-display: var(--font-cabinet), system-ui, sans-serif;
+  --font-display: var(--font-switzer), system-ui, sans-serif;
   --font-sans: var(--font-switzer), system-ui, sans-serif;
   --font-mono: var(--font-geist-mono), ui-monospace, monospace;
 }
@@ -128,6 +136,11 @@
 @layer base {
   :root {
     color-scheme: light;
+  }
+
+  html,
+  body {
+    overflow-x: clip;
   }
 
   html {
@@ -144,6 +157,7 @@
     color: var(--color-ink);
     font-family: var(--font-body);
     line-height: 1.65;
+    font-weight: 600;
   }
 
   /* Verdigris at 5.10:1 on paper, comfortably past the 3:1 WCAG 1.4.11 asks of
@@ -200,6 +214,22 @@
   }
 }
 
+/* One voice site-wide: Switzer semibold, the About page's setting. */
+.font-title,
+h1,
+h2,
+h3,
+h4 {
+  font-family: var(--font-switzer), system-ui, sans-serif;
+  font-weight: 600;
+}
+
+/* Secondary text on deep sections: zinc is tuned for paper, mist for ink. */
+.bg-ink .text-zinc,
+[data-on-dark] .text-zinc {
+  color: var(--color-mist);
+}
+
 /* ─── Motion ─────────────────────────────────────────────────── */
 
 /* SplitText's line mask is `overflow: clip` sized to the line box. Our display
@@ -214,26 +244,14 @@
 /* ─── Utilities ──────────────────────────────────────────────── */
 @layer utilities {
   .container-x {
-    margin-inline: auto;
     width: 100%;
-    max-width: 1440px;
-    padding-inline: 1.5rem;
-
-    @media (min-width: 768px) {
-      padding-inline: 2.5rem;
-    }
-
-    @media (min-width: 1024px) {
-      padding-inline: 4rem;
-    }
+    padding-inline: 0.75rem;
   }
 
   .label-mono {
-    font-family: var(--font-mono);
-    font-size: 0.75rem;
+    font-family: var(--font-sans);
+    font-size: 0.8125rem;
     line-height: 1.4;
-    letter-spacing: 0.08em;
-    text-transform: uppercase;
     color: var(--color-fg-muted);
   }
 
@@ -282,9 +300,8 @@
   }
 
   .text-label {
-    font-size: 0.75rem;
+    font-size: 0.8125rem;
     line-height: 1.4;
-    letter-spacing: 0.08em;
   }
 }
 
@@ -298,4 +315,23 @@
     transition-duration: 0.01ms !important;
     scroll-behavior: auto !important;
   }
+}
+
+
+
+
+/* Lenis: the library drives scrolling, so the browser's own smoothing and
+   overscroll chaining stay out of its way. */
+html.lenis,
+html.lenis body {
+  height: auto;
+}
+.lenis.lenis-smooth {
+  scroll-behavior: auto !important;
+}
+.lenis.lenis-stopped {
+  overflow: clip;
+}
+[data-lenis-prevent] {
+  overscroll-behavior: contain;
 }
