@@ -48,10 +48,10 @@ function register(): MastheadCell[] {
 export function WorkHeader() {
   return (
     <PageMasthead
-      eyebrow="Projects — Index"
+      eyebrow="Projects, Index"
       title="Selected work,"
       titleAccent="across Sri Lanka."
-      intro="Filter by type or year. Every entry opens a full case study — the brief, the constraint we had to solve, the materials, and what it cost to get there."
+      intro="Filter by type or year. Every entry opens a full case study, the brief, the constraint we had to solve, the materials, and what it cost to get there."
       cells={register()}
     />
   );

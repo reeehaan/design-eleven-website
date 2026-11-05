@@ -13,31 +13,31 @@ export function ProjectBody({ project }: { project: Project }) {
             <Eyebrow>Project at a glance</Eyebrow>
 
             <dl className="mt-6 grid grid-cols-2 gap-y-5 border-y border-concrete py-6 font-meta text-meta">
-              <dt className="uppercase text-zinc">Location</dt>
+              <dt className="text-zinc">Location</dt>
               <dd className="text-right text-ink">{project.location}</dd>
 
-              <dt className="uppercase text-zinc">Year</dt>
+              <dt className="text-zinc">Year</dt>
               <dd className="text-right text-ink">{project.year}</dd>
 
-              <dt className="uppercase text-zinc">Duration</dt>
+              <dt className="text-zinc">Duration</dt>
               <dd className="text-right text-ink">{project.durationMonths} months</dd>
 
               {project.area !== null && (
                 <>
-                  <dt className="uppercase text-zinc">Area</dt>
+                  <dt className="text-zinc">Area</dt>
                   <dd className="text-right text-ink">
                     {project.area.toLocaleString()} {project.areaUnit}
                   </dd>
                 </>
               )}
 
-              <dt className="uppercase text-zinc">Category</dt>
+              <dt className="text-zinc">Category</dt>
               <dd className="text-right text-ink">{project.category}</dd>
             </dl>
 
             {project.scope && project.scope.length > 0 && (
               <div className="mt-8">
-                <span className="font-meta text-meta uppercase text-zinc">
+                <span className="font-meta text-meta text-zinc">
                   Scope
                 </span>
                 <ul className="mt-4 flex flex-col gap-3">

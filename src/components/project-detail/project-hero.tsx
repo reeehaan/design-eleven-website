@@ -6,7 +6,7 @@ export function ProjectHero({ project }: { project: Project }) {
   return (
     <section
       aria-labelledby="project-hero-title"
-      className="relative h-[70vh] min-h-[520px] w-full overflow-hidden md:h-[85vh]"
+      className="relative h-[70svh] min-h-[520px] w-full overflow-hidden md:h-[85svh]"
     >
       <Image
         src={project.cover.src}
@@ -25,18 +25,15 @@ export function ProjectHero({ project }: { project: Project }) {
 
       {/* Title block */}
       <Container className="absolute inset-x-0 bottom-0 pb-12 md:pb-16">
-        <span className="font-meta text-meta-sm uppercase text-paper/80">
-          {project.category}{" "}
-          <span className="text-paper/60">· {project.location}</span>{" "}
-          <span className="text-paper/60">· {project.year}</span>
-        </span>
-
         <h1
           id="project-hero-title"
           className="mt-4 font-title text-d1 font-medium text-paper"
         >
           {project.title}
         </h1>
+        <p className="mt-5 font-meta text-meta text-paper/80">
+          {project.category}, {project.location}, {project.year}
+        </p>
       </Container>
     </section>
   );

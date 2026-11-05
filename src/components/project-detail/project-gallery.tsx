@@ -58,7 +58,7 @@ export function ProjectGallery({ images }: { images: ProjectImage[] }) {
           </h2>
         </Reveal>
 
-        <Reveal className="mt-12 md:mt-16">
+        <Reveal className="mt-12 md:mt-10 md:mt-16">
           <ul className="grid grid-cols-1 gap-4 sm:grid-cols-2 md:grid-cols-3 md:gap-6">
             {images.map((image, i) => (
               <li key={image.src} className={cn(i === 0 && "sm:col-span-2")}>
@@ -159,7 +159,7 @@ export function ProjectGallery({ images }: { images: ProjectImage[] }) {
               </AnimatePresence>
             </div>
 
-            <span className="absolute bottom-6 left-1/2 -translate-x-1/2 font-meta text-meta uppercase text-concrete">
+            <span className="absolute bottom-6 left-1/2 -translate-x-1/2 font-meta text-meta text-concrete">
               {(lightboxIndex + 1).toString().padStart(2, "0")}{" "}
               <span className="text-zinc">
                 / {images.length.toString().padStart(2, "0")}

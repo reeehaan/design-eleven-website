@@ -53,7 +53,7 @@ export function BeforeAfter({ pair }: { pair: BeforeAfterType }) {
           </div>
         </Reveal>
 
-        <Reveal className="mt-12 md:mt-16">
+        <Reveal className="mt-12 md:mt-10 md:mt-16">
           {/* Lenis owns touchmove globally and preventDefaults it to drive its
               own scrolling, which cancels the pointer stream the slider drags
               on — so on a phone the divider could not be moved at all. The
@@ -116,9 +116,9 @@ export function BeforeAfter({ pair }: { pair: BeforeAfterType }) {
             />
           </div>
 
-          <div className="mt-4 flex justify-between font-meta text-meta-sm uppercase text-graphite">
-            <span>← Before</span>
-            <span>After →</span>
+          <div className="mt-4 flex justify-between font-meta text-meta-sm text-graphite">
+            <span>Before</span>
+            <span>After</span>
           </div>
         </Reveal>
       </Container>

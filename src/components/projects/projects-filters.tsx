@@ -91,7 +91,7 @@ export function ProjectsFilters({
     /* Sticky from md up only. On a phone the bar is two rows tall, and pinning
        that under a 64px header leaves too little of the grid to scroll. */
     <div className="border-b border-concrete bg-paper/90 backdrop-blur-md md:sticky md:top-20 md:z-30">
-      <div className="mx-auto w-full max-w-360 px-6 md:px-10 lg:px-16">
+      <div className="w-full px-3">
         <div className="flex flex-col gap-4 py-4 lg:flex-row lg:items-center lg:justify-between lg:gap-12">
           {/* Full-bleed scroll track, so a chip row that overflows on mobile
               runs to the screen edge instead of clipping at the gutter. */}
@@ -117,7 +117,7 @@ export function ProjectsFilters({
           <div className="flex shrink-0 items-center justify-between gap-6">
             <p
               aria-live="polite"
-              className="font-meta text-meta-sm uppercase text-zinc"
+              className="font-meta text-meta-sm text-zinc"
             >
               {/* Padded figures read as "zero one" aloud, so the spoken and
                   the printed count are two different strings. */}
@@ -142,7 +142,7 @@ export function ProjectsFilters({
               tabIndex={hasActiveFilter ? 0 : -1}
               aria-hidden={!hasActiveFilter}
               className={cn(
-                "font-meta text-meta-sm uppercase underline-offset-4 transition-opacity duration-300 hover:text-verdigris hover:underline",
+                "font-meta text-meta-sm underline-offset-4 transition-opacity duration-300 hover:text-verdigris hover:underline",
                 hasActiveFilter
                   ? "text-graphite opacity-100"
                   : "pointer-events-none opacity-0",
@@ -178,7 +178,7 @@ function FilterGroup({
     <div className="flex shrink-0 items-center gap-3 md:gap-4">
       <span
         id={groupId}
-        className="hidden font-meta text-meta-sm uppercase text-zinc md:inline"
+        className="hidden font-meta text-meta-sm text-zinc md:inline"
       >
         {label}
       </span>
@@ -201,7 +201,7 @@ function FilterGroup({
               }`}
               disabled={isEmpty && !isActive}
               className={cn(
-                "group inline-flex min-h-11 shrink-0 items-center gap-2 border px-4 font-meta text-meta uppercase transition-colors duration-200 md:min-h-10",
+                "group inline-flex min-h-11 shrink-0 items-center gap-2 border px-4 font-meta text-meta transition-colors duration-200 md:min-h-11",
                 isActive
                   ? "border-ink bg-ink text-paper"
                   : isEmpty

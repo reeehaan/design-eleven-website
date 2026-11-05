@@ -1,9 +1,5 @@
-"use client";
-
 import Image from "next/image";
 import Link from "next/link";
-import { motion } from "framer-motion";
-import { cn } from "@/lib/utils";
 import type { Project } from "@/lib/projects";
 
 type ProjectCardProps = {
@@ -11,56 +7,39 @@ type ProjectCardProps = {
   index: number;
 };
 
+/** A tall photograph, then the number and the name on one line. */
 export function ProjectCard({ project, index }: ProjectCardProps) {
-  const span = project.gridSpan ?? 1;
-  const aspect = project.aspect ?? "standard";
-
   return (
-    <motion.article
-      layout
-      initial={{ opacity: 0, y: 16 }}
-      animate={{ opacity: 1, y: 0 }}
-      exit={{ opacity: 0, y: -8 }}
-      transition={{ duration: 0.45, ease: [0.22, 1, 0.36, 1] }}
-      className={cn("col-span-1", span === 2 && "md:col-span-2")}
-    >
+    <article>
       <Link
         href={`/projects/${project.slug}`}
         className="group block"
         aria-label={`View project: ${project.title}`}
       >
-        <div
-          className={cn(
-            "relative w-full overflow-hidden bg-paper-sunk",
-            aspect === "tall" ? "aspect-[3/4]" : "aspect-[4/3]",
-          )}
-        >
+        <div className="relative aspect-4/5 w-full overflow-clip bg-paper-sunk">
           <Image
             src={project.cover.src}
             alt={project.cover.alt}
             fill
-            sizes={
-              span === 2
-                ? "(min-width: 768px) 66vw, 100vw"
-                : "(min-width: 768px) 33vw, 100vw"
-            }
-            className="object-cover transition-transform duration-700 ease-out group-hover:scale-[1.02]"
+            sizes="(min-width: 768px) 25vw, 50vw"
+            className="object-cover"
           />
         </div>
 
-        <div className="mt-4 flex items-baseline justify-between gap-4">
-          <span className="font-meta text-meta-sm uppercase text-zinc">
-            {(index + 1).toString().padStart(2, "0")}{" "}
-            <span className="text-zinc">/</span> {project.category}
+        <div className="mt-2 grid grid-cols-3 gap-x-3 font-sans text-base font-semibold text-ink md:grid-cols-[1fr_2fr]">
+          <span className="tabular-nums">
+            {(index + 1).toString().padStart(2, "0")}
           </span>
-          <span className="font-meta text-meta-sm text-graphite">{project.year}</span>
+          <span className="col-span-2 underline-offset-4 group-hover:underline md:col-span-1">
+            {project.title}
+          </span>
         </div>
-
-        <h3 className="mt-2 font-title text-2xl font-medium text-ink transition-colors group-hover:text-verdigris md:text-3xl">
-          {project.title}
-        </h3>
-        <p className="mt-1 text-sm text-graphite">{project.location}</p>
+        <div className="grid grid-cols-3 gap-x-3 font-sans text-base font-semibold text-zinc md:grid-cols-[1fr_2fr]">
+          <span className="col-span-2 md:col-span-1 md:col-start-2">
+            {project.location}
+          </span>
+        </div>
       </Link>
-    </motion.article>
+    </article>
   );
 }

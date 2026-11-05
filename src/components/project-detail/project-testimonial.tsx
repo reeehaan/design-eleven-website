@@ -29,9 +29,9 @@ export function ProjectTestimonial({ testimonialId }: { testimonialId: string })
             <p className="mt-2 font-title text-3xl leading-snug text-ink md:text-5xl md:leading-tight">
               {testimonial.quote}
             </p>
-            <footer className="mt-10 flex flex-col gap-1 border-t border-concrete pt-5 font-meta text-meta uppercase md:flex-row md:items-center md:gap-6">
+            <footer className="mt-10 flex flex-col gap-1 border-t border-concrete pt-5 font-meta text-meta md:flex-row md:items-center md:gap-6">
               <cite className="not-italic text-ink">
-                — {testimonial.name}
+                {testimonial.name}
               </cite>
               <span className="text-graphite">{testimonial.role}</span>
             </footer>
