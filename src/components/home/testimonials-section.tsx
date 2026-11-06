@@ -67,6 +67,7 @@ export function TestimonialsSection() {
   return (
     <section
       aria-labelledby="testimonials-heading"
+      data-no-fx
       className="border-t border-concrete bg-paper"
     >
       <div className="w-full px-3 py-20 md:py-28">
@@ -138,7 +139,7 @@ export function TestimonialsSection() {
               <span className="text-ink">
                 {(index + 1).toString().padStart(2, "0")}
               </span>
-              <span className="text-concrete">
+              <span className="text-zinc">
                 {" "}
                 / {total.toString().padStart(2, "0")}
               </span>

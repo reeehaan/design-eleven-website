@@ -159,7 +159,7 @@ export function MobileMenu() {
               onClick={() => setOpen(false)}
               className="mt-10 inline-flex items-center justify-center gap-2 bg-verdigris px-6 py-4 font-meta text-meta text-ink"
             >
-              Start a project
+              Request a quote
               <ArrowRight aria-hidden="true" className="inline-block h-[1em] w-[1em] align-[-0.12em]" />
             </Link>
           </nav>

@@ -6,11 +6,10 @@ import { NavScroll } from "./nav-scroll";
 
 export function Navbar() {
   return (
-    <header className="group/nav sticky top-0 z-40 text-white mix-blend-difference data-scrolled:bg-paper data-scrolled:text-ink data-scrolled:mix-blend-normal data-scrolled:border-b data-scrolled:border-concrete">
+    <header className="sticky top-0 z-40 text-ink data-photo:text-white data-scrolled:border-b data-scrolled:border-concrete data-scrolled:bg-paper data-scrolled:text-ink">
       <div className="mx-auto grid h-16 w-full grid-cols-[1fr_auto] items-center px-3 md:h-20 md:grid-cols-[1fr_auto_1fr]">
         <Link
           href="/"
-          aria-label={`${siteConfig.name} — home`}
           className="group flex items-baseline gap-2 justify-self-start"
         >
           <span className="font-title text-xl font-semibold tracking-tight md:text-2xl">
@@ -43,7 +42,7 @@ export function Navbar() {
           href="/contact"
           className="hidden items-center gap-2 justify-self-end border border-current px-5 py-2.5 font-meta text-meta transition-opacity hover:opacity-70 md:inline-flex"
         >
-          Start a project
+          Request a quote
           <ArrowRight aria-hidden="true" className="h-4 w-4" />
         </Link>
 

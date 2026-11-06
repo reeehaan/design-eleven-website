@@ -1,4 +1,3 @@
-import { Wordmark } from "@/components/home/wordmark";
 import { Hero } from "@/components/home/hero";
 import {
   HomeApproach,
@@ -15,7 +14,6 @@ export default function HomePage() {
     <>
       <Hero />
       <HomeIntro />
-      <Wordmark />
       <HomeShowcase projects={getFeaturedProjects()} />
       <HomeApproach />
       <HomeProcess />

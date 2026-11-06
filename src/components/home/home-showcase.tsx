@@ -108,6 +108,7 @@ export function HomeShowcase({ projects }: { projects: Project[] }) {
     <div ref={root} className="relative">
       <section
         aria-labelledby="showcase-heading"
+        data-no-fx
         className="sticky top-0 h-svh overflow-clip bg-paper"
       >
         <div

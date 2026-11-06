@@ -44,7 +44,7 @@ export function HomeIntro() {
       </h2>
       <div className="col-span-12 md:col-span-3 md:col-start-10">
         <p className={body}>{rest.join(". ")}</p>
-        <RuleLink href="/about">Learn more</RuleLink>
+        <RuleLink href="/about">About the studio</RuleLink>
       </div>
     </section>
   );
@@ -83,7 +83,7 @@ export function HomeApproach() {
       aria-labelledby="home-approach-heading"
       className="grid grid-cols-12 gap-x-3 gap-y-10 bg-paper px-3 pb-14 md:pb-40"
     >
-      <div className="relative col-span-12 aspect-4/3 overflow-clip bg-paper-sunk md:col-span-8">
+      <div className="relative col-span-12 aspect-4/3 overflow-clip bg-paper-sunk md:col-span-8 md:aspect-4/5">
         <Image
           src={image.src}
           alt={image.alt}
@@ -92,7 +92,7 @@ export function HomeApproach() {
           className="object-cover"
         />
       </div>
-      <div className="col-span-12 md:col-span-3 md:col-start-10">
+      <div className="col-span-12 md:sticky md:top-24 md:col-span-3 md:col-start-10 md:self-start">
         <h2 id="home-approach-heading" className={body}>
           What we build
         </h2>
@@ -100,7 +100,7 @@ export function HomeApproach() {
           From design and costing through to construction, steel fabrication and
           plumbing, every service is owner-led from first visit to handover.
         </p>
-        <RuleLink href="/services">Learn more</RuleLink>
+        <RuleLink href="/services">Our services</RuleLink>
       </div>
     </section>
   );
