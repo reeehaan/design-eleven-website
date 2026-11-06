@@ -45,7 +45,7 @@ export function ProjectGallery({ images }: { images: ProjectImage[] }) {
   return (
     <section
       aria-labelledby="gallery-heading"
-      className="border-t border-concrete py-20 md:py-24"
+      className="bg-paper pb-14 md:pb-32"
     >
       <Container>
         <Reveal>
@@ -119,7 +119,10 @@ export function ProjectGallery({ images }: { images: ProjectImage[] }) {
 
             <button
               type="button"
-              onClick={(e) => { e.stopPropagation(); goPrev(); }}
+              onClick={(e) => {
+                e.stopPropagation();
+                goPrev();
+              }}
               aria-label="Previous image"
               className="absolute left-4 z-10 inline-flex h-12 w-12 items-center justify-center border border-graphite text-paper transition-colors hover:border-verdigris-light hover:text-verdigris-light md:left-8"
             >
@@ -128,7 +131,10 @@ export function ProjectGallery({ images }: { images: ProjectImage[] }) {
 
             <button
               type="button"
-              onClick={(e) => { e.stopPropagation(); goNext(); }}
+              onClick={(e) => {
+                e.stopPropagation();
+                goNext();
+              }}
               aria-label="Next image"
               className="absolute right-4 z-10 inline-flex h-12 w-12 items-center justify-center border border-graphite text-paper transition-colors hover:border-verdigris-light hover:text-verdigris-light md:right-20"
             >

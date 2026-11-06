@@ -1,36 +1,28 @@
-import { Container } from "@/components/ui/container";
-import { Eyebrow } from "@/components/motion/eyebrow";
-import { Reveal } from "@/components/ui/reveal";
-import { CheckList } from "@/components/ui/check-list";
+import { ScrollFx } from "@/components/motion/scroll-fx";
+
+const body =
+  "font-sans text-[1.0625rem] font-semibold leading-[1.15] tracking-[-0.01em] text-ink";
 
 export function Materials({ items }: { items: string[] }) {
   return (
     <section
       aria-labelledby="materials-heading"
-      className="border-t border-concrete py-20 md:py-24"
+      className="grid grid-cols-12 gap-x-3 gap-y-8 bg-paper px-3 pb-14 md:pb-32"
     >
-      <Container>
-        <Reveal>
-          <div className="grid gap-10 md:grid-cols-12 md:gap-x-10">
-            <div className="md:col-span-4">
-              <Eyebrow>04 &middot; Materials</Eyebrow>
-              <h2
-                id="materials-heading"
-                className="mt-6 font-title text-d3 font-medium text-ink"
-              >
-                What it&apos;s <span className="text-graphite">made of</span>.
-              </h2>
-              <p className="mt-5 max-w-xs text-graphite">
-                Material selections that determined the build&apos;s character
-                and durability.
-              </p>
-            </div>
-            <div className="md:col-span-8">
-              <CheckList items={items} columns={1} />
-            </div>
-          </div>
-        </Reveal>
-      </Container>
+      <ScrollFx />
+      <h2
+        id="materials-heading"
+        className={`col-span-12 text-zinc md:col-span-3 ${body}`}
+      >
+        What it&rsquo;s made of
+      </h2>
+      <ul className="col-span-12 border-t border-ink md:col-span-6 md:col-start-4">
+        {items.map((item) => (
+          <li key={item} className={`border-b border-concrete py-2 ${body}`}>
+            {item}
+          </li>
+        ))}
+      </ul>
     </section>
   );
 }
