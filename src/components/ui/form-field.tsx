@@ -50,7 +50,7 @@ type TextFieldProps = React.InputHTMLAttributes<HTMLInputElement> & {
 
 /** Underline, not a box — the rules on this site are all hairlines. */
 const fieldBase =
-  "w-full border-b border-concrete bg-transparent py-3 text-copy text-ink placeholder:text-zinc focus:border-verdigris focus:outline-none";
+  "w-full border-b border-zinc bg-transparent py-3 text-copy text-ink placeholder:text-zinc focus:border-verdigris focus:outline-none";
 
 export const TextField = forwardRef<HTMLInputElement, TextFieldProps>(
   function TextField({ className, error, ...props }, ref) {

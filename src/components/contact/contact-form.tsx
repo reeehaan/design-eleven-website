@@ -145,6 +145,7 @@ export function ContactForm() {
   const [status, setStatus] = useState<Status>({ state: "idle" });
   const [turnstileToken, setTurnstileToken] = useState("");
   const turnstileRef = useRef<TurnstileInstance | null>(null);
+  const honeypot = useRef<HTMLInputElement | null>(null);
   const siteKey = process.env.NEXT_PUBLIC_TURNSTILE_SITE_KEY;
 
   const {
@@ -161,6 +162,12 @@ export function ContactForm() {
   });
 
   const onSubmit = async (values: EnquiryValues) => {
+    // Honeypot: people never see this field, so a filled one is a bot. Answer
+    // as if it worked so the bot learns nothing, and send nothing.
+    if (honeypot.current?.value) {
+      setStatus({ state: "success" });
+      return;
+    }
     if (!turnstileToken) {
       setStatus({
         state: "error",
@@ -319,6 +326,18 @@ export function ContactForm() {
           {...register("heardFrom")}
         />
       </Field>
+
+      <div aria-hidden="true" className="absolute -left-[9999px] h-0 w-0 overflow-hidden">
+        <label htmlFor="company-website">Leave this field empty</label>
+        <input
+          ref={honeypot}
+          id="company-website"
+          name="company-website"
+          type="text"
+          tabIndex={-1}
+          autoComplete="off"
+        />
+      </div>
 
       <Checkbox
         id="preferWhatsapp"

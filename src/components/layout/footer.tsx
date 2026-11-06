@@ -23,7 +23,7 @@ export function Footer() {
             <p className="font-meta text-meta-sm text-zinc">Direct</p>
             <a
               href={`tel:${contact.phone.replace(/\s/g, "")}`}
-              className="mt-3 block font-meta text-meta text-ink transition-colors hover:text-verdigris"
+              className="mt-1 block py-2 font-meta text-meta text-ink transition-colors hover:text-verdigris"
             >
               {contact.phoneDisplay}
             </a>
@@ -31,7 +31,7 @@ export function Footer() {
                 natural seam rather than mid-word. */}
             <a
               href={`mailto:${contact.email}`}
-              className="mt-1 block font-meta text-meta-sm text-graphite transition-colors hover:text-verdigris"
+              className="block py-2 font-meta text-meta-sm text-graphite transition-colors hover:text-verdigris"
             >
               {contact.email.split("@")[0]}@<wbr />
               {contact.email.split("@")[1]}
@@ -91,7 +91,15 @@ export function Footer() {
           <p>
             © {year} {siteConfig.name}
           </p>
-          <p>{siteConfig.ownerCredentials}</p>
+          <p className="flex flex-wrap gap-x-5 gap-y-1">
+            <Link href="/privacy" className="transition-colors hover:text-verdigris">
+              Privacy policy
+            </Link>
+            <Link href="/terms" className="transition-colors hover:text-verdigris">
+              Terms and conditions
+            </Link>
+            <span>{siteConfig.ownerCredentials}</span>
+          </p>
         </div>
       </div>
     </footer>

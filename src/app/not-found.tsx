@@ -1,47 +1,51 @@
 import Link from "next/link";
-import { Container } from "@/components/ui/container";
-import { Eyebrow } from "@/components/motion/eyebrow";
 import { ArrowRight } from "lucide-react";
+
+export const metadata = {
+  title: "Page not found",
+  robots: { index: false },
+};
+
+const links = [
+  { href: "/", label: "Home" },
+  { href: "/projects", label: "Browse projects" },
+  { href: "/services", label: "What we build" },
+  { href: "/contact", label: "Request a quote" },
+];
 
 export default function NotFound() {
   return (
-    <Container as="section" className="flex min-h-[70vh] items-center py-20">
-      <div className="max-w-3xl">
-        <Eyebrow>404</Eyebrow>
-        <h1 className="mt-6 font-title text-d1 font-medium text-ink">
-          Nothing built <span className="text-graphite">here</span>.
-        </h1>
-        <p className="mt-8 max-w-md text-lead text-graphite">
-          The page you were looking for doesn&rsquo;t exist, or has been
-          moved. Here&rsquo;s where you might be headed:
-        </p>
-
-        <ul className="mt-12 grid gap-x-12 gap-y-6 border-t border-concrete pt-8 sm:grid-cols-2">
-          {[
-            { href: "/", label: "Home" },
-            { href: "/projects", label: "Browse projects" },
-            { href: "/services", label: "What we build" },
-            { href: "/contact", label: "Start a project" },
-          ].map((item) => (
-            <li key={item.href}>
-              <Link
-                href={item.href}
-                className="group flex items-baseline justify-between gap-4 py-2"
-              >
-                <span className="font-title text-2xl font-medium text-ink transition-colors group-hover:text-verdigris md:text-3xl">
-                  {item.label}
-                </span>
-                <span
-                  aria-hidden="true"
-                  className="font-meta text-zinc transition-transform duration-300 group-hover:translate-x-1 group-hover:text-verdigris"
-                >
-                  <ArrowRight aria-hidden="true" className="inline-block h-[1em] w-[1em] align-[-0.12em]" />
-                </span>
-              </Link>
-            </li>
-          ))}
-        </ul>
-      </div>
-    </Container>
+    <section
+      aria-labelledby="nf-title"
+      className="flex min-h-[80svh] flex-col justify-center bg-paper px-3 pb-16 pt-24"
+    >
+      <p className="font-sans text-base font-semibold text-zinc">404</p>
+      <h1
+        id="nf-title"
+        className="mt-4 max-w-[14ch] font-sans text-[clamp(2.75rem,9vw,8rem)] font-semibold leading-[0.95] tracking-[-0.05em] text-ink"
+      >
+        Nothing built here.
+      </h1>
+      <p className="mt-6 max-w-[30rem] font-sans text-[1.0625rem] font-semibold leading-[1.25] tracking-[-0.01em] text-graphite">
+        The page you were looking for doesn&rsquo;t exist, or has moved. Here is
+        where you might be headed.
+      </p>
+      <ul className="mt-12 grid grid-cols-1 border-t border-ink md:grid-cols-4 md:gap-x-3">
+        {links.map((l) => (
+          <li key={l.href}>
+            <Link
+              href={l.href}
+              className="group flex items-center justify-between border-b border-concrete py-3 font-sans text-[1.0625rem] font-semibold text-ink transition-colors hover:text-verdigris md:border-b-0"
+            >
+              {l.label}
+              <ArrowRight
+                aria-hidden="true"
+                className="h-4 w-4 transition-transform duration-300 group-hover:translate-x-1"
+              />
+            </Link>
+          </li>
+        ))}
+      </ul>
+    </section>
   );
 }

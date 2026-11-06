@@ -4,6 +4,9 @@ import { Geist_Mono } from "next/font/google";
 import { Navbar } from "@/components/layout/navbar";
 import { Footer } from "@/components/layout/footer";
 import { MotionProvider } from "@/lib/motion/provider";
+import { TextFx } from "@/components/motion/text-fx";
+import { Consent } from "@/components/legal/consent";
+import { SiteLoader } from "@/components/motion/site-loader";
 import { PageTransition } from "@/components/motion/page-transition";
 import { JsonLd } from "@/components/seo/json-ld";
 import { siteConfig } from "@/lib/site";
@@ -98,11 +101,14 @@ export default function RootLayout({
     >
       <body className="flex min-h-dvh flex-col">
         <JsonLd data={localBusinessSchema()} />
+        <SiteLoader />
         <MotionProvider />
         <PageTransition />
         <Navbar />
         <main className="relative z-10 flex-1">{children}</main>
         <Footer />
+        <TextFx />
+        <Consent />
       </body>
     </html>
   );

@@ -22,15 +22,13 @@ export default async function OpengraphImage() {
         {/* Eyebrow */}
         <div
           style={{
-            fontFamily: "ui-monospace, monospace",
+            fontFamily: "Helvetica, Arial, sans-serif",
             fontSize: 22,
-            letterSpacing: "0.15em",
-            
             color: "#6A5D51",
             display: "flex",
           }}
         >
-          {siteConfig.name} · Est. {siteConfig.established}
+          {siteConfig.name}, est. {siteConfig.established}
         </div>
 
         {/* Headline — split into separate divs (no mixed text + element children) */}
@@ -73,7 +71,7 @@ export default async function OpengraphImage() {
         >
           <div
             style={{
-              fontFamily: "ui-monospace, monospace",
+              fontFamily: "Helvetica, Arial, sans-serif",
               fontSize: 22,
               color: "#4A3F36",
               display: "flex",
@@ -83,7 +81,7 @@ export default async function OpengraphImage() {
           </div>
           <div
             style={{
-              fontFamily: "ui-monospace, monospace",
+              fontFamily: "Helvetica, Arial, sans-serif",
               fontSize: 22,
               color: "#8A5F00",
               display: "flex",
