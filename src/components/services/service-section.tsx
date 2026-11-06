@@ -55,8 +55,13 @@ export function ServiceSection({ service, index }: ServiceSectionProps) {
               href={`/contact?service=${service.slug}`}
               className="mt-6 inline-flex items-center gap-3 text-base font-medium text-verdigris transition-colors hover:text-verdigris"
             >
-              <span className="border-b border-current pb-1">Request a quote</span>
-              <ArrowRight aria-hidden="true" className="inline-block h-[1em] w-[1em] align-[-0.12em]" />
+              <span className="border-b border-current pb-1">
+                Request a quote
+              </span>
+              <ArrowRight
+                aria-hidden="true"
+                className="inline-block h-[1em] w-[1em] align-[-0.12em]"
+              />
             </Link>
           </Reveal>
         </div>
@@ -112,7 +117,9 @@ export function ServiceSection({ service, index }: ServiceSectionProps) {
                     <h4 className="font-title text-xl font-medium text-ink md:col-span-5">
                       {step.title}
                     </h4>
-                    <p className="text-graphite md:col-span-7">{step.description}</p>
+                    <p className="text-graphite md:col-span-7">
+                      {step.description}
+                    </p>
                   </div>
                 </li>
               ))}

@@ -52,10 +52,7 @@ export function InclusionsTable() {
               >
                 Included
               </th>
-              <th
-                scope="col"
-                className="py-4 font-meta text-meta-sm text-zinc"
-              >
+              <th scope="col" className="py-4 font-meta text-meta-sm text-zinc">
                 Not included
               </th>
             </tr>

@@ -1,6 +1,4 @@
-import { Eyebrow } from "@/components/motion/eyebrow";
-import { RevealLines } from "@/components/motion/reveal-lines";
-import { Reveal } from "@/components/ui/reveal";
+import { ScrubText } from "@/components/motion/scrub-text";
 
 type FaqItem = {
   question: string;
@@ -44,54 +42,39 @@ export function ServicesFaq() {
   return (
     <section
       aria-labelledby="services-faq-heading"
-      className="border-t border-concrete bg-paper"
+      className="bg-paper px-3 pb-14 md:pb-32"
     >
-      <div className="w-full px-3 py-20 md:py-24">
-        <div className="grid gap-8 lg:grid-cols-12 lg:items-end">
-          <div className="lg:col-span-7">
-            <Eyebrow>S-03 &middot; Common questions</Eyebrow>
-            <RevealLines
-              as="h2"
-              id="services-faq-heading"
-              className="mt-8 max-w-[16ch] font-title text-d2 font-medium text-ink"
-            >
-              Before you ask.
-            </RevealLines>
-          </div>
-          <div className="lg:col-span-5 lg:pb-2">
-            <p className="max-w-measure text-lead text-graphite">
-              The questions clients ask most often. Anything not covered here,
-              just call.
-            </p>
-          </div>
-        </div>
+      <div className="grid grid-cols-12 gap-x-3 gap-y-8">
+        <ScrubText
+          as="h2"
+          kind="title"
+          id="services-faq-heading"
+          className="col-span-12 font-sans text-[clamp(2rem,4.4vw,4rem)] font-semibold leading-[1] tracking-[-0.04em] text-ink md:col-span-4"
+        >
+          Before you ask.
+        </ScrubText>
 
-        {/* Same open/close mechanism as the services register, so the two
-            accordions on this page behave identically. */}
-        <Reveal className="mt-14">
-          <ul className="border-t border-concrete">
-            {faqs.map((faq) => (
-              <li key={faq.question} className="border-b border-concrete">
-                <details className="group">
-                  <summary className="flex cursor-pointer list-none items-center justify-between gap-6 py-6 md:py-7 [&::-webkit-details-marker]:hidden">
-                    <h3 className="font-title text-d4 font-medium text-ink transition-colors duration-300 group-hover:text-verdigris group-open:text-verdigris">
-                      {faq.question}
-                    </h3>
-                    <span
-                      aria-hidden="true"
-                      className="flex h-8 w-8 shrink-0 items-center justify-center font-meta text-meta text-zinc transition-transform duration-300 group-open:rotate-45"
-                    >
-                      +
-                    </span>
-                  </summary>
-                  <div className="max-w-measure pb-7 text-copy text-graphite md:pb-8">
-                    {faq.answer}
-                  </div>
-                </details>
-              </li>
-            ))}
-          </ul>
-        </Reveal>
+        <div className="col-span-12 md:col-span-7 md:col-start-6">
+          {faqs.map((f) => (
+            <details
+              key={f.question}
+              className="group border-t border-ink py-3 last:border-b"
+            >
+              <summary className="flex cursor-pointer list-none items-baseline justify-between gap-6 font-sans text-[clamp(1.125rem,1.8vw,1.5rem)] font-semibold leading-[1.15] tracking-[-0.02em] text-ink transition-colors hover:text-verdigris [&::-webkit-details-marker]:hidden">
+                {f.question}
+                <span
+                  aria-hidden="true"
+                  className="shrink-0 text-2xl leading-none transition-transform duration-300 group-open:rotate-45"
+                >
+                  +
+                </span>
+              </summary>
+              <p className="mt-4 max-w-[34rem] pb-3 font-sans text-[1.0625rem] font-semibold leading-[1.2] tracking-[-0.01em] text-graphite">
+                {f.answer}
+              </p>
+            </details>
+          ))}
+        </div>
       </div>
     </section>
   );

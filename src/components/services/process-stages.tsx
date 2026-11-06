@@ -107,7 +107,10 @@ export function ProcessStages() {
             ))}
           </ol>
 
-          <div data-on-dark className="mt-10 hidden bg-ink p-6 text-paper lg:block">
+          <div
+            data-on-dark
+            className="mt-10 hidden bg-ink p-6 text-paper lg:block"
+          >
             <BuildModel stage={active} total={stages.length} />
             <div ref={summary} className="mt-6">
               <p className="font-meta text-meta text-verdigris-light">

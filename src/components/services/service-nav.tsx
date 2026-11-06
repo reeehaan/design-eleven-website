@@ -37,10 +37,11 @@ export function ServiceNav({ services }: ServiceNavProps) {
   }, [services]);
 
   return (
-    <nav aria-label="Services on this page" className="sticky top-24 hidden md:block">
-      <span className="font-meta text-meta-sm text-zinc">
-        Services
-      </span>
+    <nav
+      aria-label="Services on this page"
+      className="sticky top-24 hidden md:block"
+    >
+      <span className="font-meta text-meta-sm text-zinc">Services</span>
 
       <ul className="mt-6 flex flex-col gap-1">
         {services.map((service, i) => (
@@ -67,7 +68,9 @@ export function ServiceNav({ services }: ServiceNavProps) {
                 aria-hidden="true"
                 className={cn(
                   "h-px w-8 origin-left transition-[transform,background-color] duration-300",
-                  activeSlug === service.slug ? "bg-verdigris" : "scale-x-50 bg-concrete",
+                  activeSlug === service.slug
+                    ? "bg-verdigris"
+                    : "scale-x-50 bg-concrete",
                 )}
               />
               <span>{service.title}</span>
