@@ -2,22 +2,21 @@
 
 import { useEffect, useRef } from "react";
 import { gsap } from "@/lib/motion/gsap";
-import { siteConfig } from "@/lib/site";
 
 const SEEN = "de-loaded";
-const MIN_MS = 1400;
 const MAX_MS = 7000;
 
 /** Fired when the loader starts lifting, so the page can begin its own intro. */
 export const LOADER_DONE = "site-loader-done";
 
 /**
- * First-visit loading screen. The studio name rises letter by letter out of a
- * mask at display size while a large figure counts the real loading (images,
- * fonts). When everything is in, the letters carry on upward and the sheet
- * peels away from the bottom, and the page's own intro starts underneath it,
- * so the name seems to hand over to the headline. Once per session; never
- * waits past seven seconds; hidden without JavaScript.
+ * First-visit loading screen, told as a short scene. DESIGN types itself in
+ * letter by letter. A "1" flies in and hits it; a second "1" flies in and hits
+ * the first, and the shove kicks DESIGN out to the left, leaving "1 1". Those
+ * two figures zoom towards the viewer until the screen is black, then the black
+ * lifts to reveal the page, whose own intro starts underneath. The scene plays
+ * while the real loading (images, fonts) happens; the zoom waits for both.
+ * Once per session; never waits past seven seconds; hidden without JavaScript.
  */
 export function SiteLoader() {
   const root = useRef<HTMLDivElement>(null);
@@ -43,123 +42,177 @@ export function SiteLoader() {
     const reduce = window.matchMedia(
       "(prefers-reduced-motion: reduce)",
     ).matches;
+    const q = <T extends HTMLElement>(sel: string) => el.querySelector<T>(sel);
+    const stage = q("[data-stage]")!;
+    const word = q("[data-word]")!;
+    const one1 = q("[data-one='1']")!;
+    const one2 = q("[data-one='2']")!;
     const letters = Array.from(el.querySelectorAll<HTMLElement>("[data-ch]"));
-    const num = el.querySelector<HTMLElement>("[data-num]");
-    const bar = el.querySelector<HTMLElement>("[data-bar]");
-    const meta = el.querySelectorAll<HTMLElement>("[data-meta]");
 
-    if (!reduce) {
-      gsap.set(letters, { yPercent: 115 });
-      gsap.set(meta, { opacity: 0, y: 10 });
-      gsap.to(letters, {
-        yPercent: 0,
-        duration: 1.1,
-        ease: "expo.out",
-        stagger: 0.055,
-        delay: 0.1,
-      });
-      gsap.to(meta, {
-        opacity: 1,
-        y: 0,
-        duration: 0.7,
-        stagger: 0.1,
-        delay: 0.5,
-      });
-    }
-
-    const shown = { v: 0 };
-    const paint = () => {
-      if (num) num.textContent = String(Math.round(shown.v)).padStart(3, "0");
-      if (bar) bar.style.transform = `scaleX(${shown.v / 100})`;
-    };
-
-    const start = performance.now();
-    let target = 0;
+    let sceneDone = false;
     let finished = false;
+    let killed = false;
+    let readyDone = false;
+    let outro: gsap.core.Timeline | null = null;
+    let scene: gsap.core.Timeline | null = null;
+    const start = performance.now();
 
-    // Lazy images below the fold load on demand, so only the ones that load
-    // up front count towards "ready".
+    // ── Real readiness: lazy images load on demand, so only eager ones count.
     const imgs = Array.from(document.images).filter(
       (i) => i.loading !== "lazy",
     );
-    const imgDone = () => imgs.filter((i) => i.complete).length;
     let fontsOk = !document.fonts;
     document.fonts?.ready
       .then(() => (fontsOk = true))
       .catch(() => (fontsOk = true));
 
+    const leave = () => {
+      html.style.overflow = prevOverflow;
+      try {
+        sessionStorage.setItem(SEEN, "1");
+      } catch {}
+      el.remove();
+      window.dispatchEvent(new Event("resize"));
+    };
+
     const finish = () => {
-      if (finished) return;
+      if (finished || killed) return;
       finished = true;
       window.clearInterval(timer);
-      gsap.to(shown, {
-        v: 100,
-        duration: 0.35,
-        ease: "power1.out",
-        onUpdate: paint,
-      });
+      scene?.progress(1);
 
-      const tl = gsap.timeline({
-        delay: 0.4,
-        onComplete: () => {
-          html.style.overflow = prevOverflow;
-          try {
-            sessionStorage.setItem(SEEN, "1");
-          } catch {}
-          el.remove();
-          window.dispatchEvent(new Event("resize"));
-        },
-      });
-      tl.to(meta, { opacity: 0, duration: 0.3 }, 0)
+      if (reduce) {
+        gsap.to(el, {
+          opacity: 0,
+          duration: 0.4,
+          onStart: () => window.dispatchEvent(new Event(LOADER_DONE)),
+          onComplete: leave,
+        });
+        return;
+      }
+
+      // The two figures zoom at the viewer; the screen goes black; it lifts.
+      outro = gsap
+        .timeline({ onComplete: leave })
         .to(
-          letters,
-          { yPercent: -115, duration: 0.8, ease: "expo.in", stagger: 0.03 },
-          0.1,
+          stage,
+          { scale: 46, duration: 1.5, ease: "power3.in", force3D: true },
+          0,
         )
-        .add(() => {
-          // The page's intro starts under the sheet as it peels away.
-          window.dispatchEvent(new Event(LOADER_DONE));
-        }, 0.55)
         .to(
           el,
-          {
-            clipPath: "inset(0% 0% 100% 0%)",
-            duration: 1,
-            ease: "power4.inOut",
-          },
-          0.6,
-        );
+          { backgroundColor: "#121110", duration: 1, ease: "power2.in" },
+          0.35,
+        )
+        .add(() => window.dispatchEvent(new Event(LOADER_DONE)), 1.5)
+        .to(el, { opacity: 0, duration: 1, ease: "power2.inOut" }, 1.5);
     };
 
     const measure = () => {
-      const imgPart = imgs.length ? imgDone() / imgs.length : 1;
+      const imgPart = imgs.length
+        ? imgs.filter((i) => i.complete).length / imgs.length
+        : 1;
       const loaded = document.readyState === "complete";
-      target = Math.min(
-        100,
-        Math.round(imgPart * 70 + (fontsOk ? 20 : 0) + (loaded ? 10 : 0)),
-      );
+      readyDone = loaded && fontsOk && imgPart >= 1;
       const waited = performance.now() - start;
-      const ready = loaded && fontsOk && imgPart >= 1;
-      if ((ready && waited >= MIN_MS) || waited >= MAX_MS) finish();
+      if ((readyDone && sceneDone) || waited >= MAX_MS) finish();
+    };
+    const timer = window.setInterval(measure, 150);
+
+    // ── The scene. Built once fonts are in, so the widths are the real ones.
+    const build = () => {
+      if (killed) return;
+      const vw = window.innerWidth;
+      const W = word.getBoundingClientRect().width;
+      const w1 = one1.getBoundingClientRect().width;
+      const gap = w1 * 0.14;
+      const shake = (amp: number) =>
+        gsap
+          .timeline()
+          .to(stage, { x: -amp, y: amp * 0.4, duration: 0.04 })
+          .to(stage, { x: amp * 0.8, y: -amp * 0.3, duration: 0.05 })
+          .to(stage, { x: -amp * 0.5, duration: 0.05 })
+          .to(stage, { x: 0, y: 0, duration: 0.18, ease: "power2.out" });
+
+      gsap.set([word, one1, one2], { xPercent: -50, yPercent: -50 });
+      gsap.set(word, { x: 0 });
+      gsap.set([one1, one2], { x: vw / 2 + w1 * 2, opacity: 1 });
+      gsap.set(letters, { opacity: 0, yPercent: 40, scaleY: 1.3 });
+
+      const pw = -W * 0.06; // where the first hit shoves the word
+      const c1 = pw + W / 2 + w1 / 2; // first "1" resting against the word
+      const half = (w1 + gap) / 2;
+
+      scene = gsap
+        .timeline({ delay: 0.1, onComplete: () => (sceneDone = true) })
+        // DESIGN appears letter by letter
+        .to(
+          letters,
+          {
+            opacity: 1,
+            yPercent: 0,
+            scaleY: 1,
+            duration: 0.45,
+            ease: "power3.out",
+            stagger: 0.13,
+          },
+          0.15,
+        )
+        // first "1" flies in and hits it
+        .to(one1, { x: W / 2 + w1 / 2, duration: 0.5, ease: "power3.in" }, 1.5)
+        .add(() => shake(18), 2.0)
+        .to(
+          word,
+          {
+            x: pw,
+            skewX: -9,
+            scaleX: 0.93,
+            duration: 0.14,
+            ease: "power4.out",
+          },
+          2.0,
+        )
+        .to(
+          word,
+          { skewX: 0, scaleX: 1, duration: 0.5, ease: "elastic.out(1,0.4)" },
+          2.14,
+        )
+        .to(one1, { x: c1, duration: 0.14, ease: "power4.out" }, 2.0)
+        // second "1" hits the first and the shove kicks DESIGN out
+        .to(one2, { x: c1 + w1, duration: 0.5, ease: "power3.in" }, 2.9)
+        .add(() => shake(14), 3.4)
+        // DESIGN is pushed off to the left at a constant speed, no friction
+        .to(word, { x: -(vw / 2 + W), duration: 0.45, ease: "none" }, 3.4)
+        .to(one1, { x: -half, duration: 0.5, ease: "sine.out" }, 3.4)
+        .to(one2, { x: half, duration: 0.5, ease: "sine.out" }, 3.4)
+        .add(() => (sceneDone = true), 4.1);
+      measure();
     };
 
-    const tick = () => {
+    if (reduce) {
+      gsap.set(word, { display: "none" });
+      gsap.set([one1, one2], { x: 0 });
+      sceneDone = true;
       measure();
-      gsap.to(shown, {
-        v: target,
-        duration: 0.6,
-        ease: "power1.out",
-        onUpdate: paint,
-      });
-    };
-    const timer = window.setInterval(tick, 150);
-    tick();
+    } else {
+      const ready = Promise.race([
+        document.fonts?.ready ?? Promise.resolve(),
+        new Promise((r) => setTimeout(r, 1500)),
+      ]);
+      ready.then(build, build);
+    }
 
     return () => {
+      killed = true;
       window.clearInterval(timer);
+      scene?.kill();
+      outro?.kill();
       html.style.overflow = prevOverflow;
     };
   }, []);
+
+  const figure =
+    "absolute left-1/2 top-1/2 whitespace-nowrap font-sans text-[min(16vw,26vh)] font-semibold leading-none tracking-[-0.06em]";
 
   return (
     <div
@@ -167,56 +220,25 @@ export function SiteLoader() {
       role="status"
       aria-live="polite"
       aria-label="Loading"
-      style={{ clipPath: "inset(0% 0% 0% 0%)" }}
-      className="site-loader fixed inset-0 z-200 flex flex-col justify-between bg-paper px-3 pb-3 pt-5 text-ink"
+      className="site-loader fixed inset-0 z-200 overflow-clip bg-paper px-3 pb-3 pt-5 text-ink"
     >
       <div
-        data-meta
-        className="flex justify-between font-sans text-base font-semibold text-graphite"
-      >
-        <span>Architecture, costing, construction</span>
-        <span>{siteConfig.contact.address.city}, Sri Lanka</span>
-      </div>
-
-      <h1
+        data-stage
         aria-hidden="true"
-        className="whitespace-nowrap font-sans text-[15.5vw] font-semibold leading-[0.9] tracking-[-0.06em]"
+        className="absolute inset-0 will-change-transform"
       >
-        {siteConfig.name.split(" ").map((word, w) => (
-          <span
-            key={w}
-            className="mr-[0.22em] inline-block overflow-clip pb-[0.28em] align-top"
-          >
-            {word.split("").map((ch, i) => (
-              <span key={i} data-ch className="inline-block">
-                {ch}
-              </span>
-            ))}
-          </span>
-        ))}
-      </h1>
-
-      <div>
-        <div className="flex items-end justify-between pb-3">
-          <span
-            data-meta
-            className="font-sans text-base font-semibold text-graphite"
-          >
-            Loading the studio
-          </span>
-          <span
-            data-num
-            className="font-sans text-[clamp(3rem,9vw,7rem)] font-semibold leading-none tracking-[-0.04em] tabular-nums"
-          >
-            000
-          </span>
-        </div>
-        <span className="relative block h-px w-full bg-concrete">
-          <span
-            data-bar
-            className="absolute inset-0 origin-left bg-ink"
-            style={{ transform: "scaleX(0)" }}
-          />
+        <span data-word className={`${figure}`}>
+          {"DESIGN".split("").map((ch, i) => (
+            <span key={i} data-ch className="inline-block">
+              {ch}
+            </span>
+          ))}
+        </span>
+        <span data-one="1" className={figure} style={{ opacity: 0 }}>
+          1
+        </span>
+        <span data-one="2" className={figure} style={{ opacity: 0 }}>
+          1
         </span>
       </div>
 
