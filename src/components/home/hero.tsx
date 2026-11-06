@@ -9,6 +9,7 @@ import { Button } from "@/components/ui/button";
 import { heroImages } from "@/lib/images";
 import { siteConfig } from "@/lib/site";
 import { getFeaturedProjects } from "@/lib/projects";
+import { LOADER_DONE } from "@/components/motion/site-loader";
 import { ISLAND, projectLatLon } from "@/lib/sri-lanka";
 
 // A site engineer's sentence, not a slogan. Split by line on purpose.
@@ -97,7 +98,14 @@ export function Hero() {
     () => {
       const mm = gsap.matchMedia();
       mm.add("(prefers-reduced-motion: no-preference)", () => {
-        const tl = gsap.timeline({ defaults: { ease: ease.out } });
+        // Wait for the loading screen to start lifting, if there is one.
+        const waiting = Boolean(document.querySelector(".site-loader"));
+        const tl = gsap.timeline({
+          defaults: { ease: ease.out },
+          paused: waiting,
+        });
+        const go = () => tl.play();
+        if (waiting) window.addEventListener(LOADER_DONE, go, { once: true });
         tl.from("[data-line]", {
           yPercent: 110,
           duration: dur.slow,
@@ -108,7 +116,10 @@ export function Hero() {
           { opacity: 0, y: 16, duration: dur.base, stagger: stagger.card },
           0.45,
         );
-        return () => tl.kill();
+        return () => {
+          window.removeEventListener(LOADER_DONE, go);
+          tl.kill();
+        };
       });
       return () => mm.revert();
     },
@@ -251,6 +262,7 @@ export function Hero() {
       <section
         ref={root}
         aria-labelledby="hero-heading"
+        data-no-fx
         className="relative -mt-16 bg-paper text-ink md:-mt-20"
         style={stage ? { height: Math.round(stage.h * 2.0) } : undefined}
       >
@@ -338,8 +350,8 @@ export function Hero() {
                 data-fade
                 className="mt-10 flex flex-wrap items-center gap-x-8 gap-y-4 md:mt-12"
               >
-                <Button href="/projects" variant="primary" onDark magnetic>
-                  See the work
+                <Button href="/contact" variant="primary" onDark magnetic>
+                  Request a quote
                 </Button>
                 <a
                   href={`tel:${siteConfig.contact.phone.replace(/\s/g, "")}`}
