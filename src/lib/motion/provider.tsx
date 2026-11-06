@@ -19,13 +19,15 @@ export function MotionProvider() {
 
     if (useLenis) {
       lenis = new Lenis({
-        duration: 1.05,
+        duration: 1.6,
         easing: (t: number) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
         smoothWheel: true,
+        // A slower, softer wheel: each notch travels less.
+        wheelMultiplier: 0.7,
         // Touch gets the same easing instead of the browser's own fling.
         syncTouch: true,
-        syncTouchLerp: 0.12,
-        touchMultiplier: 1.2,
+        syncTouchLerp: 0.08,
+        touchMultiplier: 0.9,
       });
 
       lenis.on("scroll", ScrollTrigger.update);
