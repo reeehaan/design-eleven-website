@@ -35,8 +35,7 @@ export function StudioHero({
           scrollTrigger: {
             trigger: root.current,
             start: `top top+=${navH}`,
-            end: "+=65%",
-            pin: true,
+            end: "bottom bottom",
             scrub: 0.3,
           },
         });
@@ -55,7 +54,7 @@ export function StudioHero({
             0.2,
           );
         return () => {
-          tl.scrollTrigger?.kill(true);
+          tl.scrollTrigger?.kill();
           tl.kill();
         };
       });
@@ -65,12 +64,15 @@ export function StudioHero({
   );
 
   return (
+    // A sticky stage inside a taller track, sized in CSS, so the page height
+    // is right from the first paint and nothing below it jumps.
     <section
       ref={root}
       aria-labelledby={id}
-      className="relative overflow-clip bg-paper"
+      data-no-fx
+      className="relative bg-paper motion-safe:h-[calc(165svh-4rem)] md:motion-safe:h-[calc(165svh-5rem)]"
     >
-      <div className="relative flex h-[calc(100svh-4rem)] flex-col items-center justify-center px-3 md:h-[calc(100svh-5rem)] md:flex-row md:justify-between">
+      <div className="relative flex h-[calc(100svh-4rem)] flex-col items-center justify-center overflow-clip px-3 md:h-[calc(100svh-5rem)] md:flex-row md:justify-between motion-safe:sticky motion-safe:top-16 md:motion-safe:top-20">
         <div data-frame className="absolute inset-0 overflow-clip">
           <div data-img className="absolute inset-0 will-change-transform">
             <Image

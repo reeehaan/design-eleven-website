@@ -18,10 +18,7 @@ export function StudioIntro({
       aria-label="The studio"
       className="bg-paper px-3 pb-14 pt-20 md:pb-40 md:pt-32"
     >
-      <p
-        data-fx="rise"
-        className="max-w-[26ch] font-sans text-[clamp(1.75rem,2.9vw,2.5rem)] font-semibold leading-[1.04] tracking-[-0.025em] text-ink"
-      >
+      <p className="max-w-[26ch] font-sans text-[clamp(1.75rem,2.9vw,2.5rem)] font-semibold leading-[1.04] tracking-[-0.025em] text-ink">
         {statement}
       </p>
 
@@ -30,10 +27,7 @@ export function StudioIntro({
           The story
         </p>
 
-        <div
-          data-fx="rise"
-          className="col-span-12 space-y-6 font-sans text-[1.0625rem] font-semibold leading-[1.15] tracking-[-0.01em] text-ink md:col-span-4 md:col-start-4"
-        >
+        <div className="col-span-12 space-y-6 font-sans text-[1.0625rem] font-semibold leading-[1.15] tracking-[-0.01em] text-ink md:col-span-4 md:col-start-4">
           <p>
             {siteConfig.name} was founded in {siteConfig.established} by{" "}
             {siteConfig.owner} after years working on residential and commercial

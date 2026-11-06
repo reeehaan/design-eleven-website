@@ -44,8 +44,7 @@ export function ScrambleMeta({
               duration: 0.9,
               scrambleText: {
                 text: part.dataset.value ?? part.textContent ?? "",
-                chars:
-                  part.dataset.seg === "num" ? "0123456789" : "upperCase",
+                chars: part.dataset.seg === "num" ? "0123456789" : "upperCase",
                 revealDelay: 0.3,
                 speed: 0.4,
               },

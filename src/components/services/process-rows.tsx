@@ -1,5 +1,6 @@
 import Image from "next/image";
 import { ScrollFx } from "@/components/motion/scroll-fx";
+import { ScrubText } from "@/components/motion/scrub-text";
 import { stages } from "@/lib/process";
 
 /**
@@ -64,12 +65,15 @@ export function ProcessRows({
   return (
     <div className="bg-paper px-3">
       <ScrollFx />
-      <h1
+      <ScrubText
+        as="h1"
+        kind="title"
         id="process-title"
+        auto
         className="max-w-[24ch] pt-12 font-sans text-[clamp(1.75rem,2.9vw,2.5rem)] font-semibold leading-[1.02] tracking-[-0.03em] text-ink md:pt-60"
       >
         {statement}
-      </h1>
+      </ScrubText>
 
       <div
         data-fx="img"
@@ -86,9 +90,11 @@ export function ProcessRows({
       </div>
 
       <div className="grid grid-cols-12 gap-x-3 gap-y-10 py-6 md:pb-32">
-        <p className={`col-span-12 md:col-span-4 md:col-start-4 ${body}`}>
+        <ScrubText
+          className={`col-span-12 md:col-span-4 md:col-start-4 ${body}`}
+        >
           {intro}
-        </p>
+        </ScrubText>
         <div className="col-span-12 md:col-span-3 md:col-start-10">
           <ol className={`list-inside list-decimal ${body}`}>
             {stages.map((s) => (
@@ -125,18 +131,16 @@ export function ProcessRows({
               </p>
 
               <div className="col-span-12 md:col-span-6 md:col-start-4">
-                <h2
-                  data-fx="rise"
+                <ScrubText
+                  as="h2"
+                  kind="title"
                   className="font-sans text-[clamp(1.75rem,2.9vw,2.5rem)] font-semibold leading-[1.02] tracking-[-0.03em] text-ink"
                 >
                   {stage.title}
-                </h2>
-                <p
-                  data-fx="rise"
-                  className={`mt-6 max-w-[26rem] md:mt-20 ${body}`}
-                >
+                </ScrubText>
+                <ScrubText className={`mt-6 max-w-[26rem] md:mt-20 ${body}`}>
                   {stage.does}
-                </p>
+                </ScrubText>
               </div>
 
               <div className="col-span-12 md:col-span-3 md:col-start-10">

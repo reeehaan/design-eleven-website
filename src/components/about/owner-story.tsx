@@ -84,10 +84,7 @@ export function OwnerStory() {
         <p className="sr-only">{siteConfig.owner}</p>
       </div>
 
-      <div
-        data-fx="rise"
-        className="mx-auto mt-10 max-w-2xl space-y-5 text-center font-sans text-[clamp(1.0625rem,1.6vw,1.375rem)] font-semibold leading-[1.25] tracking-[-0.01em] text-ink"
-      >
+      <div className="mx-auto mt-10 max-w-2xl space-y-5 text-center font-sans text-[clamp(1.0625rem,1.6vw,1.375rem)] font-semibold leading-[1.25] tracking-[-0.01em] text-ink">
         <p>
           {siteConfig.owner} is a{" "}
           <FlipText className={mark}>qualified quantity surveyor</FlipText> and
