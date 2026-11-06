@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { ProjectsGrid } from "@/components/projects/projects-grid";
 import { FinalCta } from "@/components/home/final-cta";
+import { getAllProjects } from "@/lib/projects";
 import { siteConfig } from "@/lib/site";
 
 export const metadata: Metadata = {
@@ -17,7 +18,7 @@ export const metadata: Metadata = {
 export default function ProjectsPage() {
   return (
     <>
-      <ProjectsGrid />
+      <ProjectsGrid projects={getAllProjects()} />
       <FinalCta />
     </>
   );

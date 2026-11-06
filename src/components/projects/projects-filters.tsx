@@ -115,10 +115,7 @@ export function ProjectsFilters({
           </div>
 
           <div className="flex shrink-0 items-center justify-between gap-6">
-            <p
-              aria-live="polite"
-              className="font-meta text-meta-sm text-zinc"
-            >
+            <p aria-live="polite" className="font-meta text-meta-sm text-zinc">
               {/* Padded figures read as "zero one" aloud, so the spoken and
                   the printed count are two different strings. */}
               <span aria-hidden="true">
@@ -126,7 +123,9 @@ export function ProjectsFilters({
                   {pad(resultCount)}
                 </span>
                 {" / "}
-                <span className="tabular-nums">{pad(projects.length)}</span>{" "}
+                <span className="tabular-nums">
+                  {pad(projects.length)}
+                </span>{" "}
                 shown
               </span>
               <span className="sr-only">
