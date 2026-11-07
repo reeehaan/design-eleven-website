@@ -134,7 +134,6 @@ export function SiteLoader() {
           .to(stage, { x: -amp * 0.5, duration: 0.05 })
           .to(stage, { x: 0, y: 0, duration: 0.18, ease: "power2.out" });
 
-      gsap.set([word, one1, one2], { xPercent: -50, yPercent: -50 });
       gsap.set(word, { x: 0 });
       gsap.set([one1, one2], { x: vw / 2 + w1 * 2, opacity: 1 });
       gsap.set(letters, { opacity: 0, yPercent: 40, scaleY: 1.3 });
@@ -191,7 +190,10 @@ export function SiteLoader() {
 
     if (reduce) {
       gsap.set(word, { display: "none" });
-      gsap.set([one1, one2], { x: 0 });
+      const w1 = one1.getBoundingClientRect().width;
+      const half = (w1 + w1 * 0.14) / 2;
+      gsap.set(one1, { x: -half, opacity: 1 });
+      gsap.set(one2, { x: half, opacity: 1 });
       sceneDone = true;
       measure();
     } else {
@@ -212,7 +214,7 @@ export function SiteLoader() {
   }, []);
 
   const figure =
-    "absolute left-1/2 top-1/2 whitespace-nowrap font-sans text-[min(16vw,26vh)] font-semibold leading-none tracking-[-0.06em]";
+    "absolute inset-0 m-auto block h-fit w-fit whitespace-nowrap font-sans text-[min(16vw,26vh)] font-semibold leading-none tracking-[-0.06em]";
 
   return (
     <div
@@ -220,6 +222,7 @@ export function SiteLoader() {
       role="status"
       aria-live="polite"
       aria-label="Loading"
+      suppressHydrationWarning
       className="site-loader fixed inset-0 z-200 overflow-clip bg-paper px-3 pb-3 pt-5 text-ink"
     >
       <div
@@ -229,7 +232,12 @@ export function SiteLoader() {
       >
         <span data-word className={`${figure}`}>
           {"DESIGN".split("").map((ch, i) => (
-            <span key={i} data-ch className="inline-block">
+            <span
+              key={i}
+              data-ch
+              className="inline-block"
+              style={{ opacity: 0 }}
+            >
               {ch}
             </span>
           ))}
@@ -242,6 +250,13 @@ export function SiteLoader() {
         </span>
       </div>
 
+      {/* Runs while the page is still being parsed, before first paint: on a
+          refresh within the session the loader is hidden before it can flash. */}
+      <script
+        dangerouslySetInnerHTML={{
+          __html: `try{if(sessionStorage.getItem("${SEEN}")==="1"){document.currentScript.parentElement.style.display="none"}}catch(e){}`,
+        }}
+      />
       <noscript>
         <style>{`.site-loader{display:none!important}`}</style>
       </noscript>
