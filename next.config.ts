@@ -4,7 +4,12 @@ const securityHeaders = [
   // Browsers remember to use HTTPS only, for two years, subdomains included.
   { key: "Strict-Transport-Security", value: "max-age=63072000; includeSubDomains; preload" },
   { key: "X-Content-Type-Options", value: "nosniff" },
-  { key: "X-Frame-Options", value: "SAMEORIGIN" },
+  // Only this site and the portfolio (which shows a live preview of it) may put the pages in a frame.
+  // This replaces X-Frame-Options, which cannot name an allowed site. localhost:3000 is for portfolio development.
+  {
+    key: "Content-Security-Policy",
+    value: "frame-ancestors 'self' https://www.rehanhansaja.dev https://rehanhansaja.dev http://localhost:3000",
+  },
   { key: "Referrer-Policy", value: "strict-origin-when-cross-origin" },
   { key: "Permissions-Policy", value: "camera=(), microphone=(), geolocation=()" },
 ];
